@@ -484,6 +484,16 @@ const CAREERS = {
     clean:'埋首做實驗，慢慢嚟',dirty:'偽造數據，搶先發表',dirtySin:10,dirtyWhy:'學術造假',
     win:'你嘅研究獲得突破。',fail:'實驗失敗，經費被削。',failFx:{hap:-8,wealth:-5},
     upFx:{int:5,fame:8},inc:[0,1,2,3,4],ach:'nobel'},
+  kol:{name:'網紅',ranks:['素人','小網紅','KOL','百萬訂閱','頂流'],stat:'fame',tal:'戲精',base:.22,
+    promo:'你上一條片突然多咗人睇，演算法好似望緊你。',
+    clean:'用心拍有內容嘅片',dirty:'搏出位：做假、炒作、嘲笑弱勢',dirtySin:6,dirtyWhy:'搏流量做假',
+    win:'條片爆咗，留言區洗晒版。',fail:'條片得三個 view，其中兩個係你阿媽。',failFx:{hap:-8},
+    upFx:{fame:15,hap:5},inc:[0,1,2,4,7],ach:'viral'},
+  fortune:{name:'玄學',ranks:['街頭睇相','風水師','大師','國師','教主'],stat:'fame',tal:'戲精',base:.28,
+    promo:'有個富商想搵你睇風水。',
+    clean:'真心勸佢多做善事',cleanMerit:3,cleanWhy:'勸人向善',dirty:'話佢有血光之災，要買十萬蚊水晶化解',dirtySin:10,dirtyWhy:'神棍斂財',
+    win:'你講嘅嘢「應驗」咗，名聲大噪。',fail:'你預言下個月有大地震，結果冇。記者追住你問。',failFx:{fame:-10,hap:-6},
+    upFx:{fame:12,wealth:8},inc:[0,1,3,5,8],ach:'guru'},
   sport:{name:'體育',ranks:['業餘運動員','職業運動員','國家隊成員','世界冠軍','體壇傳奇'],stat:'hp',tal:'體魄',base:.25,
     promo:'大賽就嚟，教練話你有機會入選。',
     clean:'日日苦練',dirty:'偷偷服禁藥',dirtySin:8,dirtyWhy:'服用禁藥',
@@ -498,7 +508,7 @@ const CAREERS = {
 };
 const TALENTS = {
   '慧根':'出世智慧較高','體魄':'出世身體較好','樂感':'天生識音樂','商才':'對錢好敏感',
-  '江湖':'天生識江湖規矩','仁心':'天生較快樂、心地好','權謀':'識玩權力遊戲','佛緣':'修行事半功倍',
+  '江湖':'天生識江湖規矩','戲精':'天生識搏出位','仁心':'天生較快樂、心地好','權謀':'識玩權力遊戲','佛緣':'修行事半功倍',
 };
 const ACH = {
   infant:['未滿週歲','一歲前已經夭折'],
@@ -521,6 +531,10 @@ const ACH = {
   memory:['不飲孟婆湯','帶住記憶投胎'],
   ten:['十世輪迴','經歷十世'],
   champion:['體壇傳奇','成為體壇傳奇'],
+  viral:['頂流','做網紅做到頂流'],
+  guru:['萬人迷信','做神棍做到教主'],
+  ufo:['第三類接觸','被外星人綁架'],
+  isekai:['異世界轉生','被泥頭車撞死之後轉生異世界'],
   remake:['逆天改命','用業力指定投胎地點'],
   nirvana:['涅槃','跳出輪迴'],
 };
@@ -593,32 +607,38 @@ const BEASTS = {
   cow:{n:'耕牛',life:[3,5],cause:'老到拉唔郁犁，被賣去屠房'},
   cat:{n:'街貓',life:[3,5],cause:'喺車底瞓覺時被車輾過'},
   rat:{n:'溝渠老鼠',life:[2,3],cause:'食咗老鼠藥'},
+  roach:{n:'曱甴',life:[1,2],cause:'被一隻拖鞋打中'},
+  panda:{n:'動物園大熊貓',life:[3,4],cause:'食竹食到瞓著，再冇醒'},
+  corgi:{n:'富豪屋企嘅柯基',life:[3,5],cause:'和牛食得太多，膽固醇過高'},
+  goldfish:{n:'金魚',life:[2,3],cause:'主人換水時唔記得加返水'},
+  isekai:{n:'異世界史萊姆',life:[4,5],cause:'被勇者一劍斬死',realm:'異世界',special:1},
 };
 function prepareBirths(){
   if(SOUL.births) return SOUL.births;
   const K = SOUL.K;
   let list;
   if(R() < beastChance(K)){
-    const b = pick(Object.keys(BEASTS));
+    const b = pick(Object.keys(BEASTS).filter(k => !BEASTS[k].special));
     list = [{beast:b}];
   } else {
     list = []; const n = nChoices(K);
     for(let i=0;i<n;i++) list.push(rollCandidate(K));
   }
+  if(SOUL.isekai) list.push({beast:'isekai'});
   SOUL.births = list; save();
   return list;
 }
 
 function startLife(cand){
-  SOUL.births = null;
+  SOUL.births = null; SOUL.isekai = false;
   const base = {age:0,alive:true,cause:'',merit:0,sin:0,ledger:[],log:[],flags:{},seen:{},last:{},newAch:[],
     career:null,peak:null,job:'',jail:0,married:0,kids:0,lastK:0,pending:null};
   if(cand.beast){
     const B = BEASTS[cand.beast];
     S = Object.assign(base,{beast:cand.beast,name:B.n,ci:-1,cls:-1,hp:60,int:10,hap:40,wealth:0,fame:0,jiang:0,
       bturns:0,blife:ri(B.life[0],B.life[1])});
-    ach('beast');
-    logE(`業障深重。你投胎做咗一隻${B.n}。`);
+    if(B.special){ ach('isekai'); logE('你醒嚟，發現自己係一團藍色啫喱，周圍係從未見過嘅森林。天空有兩個月亮。'); }
+    else { ach('beast'); logE(`業障深重。你投胎做咗一隻${B.n}。`); }
     UI.screen = 'life'; save(); advance(); return;
   }
   const c = COUNTRIES[cand.ci];
@@ -632,6 +652,7 @@ function startLife(cand){
   S.wealth = WEALTH_TARGET[S.cls];
   S.fame = S.cls===5 ? 10 : 0;
   S.jiang = tl('江湖')*10 + (S.cls<=1?5:0);
+  S.fame += tl('戲精')*5;
   if(SOUL.mem) S.flags.mem = 1;
   if(tl('樂感')) S.flags.music = 1;
   if(c.reg==='hk'||c.reg==='tw') ach('jackpot');
@@ -667,6 +688,7 @@ function deathCause(){
   const c = C();
   if(S.age < 5) return pick(c.t<=2?['肺炎','腹瀉','瘧疾','營養不良','早產併發症']:['先天疾病','肺炎','意外']);
   if(c.war && R()<.3) return '戰火';
+  if(S.age >= 15 && R() < .03) return pick(['睇搞笑片笑到斷氣','食湯圓鯁親','打麻雀食糊太興奮','被跌落嚟嘅椰子擊中','自拍時倒後行跌落山']);
   if(S.age < 45) return pick(c.t<=2?['瘧疾','結核病','交通意外','工業意外','急病','暴力事件']:['交通意外','工業意外','急病','自殺','癌症']);
   if(S.flags.smoker && R()<.5) return '肺癌';
   return pick(['心臟病','中風','癌症','肺炎','腎衰竭', S.age>85?'壽終正寢':'糖尿病併發症']);
@@ -1133,6 +1155,109 @@ const EVENTS = [
   {t:'打到最後一場',go(){ fx({hp:-10,fame:3}); return ''; }},
  ]},
 
+// ---------- 搞笑事件 ----------
+{id:'ttt',a:[18,65],w:.6,text:()=>'你過馬路，一架泥頭車衝埋嚟。',
+ choices:()=>{ const doom = ri(0,2); return ['向左跳','向右跳','企定定'].map((t,i)=>({t,go(){
+   if(i===doom && R()<.5){ die('被泥頭車撞'); return '眼前一黑。你隱約聽到一把聲：「恭喜你，獲得轉生資格。」'; }
+   fx({hap:-3}); return '泥頭車擦身而過。司機落車望住你：「後生仔，你本來應該轉生㗎。」'; }})); }},
+{id:'pineapple',a:[10,80],w:1.2,text:()=>'朋友叫咗個菠蘿夏威夷薄餅。',
+ choices:[
+  {t:'食，好味',go(){ fx({hap:4}); return '意大利人喺遠方嘆咗一口氣。'; }},
+  {t:'成塊菠蘿掟出窗',go(){ bad(1,'浪費食物'); return '樓下傳嚟一聲慘叫。'; }},
+ ]},
+{id:'quiz',a:[20,70],w:1,text:()=>'你參加電視問答節目，打入最後一題：「鳳梨同菠蘿係咪同一樣嘢？」',
+ choices:[
+  {t:'係',go(){ fx({wealth:10,fame:4,hap:6}); return '答啱！台灣觀眾同香港觀眾喺網上嗌咗三日交。'; }},
+  {t:'唔係',go(){ fx({fame:6}); return '答錯。你嘅表情被做成 meme，流傳咗二十年。'; }},
+ ]},
+{id:'ymca',a:[16,70],w:1,text:()=>'朋友婚宴，DJ播《YMCA》。',
+ choices:[
+  {t:'衝出去跳到盡',go(){ fx({hap:8,fame:2}); return '新娘個 IG story 主角係你。'; }},
+  {t:'坐喺度食燒豬',go(){ fx({hap:2}); return '燒豬皮好脆。'; }},
+ ]},
+{id:'cat_boss',a:[18,80],w:1,text:()=>'有隻街貓每晚嚟你屋企食飯，食完就瞓你張床。',
+ choices:[
+  {t:'認命做貓奴',go(){ fx({hap:8,wealth:-3}); S.flags.catslave=1; return '你而家每個月貓糧開支多過自己伙食。'; }},
+  {t:'趕走佢',go(){ fx({hap:-2}); return '佢第二晚帶埋三個朋友返嚟。'; }},
+ ]},
+{id:'ufo',a:[16,90],w:.4,text:()=>'半夜，一道白光將你吸上天。',
+ choices:[
+  {t:'配合外星人研究',go(){ fx({int:8}); ach('ufo'); return '佢哋最想知嘅係：點解地球人會排三個鐘隊買一個麵包。'; }},
+  {t:'大叫「我要見你哋老細」',go(){ fx({fame:3}); ach('ufo'); return '佢哋覺得你好煩，十分鐘就送你返嚟。'; }},
+ ]},
+{id:'capsule',a:[30,50],w:1.2,text:()=>'你打開小學時埋嘅時間囊，入面寫住：「我長大要做太空人！」',
+ go(){ const now = S.career ? CAREERS[S.career.path].ranks[S.career.rank] : (S.job || '冇做嘢'); fx({hap:now==='太空人'?20:-2}); return `你而家係${now}。`; }},
+{id:'karaoke',a:[16,75],once:false,w:.8,text:()=>'同事去唱K。',
+ choices:[
+  {t:'霸咪唱足兩粒鐘',go(){ bad(1,'霸咪'); fx({hap:6}); return '你唱到第七首陳奕迅，同事開始碌手機。'; }},
+  {t:'讓咪，負責打拍子',go(){ good(1,'讓咪'); return ''; }},
+ ]},
+{id:'mahjong',a:[25,95],once:false,w:.9,text:()=>'打麻雀，你摸到十三么聽牌。',
+ choices:[
+  {t:'自摸！',go(){ if(R()<.3){ fx({wealth:8,hap:12}); return '十三么自摸！成枱人望住你。'; } fx({wealth:-3}); return '下家食糊，佢只係雞糊。'; }},
+  {t:'太緊張，手震打錯牌',go(){ fx({wealth:-4,hap:-3}); return '成個麻雀館都笑你。'; }},
+ ]},
+{id:'blind_date',a:[25,40],if:()=>!S.married,w:1.5,text:()=>'過年，姑媽安排你去相睇。',
+ choices:[
+  {t:'去',go(){ if(R()<.3){ S.married=1; fx({hap:10}); return '估唔到對方都係被迫嚟。你哋一齊鬧姑媽鬧咗成晚，之後結咗婚。'; } return '對方全程睇手機。'; }},
+  {t:'租個假男／女朋友返去',go(){ fx({wealth:-3,hap:3}); return '姑媽好滿意，仲問幾時擺酒。'; }},
+ ]},
+{id:'reply_all',a:[22,60],if:()=>S.job&&!S.career,w:1.2,text:()=>'你寫咗封電郵鬧老闆，諗住淨係send俾好朋友，結果撳咗「全部回覆」。',
+ choices:[
+  {t:'認咗佢',go(){ if(R()<.5){ fx({hap:-8,wealth:-6}); return '你被炒。但全公司私下請你食咗一個月飯。'; } fx({fame:5}); return '老闆話：「多謝你嘅意見。」之後冇再搵過你麻煩。'; }},
+  {t:'話自己個 email 被 hack',go(){ bad(1,'講大話'); return 'IT 部門話會跟進。佢哋知。你都知佢哋知。'; }},
+ ]},
+{id:'gym',a:[25,65],w:1,text:()=>'新年大計：今年一定要健身！',
+ choices:[
+  {t:'買兩年會籍',go(){ fx({wealth:-5,hp:1}); return '你一共去咗兩次，其中一次係去取消會籍。'; }},
+  {t:'喺屋企跟片做',go(){ fx({hp:4}); return '做咗三日，條片開始自動播廣告。'; }},
+ ]},
+{id:'queue',a:[15,80],if:()=>C().t>=3,w:1,text:()=>'網紅甜品店開張，排隊排到出街口。',
+ choices:[
+  {t:'排！',go(){ fx({hap:2}); return '排咗三個鐘。好普通。你影咗十張相。'; }},
+  {t:'唔排',go(){ return '三個月後間店執咗。'; }},
+ ]},
+{id:'ghost',a:[8,90],w:1,text:()=>'半夜，你聽到廁所有聲。',
+ choices:[
+  {t:'入去睇',go(){ if(R()<.5) return '係隔籬屋隻貓。佢點樣入嚟，係一個謎。'; fx({int:3}); return `有隻鬼坐喺馬桶度。佢話佢喺奈何橋插隊被趕返嚟，順便提你：「閻羅王記數好嚴，你而家德 ${S.merit}、孽 ${S.sin}，自己諗。」`; }},
+  {t:'蒙頭瞓',go(){ return '第二朝廁紙少咗半卷。'; }},
+ ]},
+{id:'regress',a:[25,70],w:1.2,text:()=>'有個催眠師話可以幫你回溯前世，收費五百。',
+ choices:[
+  {t:'試下',go(){ fx({wealth:-1}); const h = SOUL.hist[SOUL.hist.length-1];
+    if(!h) return '催眠師話：「你係第一次做人。」然後收咗你五百蚊。';
+    return `你喺催眠入面見到：前世你叫${h.name}，喺${h.country}，最後${h.title&&h.title!=='—'?'做到'+h.title+'，':''}死於${h.cause}。催眠師都嚇親：「呢單好準！」`; }},
+  {t:'呃錢嘅',go(){ return ''; }},
+ ]},
+{id:'deja_vu',a:[5,80],if:()=>SOUL.hist.some(h=>h.country==='畜生道'),w:2,text:()=>{ const h=[...SOUL.hist].reverse().find(h=>h.country==='畜生道'); return `你喺街見到一隻${h.name}，佢望住你嘅眼神好熟口熟面。`; },
+ choices:[
+  {t:'蹲低同佢傾',go(){ good(2,'善待眾生'); fx({hap:5}); return '佢舐咗你一啖。你突然好想喊。'; }},
+  {t:'行開',go(){ return '你覺得自己好黐線。'; }},
+ ]},
+{id:'pigeon',a:[5,90],w:.8,text:()=>'白鴿屙咗泡屎落你頭。阿婆話：「好運呀！快啲去買六合彩！」',
+ choices:[
+  {t:'即刻去買',go(){ if(R()<.15){ fx({wealth:12,hap:10}); return '中咗三獎！你向天空鞠躬。'; } fx({wealth:-1}); return '冇中。你頭髮仲未洗。'; }},
+  {t:'返屋企沖涼',go(){ return ''; }},
+ ]},
+{id:'group_chat',a:[60,100],w:2,text:()=>'你學識咗用家族群組。',
+ go(){ fx({hap:6}); return '你每朝準時發一張「早晨」圖，有荷花有太陽，仲有閃字。孫仔將你 mute 咗。'; }},
+{id:'longevity',a:[95,130],w:6,text:()=>'記者嚟訪問你嘅長壽秘訣。',
+ choices:[
+  {t:'「每日一杯酒，唔好理人」',go(){ fx({fame:8,hap:5}); return '段片上咗熱搜。'; }},
+  {t:'「心地好，自然長命」',go(){ good(2,'勸人向善'); fx({fame:5}); return '記者覺得好悶，冇出街。'; }},
+  {t:'扮聽唔到',go(){ fx({hap:4}); return '其實你聽到。'; }},
+ ]},
+{id:'viral_teen',a:[13,25],if:()=>C().t>=2&&!S.career,w:1.5,text:()=>'你隨手拍咗條片：你阿爸跳舞跌落水池。',
+ choices:[
+  {t:'放上網',go(){ fx({fame:8,hap:5}); S.flags.viral=1; return '一晚兩百萬 view。阿爸一個禮拜冇同你講嘢。'; }},
+  {t:'刪咗佢',go(){ good(1,'孝順父母'); return '阿爸永遠唔會知你救過佢。'; }},
+ ]},
+{id:'scam_call_fun',a:[20,70],w:1,text:()=>'有個騙徒打電話嚟：「我係公安，你涉嫌洗黑錢。」',
+ choices:[
+  {t:'同佢傾足一個鐘',go(){ good(2,'拖住騙徒'); fx({hap:6}); return '你扮成一個耳聾阿伯，最後騙徒教咗你點煲老火湯。'; }},
+  {t:'收線',go(){ return ''; }},
+ ]},
+
 // ---------- 新增：晚年 ----------
 {id:'old_scam',a:[65,95],w:2,text:()=>'有人打電話嚟：「我係你孫，出咗事，即刻要錢。」',
  choices:[
@@ -1253,6 +1378,45 @@ const EVENTS = [
   {t:'偷食',go(){ bad(1,'偷竊'); return ''; }},
   {t:'咬電線',go(){ bad(4,'引致火災'); return '貨倉燒咗。'; }},
  ]},
+{id:'b_roach',beast:'roach',w:3,text:()=>'有人尖叫，拎起拖鞋。',
+ choices:[
+  {t:'張開翼，飛向佢塊面',go(){ bad(1,'驚嚇人類'); return '佢暈咗。你成為曱甴界傳說。'; }},
+  {t:'扮死',go(){ return '佢用紙巾拎起你，掟咗落馬桶。你游走咗。'; }},
+ ]},
+{id:'b_panda',beast:'panda',w:3,text:()=>'一大班遊客隔住玻璃影你。',
+ choices:[
+  {t:'喺雪地打個滾',go(){ good(2,'帶俾人歡樂'); fx({hap:8}); return '你上咗國際新聞。'; }},
+  {t:'背住佢哋瞓覺',go(){ fx({hap:5}); return '佢哋照樣影，仲覺得好可愛。'; }},
+ ]},
+{id:'b_panda2',beast:'panda',w:2,text:()=>'飼養員帶咗隻母熊貓嚟，全國都喺度等你哋生BB。',go(){ fx({hap:-3}); return '你食咗三日竹，冇乜興趣。新聞台用咗一個鐘分析原因。'; }},
+{id:'b_corgi',beast:'corgi',w:3,text:()=>'主人幫你開咗個 IG，有十萬個 follower。',go(){ fx({hap:8}); return '你嘅收入比大部份人類高。'; }},
+{id:'b_corgi2',beast:'corgi',w:3,text:()=>'枱面有塊和牛冇人睇住。',
+ choices:[
+  {t:'偷食',go(){ bad(1,'偷食'); fx({hp:-5,hap:6}); return '好味。'; }},
+  {t:'坐低等主人俾',go(){ good(1,'忍耐'); return '主人讚你乖，俾咗你半塊。'; }},
+ ]},
+{id:'b_fish',beast:'goldfish',once:false,w:3,text:()=>'你游咗一個圈。好新奇！',go(){ fx({hap:3}); return '你又游咗一個圈。好新奇！'; }},
+{id:'b_fish2',beast:'goldfish',w:2,text:()=>'屋企隻貓趴喺魚缸邊，望住你。',
+ choices:[
+  {t:'吐個泡泡挑釁佢',go(){ return '佢伸咗隻手落嚟。你游到最底。佢放棄咗。'; }},
+  {t:'游去水草後面',go(){ return '三秒後你唔記得點解要匿。'; }},
+ ]},
+{id:'i_status',beast:'isekai',w:5,text:()=>'你試下講：「狀態欄。」',go(){ fx({hap:5}); const h=SOUL.hist[SOUL.hist.length-1]; return `空中彈出一個藍色框：「等級 1　智力 3　技能：吞噬　備註：前世係${h?h.name:'一個普通人'}，被泥頭車撞死。」`; }},
+{id:'i_goblin',beast:'isekai',w:4,text:()=>'一隻哥布林喺森林迷路，喊緊。',
+ choices:[
+  {t:'吞噬佢，獲得技能',go(){ bad(3,'吞噬弱者'); fx({hp:15}); return '你學識咗講哥布林話。內容大部份係粗口。'; }},
+  {t:'帶佢返村',go(){ good(6,'異界行善'); fx({hap:8}); return '成條哥布林村奉你為神。'; }},
+ ]},
+{id:'i_demon',beast:'isekai',w:4,text:()=>'魔王軍嘅使者嚟搵你：「我哋魔王好欣賞你，有冇興趣做四天王之一？」',
+ choices:[
+  {t:'加入魔王軍',go(){ bad(8,'投靠魔王'); fx({hap:6}); return '你嘅職位係「四天王之中最弱嗰個」。'; }},
+  {t:'拒絕，我要做好史萊姆',go(){ good(5,'堅守正道'); return '使者話：「你會後悔。」'; }},
+ ]},
+{id:'i_hero',beast:'isekai',w:3,text:()=>'勇者一行人路過，個勇者望住你：「經驗值。」',
+ choices:[
+  {t:'用前世記憶講道理',go(){ good(3,'以理服人'); return '勇者聽完你講地球嘅樓價，喊住走咗。'; }},
+  {t:'彈走佢',go(){ fx({hp:-20}); return '你彈得好遠。'; }},
+ ]},
 {id:'b_fill',beast:'any',once:false,w:1,text:()=>'你為咗搵食，又過咗一日。',go(){ return ''; }},
 ];
 
@@ -1290,6 +1454,8 @@ function crossChoices(mid){
   if(cur!=='pol' && S.age>=18) o.push({t:'投身社運／從政',go:()=>startCareer('pol', C().auth?'喺呢個國家搞政治係危險嘅。你仍然企咗出嚟。':'你開始落區派傳單。')});
   if(cur!=='monk') o.push({t:'看破紅塵，出家修行',special:S.flags.zen||tl('佛緣'),go:()=>startCareer('monk','你剃度出家。')});
   if(cur!=='sci' && S.int>=60 && S.age<=40) o.push({t:'返去讀研究院做研究',go:()=>startCareer('sci','你重新做返學生。')});
+  if(cur!=='kol' && S.age<=50 && (S.flags.viral||C().t>=2)) o.push({t:'全職做網紅',go:()=>startCareer('kol', S.flags.viral?'你上次條爆片仲有人記得，你開咗個頻道。':'你買咗支自拍神棍，開咗個頻道。')});
+  if(cur!=='fortune' && S.age>=25) o.push({t:'擺檔睇相，做玄學大師',go:()=>startCareer('fortune','你喺廟街擺咗張摺枱，寫住「鐵口直斷」。')});
   if(cur!=='sport' && S.flags.athlete && S.age<=26) o.push({t:'轉做職業運動員',go:()=>startCareer('sport','你重新落場。')});
   if(cur!=='mil' && S.age<=30) o.push({t:'參軍',go:()=>startCareer('mil','你著上軍服。')});
   const out = shuffle(o).slice(0, 3);
@@ -1411,7 +1577,8 @@ function judge(){
     if(S.jiang>=50 && !gain.includes('江湖')) gain.push('江湖');
   }
   UI.judge = {net, prevK, newK, peakTitle, gain:gain.slice(0,3)};
-  SOUL.hist.push({n:SOUL.life, name:S.name, country:S.beast?'畜生道':C().n, cls:S.beast?'—':CLASSES[S.cls], age:S.beast?'—':S.age, cause:S.cause, net, title:peakTitle});
+  SOUL.isekai = S.cause === '被泥頭車撞';
+  SOUL.hist.push({n:SOUL.life, name:S.name, country:S.beast?(BEASTS[S.beast].realm||'畜生道'):C().n, cls:S.beast?'—':CLASSES[S.cls], age:S.beast?'—':S.age, cause:S.cause, net, title:peakTitle});
   SOUL.K = newK;
   UI.screen = 'judge';
   save(); render();
@@ -1488,6 +1655,8 @@ function viewBirth(){
   const mem = SOUL.mem ? `<p class="sub">你冇飲孟婆湯。你仲記得自己係${esc(SOUL.mem.name)}，喺${esc(SOUL.mem.country)}，死於${esc(SOUL.mem.cause)}。</p>` : '';
   return `<h2 class="sect-h">第 ${SOUL.life} 世 · 投胎</h2>${hell}<p class="sub">${head}</p>${mem}
   <div class="cards">${list.map((c,i)=>{
+    if(c.beast==='isekai') return `<article class="card"><span class="cls">異世界</span><h3>轉生史萊姆</h3>
+      <p class="odds">你前世被泥頭車撞死。按照業界慣例，你可以轉生去異世界。</p><button class="btn" data-a="born" data-i="${i}">轉生</button></article>`;
     if(c.beast){ const B=BEASTS[c.beast]; return `<article class="card beast"><span class="cls">畜生道</span><h3>${B.n}</h3>
       <p class="odds">業力 ${K}。地球上嘅動物遠多過人。</p><button class="btn" data-a="born" data-i="${i}">接受</button></article>`; }
     const co = COUNTRIES[c.ci];
@@ -1526,7 +1695,7 @@ function viewLife(){
   if(S.flags.smoker) flags.push('食煙'); if(S.flags.addict) flags.push('毒癮'); if(S.flags.illegal) flags.push('冇身份');
   if(S.jail) flags.push(`坐監中（尚餘 ${S.jail} 年）`); if(S.flags.mem) flags.push('帶住前世記憶');
   const panel = `<aside class="panel">
-    <div class="who">${esc(S.name)}<small>${S.beast?'畜生道':`${c.n}・${CLASSES[S.cls]}出身`}</small></div>
+    <div class="who">${esc(S.name)}<small>${S.beast?(BEASTS[S.beast].realm||'畜生道'):`${c.n}・${CLASSES[S.cls]}出身`}</small></div>
     ${S.beast?'':`<div class="age"><b>${S.age}</b>歲</div>`}
     <div class="stats">${bar('hp','健康',S.hp)}${S.beast?'':bar('int','智慧',S.int)}${bar('hap','快樂',S.hap)}${S.beast?'':bar('wealth','財富',S.wealth)+bar('fame','名聲',S.fame)+bar('jiang','江湖',S.jiang)}</div>
     <div class="karma"><div class="m"><b>${S.merit}</b><small>德</small></div><div class="s"><b>${S.sin}</b><small>孽</small></div></div>
