@@ -1,0 +1,1440 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>輪迴</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* Layout: 幽冥夜色作底，人生記錄寫喺一頁黃紙「生死簿」上；左邊係此生狀態欄 */
+:root{
+  --night:#11151c;      /* 幽冥底色 */
+  --night-2:#1a2130;    /* 浮起嘅面板 */
+  --line:#2b3446;
+  --mist:#93a0b6;       /* 夜色上嘅次要文字 */
+  --glow:#e9e3d2;       /* 夜色上嘅主文字 */
+  --paper:#e9dcb6;      /* 黃紙 */
+  --paper-2:#dccb9b;
+  --ink:#251d13;        /* 墨 */
+  --ink-soft:#5c4d36;
+  --gold:#c9a24c;       /* 金箔 */
+  --cinnabar:#b5352b;   /* 朱砂：孽 */
+  --jade:#3d8a72;       /* 玉：德 */
+  --font-brush:"LXGW WenKai TC","Kaiti TC","STKaiti","DFKai-SB","BiauKai",serif;
+  --font-ui:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{
+  margin:0;background:var(--night);color:var(--glow);
+  font-family:var(--font-ui);font-size:15px;line-height:1.6;
+  background-image:radial-gradient(1200px 600px at 50% -200px,#1f2a3d 0%,transparent 70%);
+  background-attachment:fixed;
+}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.wrap{max-width:1080px;margin:0 auto;padding-block:20px 48px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.brand{font-family:var(--font-brush);font-size:28px;letter-spacing:.2em;color:var(--gold);margin:0;font-weight:700}
+.brand small{font-size:13px;color:var(--mist);letter-spacing:.08em;margin-left:10px;font-weight:400;font-family:var(--font-ui)}
+.soulbar{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--mist);align-items:center}
+.soulbar b{color:var(--glow);font-weight:500;font-variant-numeric:tabular-nums}
+.linkbtn{background:none;border:1px solid var(--line);border-radius:4px;padding:3px 10px;color:var(--mist);font-size:13px}
+.linkbtn:hover{color:var(--glow);border-color:var(--mist)}
+
+/* buttons */
+.btn{background:var(--gold);color:#1a1408;border:0;border-radius:3px;padding:10px 22px;font-weight:700;letter-spacing:.1em;font-family:var(--font-brush);font-size:18px}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:none;color:var(--glow);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--gold);color:var(--gold)}
+.btn.red{background:var(--cinnabar);color:#f8eee0}
+
+/* title */
+.hero{padding:48px 0 24px;display:grid;gap:22px;max-width:680px}
+.hero h2{font-family:var(--font-brush);font-size:clamp(56px,12vw,110px);line-height:1;margin:0;color:var(--paper);letter-spacing:.15em;font-weight:700;text-wrap:balance}
+.hero h2 span{color:var(--cinnabar)}
+.hero p{margin:0;color:var(--mist);font-size:16px;max-width:60ch}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:6px}
+.rule{border-top:1px solid var(--line);padding-top:10px;font-size:14px;color:var(--mist)}
+.rule b{display:block;color:var(--glow);font-family:var(--font-brush);font-size:18px;font-weight:700;margin-bottom:2px}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+
+/* birth cards */
+.sect-h{font-family:var(--font-brush);font-size:30px;color:var(--paper);margin:8px 0 4px;letter-spacing:.06em}
+.sub{color:var(--mist);margin:0 0 18px;max-width:70ch}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.card{background:var(--paper);color:var(--ink);border-radius:2px;padding:18px 18px 16px;display:grid;gap:10px;align-content:start;
+  box-shadow:0 1px 0 var(--paper-2),0 12px 30px rgba(0,0,0,.35);position:relative}
+.card h3{margin:0;font-family:var(--font-brush);font-size:28px;line-height:1.1}
+.card .cls{font-family:var(--font-brush);font-size:18px;color:var(--cinnabar)}
+.card dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:2px 12px;font-size:13px}
+.card dt{color:var(--ink-soft)}
+.card dd{margin:0;font-variant-numeric:tabular-nums;text-align:right}
+.card .odds{font-size:12px;color:var(--ink-soft);border-top:1px dashed var(--paper-2);padding-top:8px}
+.card .btn{justify-self:start;background:var(--ink);color:var(--paper)}
+.card.beast{background:#3a2a22;color:#f0e2c8}
+.card.beast dt,.card.beast .odds{color:#c9b597}
+
+/* life layout */
+.life{display:grid;grid-template-columns:270px minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:760px){.life{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--night-2);border:1px solid var(--line);border-radius:4px;padding:16px;display:grid;gap:12px;position:sticky;top:max(12px,env(safe-area-inset-top,0px))}
+@media (max-width:760px){.panel{position:static}}
+.who{font-family:var(--font-brush);font-size:24px;line-height:1.2;color:var(--paper)}
+.who small{display:block;font-family:var(--font-ui);font-size:13px;color:var(--mist)}
+.age{font-variant-numeric:tabular-nums;font-size:13px;color:var(--mist)}
+.age b{font-size:30px;color:var(--glow);font-family:var(--font-brush);margin-right:4px}
+.stats{display:grid;gap:7px}
+.stat{display:grid;grid-template-columns:3.2em 1fr 2.2em;gap:8px;align-items:center;font-size:13px}
+.stat .bar{height:6px;background:#0c1016;border-radius:3px;overflow:hidden}
+.stat .bar i{display:block;height:100%;background:var(--mist);transition:width .4s}
+.stat.hp .bar i{background:#c76a5a}.stat.int .bar i{background:#6f8fd0}.stat.hap .bar i{background:var(--gold)}
+.stat.wealth .bar i{background:#a5b85a}.stat.fame .bar i{background:#c58ad0}.stat.jiang .bar i{background:#8b8f99}
+.stat span:last-child{text-align:right;font-variant-numeric:tabular-nums;color:var(--mist)}
+.karma{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.karma div{border:1px solid var(--line);border-radius:3px;padding:6px 8px;text-align:center}
+.karma b{display:block;font-family:var(--font-brush);font-size:24px;font-variant-numeric:tabular-nums;line-height:1.1}
+.karma .m b{color:#6cc3a5}.karma .s b{color:#e2675b}
+.karma small{font-size:12px;color:var(--mist)}
+.meta{font-size:13px;color:var(--mist);display:grid;gap:3px}
+.meta b{color:var(--glow);font-weight:500}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:12px;border:1px solid var(--gold);color:var(--gold);border-radius:999px;padding:1px 9px}
+.chip.mem{border-color:var(--mist);color:var(--mist)}
+
+/* 生死簿 */
+.book{background:var(--paper);color:var(--ink);border-radius:2px;box-shadow:0 18px 50px rgba(0,0,0,.45);min-width:0;
+  background-image:repeating-linear-gradient(90deg,transparent 0 46px,rgba(181,53,43,.10) 46px 47px);
+  padding:22px 22px 18px}
+.book h4{margin:0 0 10px;font-family:var(--font-brush);font-size:15px;color:var(--cinnabar);letter-spacing:.3em;font-weight:700}
+.log{display:grid;gap:10px;max-height:62vh;overflow-y:auto;padding-right:6px;font-family:var(--font-brush);font-size:17px;line-height:1.7}
+@media (max-width:760px){.log{max-height:none}}
+.entry{display:grid;grid-template-columns:3.4em minmax(0,1fr);gap:10px;animation:ink .5s ease-out}
+.entry .y{color:var(--cinnabar);font-variant-numeric:tabular-nums;text-align:right;font-size:14px;padding-top:3px}
+.entry.choice{color:var(--ink-soft);font-size:15px}
+.entry .k{font-family:var(--font-ui);font-size:12px;border-radius:2px;padding:0 5px;margin-left:6px;white-space:nowrap;vertical-align:2px}
+.k.plus{background:var(--jade);color:#f2fbf6}.k.minus{background:var(--cinnabar);color:#fbeeea}
+.entry.death{color:var(--cinnabar);font-weight:700}
+@keyframes ink{from{opacity:.3;filter:blur(1.5px)}to{opacity:1;filter:none}}
+@media (prefers-reduced-motion:reduce){.entry{animation:none}.stat .bar i{transition:none}}
+.act{margin-top:16px;border-top:2px solid var(--ink);padding-top:14px;display:grid;gap:10px}
+.prompt{font-family:var(--font-brush);font-size:19px;line-height:1.6;margin:0}
+.choices{display:grid;gap:8px}
+.choice{text-align:left;background:transparent;border:1px solid var(--ink);color:var(--ink);padding:9px 14px;border-radius:2px;font-family:var(--font-brush);font-size:17px}
+.choice:hover{background:var(--ink);color:var(--paper)}
+.choice.special{border-color:var(--cinnabar);color:var(--cinnabar)}
+.choice.special:hover{background:var(--cinnabar);color:var(--paper)}
+.book .btn{background:var(--ink);color:var(--paper);justify-self:start}
+
+/* judgement */
+.court{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:760px){.court{grid-template-columns:minmax(0,1fr)}}
+.verdict{font-family:var(--font-brush);font-size:clamp(40px,8vw,64px);line-height:1;margin:4px 0 8px;letter-spacing:.1em}
+.ledger{list-style:none;margin:0;padding:0;display:grid;gap:4px;font-size:14px}
+.ledger li{display:flex;justify-content:space-between;gap:12px;border-bottom:1px dotted var(--paper-2);padding:2px 0}
+.ledger .v{font-variant-numeric:tabular-nums;font-weight:700}
+.ledger .v.p{color:var(--jade)}.ledger .v.n{color:var(--cinnabar)}
+.epitaph{font-size:15px;line-height:1.8}
+.soup{display:grid;gap:14px}
+.option{background:var(--night-2);border:1px solid var(--line);border-radius:4px;padding:16px;display:grid;gap:8px}
+.option h3{margin:0;font-family:var(--font-brush);font-size:24px;color:var(--paper)}
+.option p{margin:0;color:var(--mist);font-size:14px}
+.option.nirvana{border-color:var(--gold)}
+.option.nirvana h3{color:var(--gold)}
+.newach{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+
+/* codex */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:4px}
+table{border-collapse:collapse;width:100%;font-size:13px;min-width:620px}
+th,td{padding:7px 10px;text-align:left;border-bottom:1px solid var(--line)}
+th{color:var(--mist);font-weight:500;font-size:12px;letter-spacing:.06em}
+td.num{font-variant-numeric:tabular-nums;text-align:right}
+.achgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
+.ach{border:1px solid var(--line);border-radius:4px;padding:10px;font-size:13px;color:var(--mist)}
+.ach b{display:block;font-family:var(--font-brush);font-size:18px;color:var(--glow)}
+.ach.on{border-color:var(--gold)}
+.ach.on b{color:var(--gold)}
+.ach.off{opacity:.45}
+.confirm{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:14px;color:var(--mist)}
+.remake{margin-top:26px;border-top:1px solid var(--line);padding-top:18px;display:grid;gap:10px;max-width:720px}
+.remake h3{margin:0;font-family:var(--font-brush);font-size:22px;color:var(--paper)}
+.remake p{margin:0;color:var(--mist);font-size:14px}
+.remake select{background:var(--night-2);color:var(--glow);border:1px solid var(--line);border-radius:3px;padding:9px 10px;font:inherit;max-width:100%;min-width:0;flex:1 1 220px}
+.toggle{font-size:13px;color:var(--mist);display:flex;gap:8px;align-items:center}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.end{max-width:640px;padding:60px 0;display:grid;gap:18px}
+.end h2{font-family:var(--font-brush);font-size:clamp(48px,10vw,88px);margin:0;color:var(--gold);letter-spacing:.2em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1 class="brand">輪迴<small>八十億份之一，再嚟過</small></h1>
+    <div class="soulbar" id="soulbar"></div>
+  </header>
+  <main id="stage"></main>
+</div>
+
+<script>
+'use strict';
+/* ============ 工具 ============ */
+const $ = q => document.querySelector(q);
+const R = Math.random;
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const pick = a => a[Math.floor(R() * a.length)];
+const ri = (a, b) => a + Math.floor(R() * (b - a + 1));
+const esc = t => String(t).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function shuffle(a){ for(let i=a.length-1;i>0;i--){const j=Math.floor(R()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+function wpick(arr, wf){
+  let t = 0; const ws = arr.map(x => { const w = Math.max(0, wf(x)); t += w; return w; });
+  let r = R() * t;
+  for (let i = 0; i < arr.length; i++) { r -= ws[i]; if (r <= 0) return arr[i]; }
+  return arr[arr.length - 1];
+}
+
+/* ============ 世界數據（約略值：人口佔比 %、五歲前死亡率 ‰、預期壽命）============ */
+// t: 經濟層級 1(最貧) – 5(富裕)；auth: 威權；war: 戰亂
+const COUNTRIES = [
+  {n:'印度',w:17.8,t:2,u5:30,le:70,reg:'sa'},
+  {n:'中國',w:17.6,t:3,u5:7,le:78,reg:'cn',auth:1},
+  {n:'美國',w:4.2,t:5,u5:6,le:77,reg:'west'},
+  {n:'印尼',w:3.5,t:3,u5:21,le:71,reg:'sea'},
+  {n:'巴基斯坦',w:3.0,t:2,u5:63,le:66,reg:'sa',auth:1},
+  {n:'奈及利亞',w:2.8,t:1,u5:107,le:53,reg:'af'},
+  {n:'巴西',w:2.6,t:3,u5:14,le:75,reg:'la'},
+  {n:'孟加拉',w:2.1,t:2,u5:27,le:73,reg:'sa'},
+  {n:'俄羅斯',w:1.8,t:4,u5:5,le:70,reg:'ru',auth:1},
+  {n:'衣索比亞',w:1.6,t:1,u5:47,le:65,reg:'af',auth:1},
+  {n:'墨西哥',w:1.6,t:3,u5:13,le:74,reg:'la'},
+  {n:'日本',w:1.5,t:5,u5:2,le:84,reg:'jp'},
+  {n:'埃及',w:1.4,t:3,u5:19,le:71,reg:'me',auth:1},
+  {n:'菲律賓',w:1.4,t:3,u5:26,le:70,reg:'sea'},
+  {n:'剛果民主共和國',w:1.3,t:1,u5:75,le:60,reg:'af',war:1},
+  {n:'越南',w:1.2,t:3,u5:20,le:74,reg:'sea',auth:1},
+  {n:'伊朗',w:1.1,t:3,u5:12,le:74,reg:'me',auth:1},
+  {n:'土耳其',w:1.1,t:4,u5:9,le:76,reg:'me'},
+  {n:'德國',w:1.0,t:5,u5:4,le:81,reg:'west'},
+  {n:'泰國',w:0.9,t:3,u5:8,le:76,reg:'sea'},
+  {n:'坦尚尼亞',w:0.85,t:1,u5:43,le:66,reg:'af'},
+  {n:'英國',w:0.85,t:5,u5:4,le:81,reg:'west'},
+  {n:'法國',w:0.8,t:5,u5:4,le:82,reg:'west'},
+  {n:'南非',w:0.75,t:3,u5:32,le:62,reg:'af'},
+  {n:'義大利',w:0.73,t:5,u5:3,le:83,reg:'west'},
+  {n:'肯亞',w:0.7,t:2,u5:37,le:62,reg:'af'},
+  {n:'緬甸',w:0.7,t:2,u5:40,le:66,reg:'sea',auth:1,war:1},
+  {n:'哥倫比亞',w:0.65,t:3,u5:13,le:73,reg:'la'},
+  {n:'南韓',w:0.64,t:5,u5:3,le:83,reg:'kr'},
+  {n:'蘇丹',w:0.6,t:1,u5:55,le:65,reg:'me',auth:1,war:1},
+  {n:'烏干達',w:0.6,t:1,u5:40,le:63,reg:'af'},
+  {n:'西班牙',w:0.6,t:5,u5:3,le:83,reg:'west'},
+  {n:'阿爾及利亞',w:0.57,t:3,u5:22,le:76,reg:'me'},
+  {n:'伊拉克',w:0.57,t:3,u5:25,le:72,reg:'me'},
+  {n:'阿根廷',w:0.57,t:3,u5:8,le:76,reg:'la'},
+  {n:'阿富汗',w:0.5,t:1,u5:56,le:62,reg:'me',auth:1},
+  {n:'加拿大',w:0.49,t:5,u5:5,le:82,reg:'west'},
+  {n:'安哥拉',w:0.47,t:1,u5:69,le:62,reg:'af'},
+  {n:'波蘭',w:0.47,t:4,u5:4,le:78,reg:'west'},
+  {n:'摩洛哥',w:0.47,t:3,u5:18,le:75,reg:'me'},
+  {n:'烏克蘭',w:0.45,t:3,u5:8,le:70,reg:'ru',war:1},
+  {n:'烏茲別克',w:0.45,t:2,u5:14,le:71,reg:'ru',auth:1},
+  {n:'迦納',w:0.43,t:2,u5:44,le:64,reg:'af'},
+  {n:'馬來西亞',w:0.43,t:4,u5:8,le:76,reg:'sea'},
+  {n:'葉門',w:0.43,t:1,u5:60,le:64,reg:'me',war:1},
+  {n:'秘魯',w:0.42,t:3,u5:14,le:76,reg:'la'},
+  {n:'莫三比克',w:0.42,t:1,u5:70,le:59,reg:'af'},
+  {n:'沙烏地阿拉伯',w:0.42,t:4,u5:7,le:77,reg:'me',auth:1},
+  {n:'尼泊爾',w:0.38,t:2,u5:26,le:70,reg:'sa'},
+  {n:'馬達加斯加',w:0.38,t:1,u5:66,le:65,reg:'af'},
+  {n:'喀麥隆',w:0.36,t:1,u5:70,le:61,reg:'af'},
+  {n:'委內瑞拉',w:0.35,t:2,u5:24,le:72,reg:'la',auth:1},
+  {n:'尼日',w:0.34,t:1,u5:115,le:62,reg:'af'},
+  {n:'澳洲',w:0.33,t:5,u5:4,le:83,reg:'west'},
+  {n:'北韓',w:0.33,t:2,u5:15,le:73,reg:'kr',auth:1},
+  {n:'臺灣',w:0.29,t:5,u5:4,le:80,reg:'tw'},
+  {n:'敘利亞',w:0.29,t:1,u5:22,le:72,reg:'me',auth:1,war:1},
+  {n:'馬利',w:0.29,t:1,u5:97,le:59,reg:'af',war:1},
+  {n:'斯里蘭卡',w:0.27,t:2,u5:7,le:77,reg:'sa'},
+  {n:'海地',w:0.14,t:1,u5:57,le:64,reg:'la'},
+  {n:'瑞士',w:0.11,t:5,u5:4,le:84,reg:'west'},
+  {n:'香港',w:0.09,t:5,u5:2,le:85,reg:'hk'},
+  {n:'新加坡',w:0.07,t:5,u5:2,le:83,reg:'sea'},
+];
+const W_TOTAL = COUNTRIES.reduce((a, c) => a + c.w, 0);
+const CLASSES = ['赤貧','貧苦','基層','中產','富裕','權貴'];
+const CLASS_P = { // 各經濟層級嘅出身分佈
+  1:[.45,.35,.15,.04,.009,.001],
+  2:[.22,.40,.27,.09,.018,.002],
+  3:[.06,.25,.40,.23,.055,.005],
+  4:[.01,.10,.35,.42,.11,.01],
+  5:[.005,.06,.25,.50,.17,.015],
+};
+const WEALTH_TARGET = [5,12,28,48,70,90];
+const NAMES = {
+  sa:{m:['拉胡爾','阿米特','穆罕默德','桑傑','阿里夫','維傑'],f:['普莉亞','阿妮塔','法蒂瑪','蘇妮塔','拉妮','迪薇雅']},
+  cn:{m:['志強','建國','浩然','子軒','俊偉'],f:['秀英','欣怡','雨萱','麗娟','思琪']},
+  tw:{m:['冠宇','承恩','家豪','志明'],f:['怡君','雅婷','淑芬','詠晴']},
+  hk:{m:['家朗','俊傑','子健','偉明'],f:['嘉欣','詠琳','美玲','凱婷']},
+  jp:{m:['大翔','健太','拓也','翔太'],f:['陽菜','美咲','結衣','花子']},
+  kr:{m:['敏俊','志勳','賢宇','哲洙'],f:['智恩','書妍','秀彬','英姬']},
+  sea:{m:['阿貢','文雄','阿迪','黎明','頌猜'],f:['阿雅','美蓮','西蒂','秋水','瑪麗薩']},
+  af:{m:['奇內杜','阿瑪杜','科菲','姆貝基','伊曼紐'],f:['恩戈齊','阿瑪','法圖瑪','祖拉','格蕾絲']},
+  me:{m:['阿里','奧馬爾','穆斯塔法','哈桑'],f:['法蒂瑪','萊拉','澤娜布','瑪麗亞姆']},
+  la:{m:['胡安','卡洛斯','路易斯','聖地牙哥'],f:['瑪麗亞','卡蜜拉','露西亞','瓦倫蒂娜']},
+  ru:{m:['伊凡','德米特里','謝爾蓋','阿列克謝'],f:['安娜','娜塔莎','奧爾加','伊蓮娜']},
+  west:{m:['約翰','盧卡斯','占士','麥克','湯瑪士'],f:['艾瑪','蘇菲','奧莉維亞','漢娜','克蘿伊']},
+};
+
+/* ============ 職涯 ============ */
+const CAREERS = {
+  gang:{name:'江湖',ranks:['四九仔','打手','頭目','堂主','坐館龍頭'],stat:'jiang',tal:'江湖',base:.3,
+    promo:'社團有位出缺，幾個兄弟爭緊。大佬拍拍你膊頭：「睇你點做。」',
+    clean:'帶齊兄弟，正面打出名堂',dirty:'暗中做低對手',dirtySin:15,dirtyWhy:'暗殺同門',
+    risk:.1,riskCause:'江湖仇殺',riskText:'對方早有準備。你倒喺後巷，血流一地。',
+    win:'你一戰成名，江湖上人人都識你個名。',fail:'你衰咗，俾人斬到入院，仲失晒面。',failFx:{hp:-30,jiang:-10},failJail:.3,
+    upFx:{jiang:12,fame:3},upSin:[5,'混跡江湖'],inc:[1,2,3,5,7],ach:'dragon'},
+  music:{name:'音樂',ranks:['街頭藝人','地下樂隊成員','簽約歌手','當紅歌手','天王巨星'],stat:'fame',tal:'樂感',base:.22,
+    promo:'有個監製聽過你嘅demo，話想約你傾下。',
+    clean:'日練夜練，一場一場咁唱',dirty:'同投資者做私下交易，買榜炒作',dirtySin:8,dirtyWhy:'出賣自己、欺騙聽眾',
+    win:'你首歌突然爆紅，街頭巷尾都喺度播。',fail:'冇人聽。你喺後台食杯麵，諗緊下個月租點交。',failFx:{hap:-10,wealth:-5},
+    upFx:{fame:15,hap:8},inc:[0,1,3,5,8],ach:'star'},
+  biz:{name:'生意',ranks:['小檔主','小老闆','公司老闆','上市公司主席','富可敵國'],stat:'wealth',tal:'商才',base:.28,
+    promo:'有個擴張機會擺喺你面前，但係要搏。',
+    clean:'穩紮穩打擴充業務',dirty:'賄賂官員攞政府合約',dirtySin:10,dirtyWhy:'行賄',dirtyJail:.15,
+    win:'生意越做越大。',fail:'投資失利，蝕到入肉。',failFx:{wealth:-20,hap:-10},
+    upFx:{wealth:15,fame:4},inc:[1,2,4,6,9],ach:'tycoon'},
+  pol:{name:'政治',ranks:['社運人士','地方議員','國會議員','部長','國家領袖'],stat:'fame',tal:'權謀',base:.25,
+    promo:'下一場選舉／黨內升遷就嚟，你有一個位可以爭。',
+    clean:'落區聆聽，靠民意上位',dirty:'操控選票、抹黑對手',dirtySin:12,dirtyWhy:'操控選舉',
+    win:'你大勝。',fail:'你落敗，被對手公開羞辱。',failFx:{fame:-10,hap:-10},authJail:.3,
+    upFx:{fame:12},inc:[0,1,2,3,5],ach:'leader'},
+  monk:{name:'修行',ranks:['沙彌','比丘','住持','高僧','一代宗師'],stat:'int',tal:'佛緣',base:.3,
+    promo:'寺中長老觀察咗你好耐，問你：「你修行，係為咗乜？」',
+    clean:'閉關苦修',cleanMerit:6,cleanWhy:'精進修行',dirty:'巴結大施主，換取地位',dirtySin:10,dirtyWhy:'以佛斂財',
+    win:'你修行有成，眾人敬重。',fail:'你坐唔定，心魔纏身。',failFx:{hap:-8},
+    upFx:{int:6,hap:6,fame:4},inc:[-1,-1,0,0,0],ach:'master'},
+  sci:{name:'學術',ranks:['研究生','研究員','教授','院士','諾貝爾得主'],stat:'int',tal:'慧根',base:.22,
+    promo:'你手上個研究去到關鍵位，結果遲遲做唔出嚟。',
+    clean:'埋首做實驗，慢慢嚟',dirty:'偽造數據，搶先發表',dirtySin:10,dirtyWhy:'學術造假',
+    win:'你嘅研究獲得突破。',fail:'實驗失敗，經費被削。',failFx:{hap:-8,wealth:-5},
+    upFx:{int:5,fame:8},inc:[0,1,2,3,4],ach:'nobel'},
+  sport:{name:'體育',ranks:['業餘運動員','職業運動員','國家隊成員','世界冠軍','體壇傳奇'],stat:'hp',tal:'體魄',base:.25,
+    promo:'大賽就嚟，教練話你有機會入選。',
+    clean:'日日苦練',dirty:'偷偷服禁藥',dirtySin:8,dirtyWhy:'服用禁藥',
+    win:'你喺賽場上創造奇蹟。',fail:'你受傷，休養咗大半年。',failFx:{hp:-15,hap:-8},
+    upFx:{fame:12,hap:6},inc:[0,1,3,5,7],ach:'champion'},
+  mil:{name:'軍旅',ranks:['士兵','士官','軍官','將軍','軍政府首腦'],stat:'hp',tal:'權謀',base:.28,
+    promo:'上級要揀人升職。',
+    clean:'上前線立功',dirty:'出賣同袍，攬功上位',dirtySin:12,dirtyWhy:'出賣同袍',
+    risk:.1,riskCause:'戰死沙場',riskText:'一粒子彈打中你心口。你倒喺泥濘入面。',
+    win:'你獲得晉升。',fail:'你喺戰場上受重傷。',failFx:{hp:-25},
+    upFx:{fame:5},inc:[1,1,2,3,6],ach:'leader'},
+};
+const TALENTS = {
+  '慧根':'出世智慧較高','體魄':'出世身體較好','樂感':'天生識音樂','商才':'對錢好敏感',
+  '江湖':'天生識江湖規矩','仁心':'天生較快樂、心地好','權謀':'識玩權力遊戲','佛緣':'修行事半功倍',
+};
+const ACH = {
+  infant:['未滿週歲','一歲前已經夭折'],
+  jackpot:['首抽大獎','生於香港或臺灣'],
+  royal:['含住金鎖匙','出生於權貴之家'],
+  poorest:['赤貧之子','出生於赤貧家庭'],
+  centenarian:['人瑞','活過一百歲'],
+  dragon:['龍頭老大','成為社團坐館'],
+  star:['天王巨星','成為天王巨星'],
+  tycoon:['富可敵國','生意做到富可敵國'],
+  leader:['一國之君','成為國家領袖或軍政府首腦'],
+  master:['一代宗師','修行成為一代宗師'],
+  nobel:['諾貝爾','攞到諾貝爾獎'],
+  migrant:['他鄉','移民去另一個國家'],
+  jail:['牢獄之災','坐過監'],
+  saint:['大善人','一世積德超過60'],
+  villain:['十惡不赦','一世造孽超過60'],
+  beast:['畜生道','投胎做動物'],
+  hell:['地獄遊','墮入地獄'],
+  memory:['不飲孟婆湯','帶住記憶投胎'],
+  ten:['十世輪迴','經歷十世'],
+  champion:['體壇傳奇','成為體壇傳奇'],
+  remake:['逆天改命','用業力指定投胎地點'],
+  nirvana:['涅槃','跳出輪迴'],
+};
+
+/* ============ 狀態 ============ */
+const SAVE_KEY = 'samsara-v1';
+let SOUL, S, UI = {screen:'title'};
+function freshSoul(){ return {life:1,K:0,talents:{},mem:null,ach:{},hist:[],buddha:false,births:null}; }
+function save(){ try{ localStorage.setItem(SAVE_KEY, JSON.stringify({SOUL,S,UI})); }catch(e){} }
+function load(){
+  try{ const d = JSON.parse(localStorage.getItem(SAVE_KEY)); if(d && d.SOUL){ SOUL=d.SOUL; S=d.S; UI=d.UI||{screen:'title'}; return true; } }catch(e){}
+  SOUL = freshSoul(); S = null; return false;
+}
+const C = () => COUNTRIES[S.ci];
+const tl = k => SOUL.talents[k] || 0;
+function fx(o){ for(const k in o) S[k] = clamp((S[k]||0) + o[k], 0, 100); }
+function good(n, why){ S.merit += n; S.ledger.push([why, n]); S.lastK = (S.lastK||0) + n; }
+function bad(n, why){ S.sin += n; S.ledger.push([why, -n]); S.lastK = (S.lastK||0) - n; }
+function die(cause){ S.alive = false; S.cause = cause; }
+function ach(id){ if(!SOUL.ach[id]){ SOUL.ach[id] = SOUL.life; S.newAch.push(id); } }
+function jail(y){ S.jail = y; ach('jail'); fx({wealth:-15,hap:-15}); S.flags.excon = 1; }
+function karmaWord(k){ return k>=100?'大善':k>=40?'善':k>-40?'平':k>-100?'惡':'大惡'; }
+
+/* ============ 投胎 ============ */
+function classProbs(t, bias){
+  return CLASS_P[t].map((p,i) => p * Math.exp(bias * .45 * (i - 2.5)));
+}
+function rollCandidate(K, fixed){
+  const bias = clamp(K/100, -2, 2);
+  const c = fixed!=null ? COUNTRIES[fixed] : wpick(COUNTRIES, x => x.w * Math.exp(bias * .35 * (x.t - 3)));
+  const ci = COUNTRIES.indexOf(c);
+  const ps = classProbs(c.t, bias);
+  const cls = wpick([0,1,2,3,4,5], i => ps[i]);
+  const real = (c.w / W_TOTAL) * CLASS_P[c.t][cls];
+  return {ci, cls, oneIn: Math.max(1, Math.round(1 / real))};
+}
+// 指定投胎地點嘅代價：越富裕越貴；做緊畜生道要加倍
+function remakeCost(ci){
+  if(SOUL.free) return 0;
+  const base = [0,5,15,30,45,60][COUNTRIES[ci].t];
+  return SOUL.births && SOUL.births[0] && SOUL.births[0].beast ? base*2 + 20 : base;
+}
+function remake(){
+  const ci = +(UI.birthPick ?? 0), cost = remakeCost(ci);
+  SOUL.K -= cost;
+  const fresh = !SOUL.free && !SOUL.ach.remake;
+  if(!SOUL.free) SOUL.ach.remake = SOUL.ach.remake || SOUL.life;
+  startLife(rollCandidate(SOUL.K, ci));
+  if(fresh) S.newAch.push('remake');
+  if(cost){ S.log.unshift({y:'', t:`你用咗 ${cost} 點業力逆天改命，指定投胎去${COUNTRIES[ci].n}。`, k:'choice', d:0}); save(); render(); }
+}
+function nChoices(K){ return K>=100?4:K>=50?3:K>=20?2:1; }
+function beastChance(K){ return K > -40 ? 0 : clamp((-K - 40) / 150, 0, .75); }
+const BEASTS = {
+  dog:{n:'流浪狗',life:[3,6],cause:'餓死喺天橋底'},
+  chicken:{n:'養殖場肉雞',life:[1,1],cause:'第四十二日被送入屠房'},
+  cow:{n:'耕牛',life:[3,5],cause:'老到拉唔郁犁，被賣去屠房'},
+  cat:{n:'街貓',life:[3,5],cause:'喺車底瞓覺時被車輾過'},
+  rat:{n:'溝渠老鼠',life:[2,3],cause:'食咗老鼠藥'},
+};
+function prepareBirths(){
+  if(SOUL.births) return SOUL.births;
+  const K = SOUL.K;
+  let list;
+  if(R() < beastChance(K)){
+    const b = pick(Object.keys(BEASTS));
+    list = [{beast:b}];
+  } else {
+    list = []; const n = nChoices(K);
+    for(let i=0;i<n;i++) list.push(rollCandidate(K));
+  }
+  SOUL.births = list; save();
+  return list;
+}
+
+function startLife(cand){
+  SOUL.births = null;
+  const base = {age:0,alive:true,cause:'',merit:0,sin:0,ledger:[],log:[],flags:{},seen:{},last:{},newAch:[],
+    career:null,peak:null,job:'',jail:0,married:0,kids:0,lastK:0,pending:null};
+  if(cand.beast){
+    const B = BEASTS[cand.beast];
+    S = Object.assign(base,{beast:cand.beast,name:B.n,ci:-1,cls:-1,hp:60,int:10,hap:40,wealth:0,fame:0,jiang:0,
+      bturns:0,blife:ri(B.life[0],B.life[1])});
+    ach('beast');
+    logE(`業障深重。你投胎做咗一隻${B.n}。`);
+    UI.screen = 'life'; save(); advance(); return;
+  }
+  const c = COUNTRIES[cand.ci];
+  const male = R() < .51;
+  const nm = NAMES[c.reg] || NAMES.west;
+  Object.assign(base,{ci:cand.ci,cls:cand.cls,oneIn:cand.oneIn,male,name:pick(male?nm.m:nm.f)});
+  S = base;
+  S.hp = clamp(68 + S.cls*4 + tl('體魄')*8 - (c.t===1?10:0) + ri(-10,10), 5, 100);
+  S.int = clamp(32 + ri(0,30) + tl('慧根')*8 + (S.cls>=4?6:0), 5, 100);
+  S.hap = clamp(48 + ri(-10,10) + tl('仁心')*5, 0, 100);
+  S.wealth = WEALTH_TARGET[S.cls];
+  S.fame = S.cls===5 ? 10 : 0;
+  S.jiang = tl('江湖')*10 + (S.cls<=1?5:0);
+  if(SOUL.mem) S.flags.mem = 1;
+  if(tl('樂感')) S.flags.music = 1;
+  if(c.reg==='hk'||c.reg==='tw') ach('jackpot');
+  if(S.cls===5) ach('royal');
+  if(S.cls===0) ach('poorest');
+  const intro = {
+    0:'屋企連乾淨食水都未必有。',1:'屋企好窮，父母為兩餐奔波。',2:'父母做基層工作，搵兩餐唔算容易。',
+    3:'普通中產家庭，有瓦遮頭，有書讀。',4:'家境富裕，你一出世就有自己間房。',5:'你生於權貴之家，未出世已經有人幫你諗好前途。'}[S.cls];
+  logE(`你喺${c.n}出世，${S.male?'男':'女'}仔，叫${S.name}。${intro}`);
+  logE(`全球大約每 ${S.oneIn.toLocaleString()} 個人，先有一個係同你一樣嘅出身。`, 'choice');
+  if(SOUL.K >= 50) logE('接生嘅人話：「呢個BB好有福相。」', 'choice');
+  if(SOUL.K <= -50) logE('你出世嗰晚，屋外狗吠咗成夜。', 'choice');
+  UI.screen = 'life'; save(); advance();
+}
+
+/* ============ 年度推進 ============ */
+function hazard(){
+  const c = C();
+  const mod = [1.6,1.25,1,.6,.35,.25][S.cls];
+  let h;
+  if(S.age < 5) h = c.u5/1000 * .3/4 * mod;
+  else if(S.age < 15) h = .0005 * (c.u5/20) * mod;
+  else h = Math.exp(-10.4 + .088*S.age) * Math.exp((76 - c.le)*.05) * (S.cls>=4?.75:S.cls===0?1.3:1) + .0005;
+  if(S.hp < 40) h *= 2; if(S.hp < 20) h *= 4; if(S.hp <= 3) h += .35;
+  if(S.flags.smoker) h *= 1.4;
+  if(S.flags.careful) h *= .85;
+  if(S.career && S.career.path==='gang') h += .004*(S.career.rank+1);
+  if(c.war) h += .003;
+  if(SOUL.K < -60) h *= 1.15;
+  return h;
+}
+function deathCause(){
+  const c = C();
+  if(S.age < 5) return pick(c.t<=2?['肺炎','腹瀉','瘧疾','營養不良','早產併發症']:['先天疾病','肺炎','意外']);
+  if(c.war && R()<.3) return '戰火';
+  if(S.age < 45) return pick(c.t<=2?['瘧疾','結核病','交通意外','工業意外','急病','暴力事件']:['交通意外','工業意外','急病','自殺','癌症']);
+  if(S.flags.smoker && R()<.5) return '肺癌';
+  return pick(['心臟病','中風','癌症','肺炎','腎衰竭', S.age>85?'壽終正寢':'糖尿病併發症']);
+}
+function assignJob(){
+  const t = C().t, c = S.cls;
+  let pool;
+  if(S.flags.uni) pool = t>=4 ? ['工程師','會計師','律師','醫生','程式員','教師'] : ['工程師','教師','公務員','會計','醫生'];
+  else if(c <= 1) pool = t<=2 ? ['小農','建築散工','人力車伕','街頭小販','製衣廠工人','漁民','家庭傭工','外送員'] : ['工廠工人','外送員','清潔工','建築工人','保安'];
+  else if(c <= 3) pool = ['工廠工人','店員','司機','文員','廚師','外送員','保安','護理員'];
+  else pool = ['家族企業經理','投資銀行家','律師','醫生'];
+  S.job = pick(pool);
+  return S.job;
+}
+function yearTick(){
+  S.age++;
+  if(S.beast) return;
+  const c = C();
+  // 健康老化
+  if(S.age > 45) fx({hp:-(S.age>70?1:.4)});
+  else if(S.hp < 70) fx({hp:1.5});
+  if(S.flags.smoker) fx({hp:-.3});
+  if(S.flags.addict) fx({hp:-2,wealth:-2});
+  // 財富回歸階級（平庸引力）+ 職涯收入
+  const target = WEALTH_TARGET[S.cls] + (S.flags.uni?10:0);
+  let inc = 0;
+  if(S.career && !S.jail) inc = CAREERS[S.career.path].inc[S.career.rank];
+  if(S.jail){ fx({hap:-2}); S.jail--; if(S.jail===0) logE('你刑滿出獄。外面嘅世界變咗好多。'); }
+  else S.wealth = clamp(S.wealth + (target - S.wealth)*.05 + inc, 0, 100);
+  S.hap = clamp(S.hap + (50 - S.hap)*.04, 0, 100);
+  if(S.age===20 && S.flags.uniPending){ delete S.flags.uniPending; }
+  // 出嚟做嘢
+  if(!S.job && !S.career && !S.jail && ((S.age===14 && S.cls<=1 && c.t<=2 && !S.flags.school) || (S.age>=18 && !S.flags.uniPending && !S.flags.uni) || (S.age>=22 && S.flags.uni))){
+    const j = assignJob();
+    logE(S.age<16 ? `你${S.age}歲就要出嚟做嘢，做${j}。` : `你開始做${j}。`);
+  }
+  if(R() < hazard()) die(deathCause());
+}
+function stepYears(){
+  if(S.beast) return 1;
+  if(S.age < 1) return 1;
+  if(S.age < 12) return ri(2,3);
+  if(S.age < 18) return ri(1,2);
+  if(S.age < 65) return ri(2,3);
+  return ri(2,4);
+}
+
+/* ============ 事件 ============ */
+// a:[最細,最大歲數]  if:條件  w:權重  once:false 可重複  text  choices 或 go（被動事件）
+const EVENTS = [
+// ---------- 童年 ----------
+{id:'sick_child',a:[1,10],if:()=>C().t<=2,w:2,text:()=>`你發高燒，${C().t===1?'村入面冇醫生，':''}屋企人求神拜佛。`,
+ go(){ const p = (C().t===1?.12:.06)*(S.cls<=1?1.3:.6);
+   if(R()<p){ die(pick(['瘧疾','麻疹','霍亂','肺炎'])); return '燒一直冇退。'; }
+   fx({hp:-15}); return '你捱過咗，但身子弱咗。'; }},
+{id:'dream',a:[3,10],if:()=>S.flags.mem,w:6,text:()=>`你成日發同一個夢：你叫${SOUL.mem.name}，住喺${SOUL.mem.country}，最後死於${SOUL.mem.cause}。`,
+ choices:[
+  {t:'話俾屋企人知',go(){ fx({hap:-5}); S.flags.weird=1; return '阿媽帶你去睇醫生，又帶你去收驚。大家都覺得你怪怪地。'; }},
+  {t:'收埋喺心，記住前世教訓',go(){ fx({int:5}); S.flags.careful=1; return `你暗暗發誓：今世唔會再死於${SOUL.mem.cause}。`; }},
+ ]},
+{id:'school_poor',a:[6,9],if:()=>S.cls<=1&&C().t<=2,w:5,text:()=>'屋企要你幫手做嘢，阿爸話：「讀書唔可以當飯食。」',
+ choices:[
+  {t:'偷偷走去學校',go(){ fx({int:10,hap:-5}); S.flags.school=1; return '你每日行一個鐘去學校，返嚟仲要做埋嘢。'; }},
+  {t:'聽阿爸話，留喺屋企幫手',go(){ fx({int:-5,wealth:3}); return '你冇再返學。好多年後，你連自己個名都寫得唔太好。'; }},
+ ]},
+{id:'bully',a:[6,15],w:3,text:()=>'放學時，你見到幾個大個子圍住一個瘦弱嘅同學，搶佢書包、推佢落地。',
+ choices:[
+  {t:'衝上去阻止',go(){ good(6,'見義勇為'); if(R()<.5){ fx({hp:-8,hap:-3}); return '你被打到鼻哥流血，但個同學得救。佢之後成為你最好嘅朋友。'; } fx({hap:6,jiang:3}); return '你大叫一聲衝上去，嗰幾個大個子居然走咗。'; }},
+  {t:'跟住一齊笑',go(){ bad(4,'欺凌弱小'); fx({jiang:4}); return '大家都笑，你都笑。嗰個同學望咗你一眼，你記咗嗰個眼神好多年。'; }},
+  {t:'當睇唔到，行開',go(){ return '你低頭行過。大部份人都係咁。'; }},
+ ]},
+{id:'wallet',a:[6,16],w:2,text:()=>'你喺街執到一個銀包，入面有唔少錢，仲有張身份證。',
+ choices:[
+  {t:'交去警局',go(){ good(4,'拾金不昧'); return '失主係個婆婆，佢拎住你雙手講多謝，講到喊。'; }},
+  {t:'袋咗啲錢，掉咗個銀包',go(){ bad(4,'私吞財物'); fx({wealth:3,hap:3}); return '你買咗好多零食。冇人知。'; }},
+ ]},
+{id:'music',a:[5,12],w:2,text:()=>S.flags.music?'你一摸到樂器，手指好似自己識郁。':'你第一次聽到有人奏樂，成個人呆咗。',
+ choices:[
+  {t:'求屋企人俾你學',go(){ S.flags.music=1; fx({hap:6,wealth:-2}); return S.cls<=1?'屋企買唔起樂器，你執咗個爛結他返嚟自己學。':'你開始學琴，每日練一個鐘。'; }},
+  {t:'冇興趣',go(){ return '你轉頭就唔記得咗。'; }},
+ ]},
+{id:'study',a:[8,14],w:2,text:()=>'考試就嚟，同學約你出去玩。',
+ choices:[
+  {t:'留喺屋企溫書',go(){ fx({int:8,hap:-4}); return '你考得唔錯。'; }},
+  {t:'出去玩',go(){ fx({hap:7,int:-2}); return '你玩得好開心，成績一般。'; }},
+ ]},
+{id:'errand',a:[9,15],if:()=>S.cls<=2,w:2,text:()=>'街口有個大哥哥叫你幫手送一包嘢去後巷，俾你一百蚊。',
+ choices:[
+  {t:'幫佢送',go(){ fx({jiang:12,wealth:3}); bad(4,'幫人運毒'); S.flags.street=1; return '大哥哥摸摸你個頭：「乖，下次再搵你。」'; }},
+  {t:'搖頭走開',go(){ return '你走咗。佢喺後面笑你膽小。'; }},
+ ]},
+{id:'cat',a:[5,12],w:2,text:()=>'幾個細路圍住一隻街貓，用石頭掟佢。',
+ choices:[
+  {t:'趕走佢哋，抱走隻貓',go(){ good(4,'救護生靈'); fx({hap:4}); return '隻貓之後成日喺你屋企門口等你。'; }},
+  {t:'加入佢哋',go(){ bad(4,'虐待動物'); return '隻貓唔郁喇。你哋一哄而散。'; }},
+ ]},
+{id:'temple',a:[5,14],w:1.5,text:()=>'你行過一間古廟，有個老和尚望住你：「細路，你有慧根。」',
+ choices:[
+  {t:'跟佢學打坐',go(){ S.flags.zen=1; fx({int:3,hap:3}); return '你每個禮拜都去廟度坐一陣。'; }},
+  {t:'當佢黐線',go(){ return '你走咗。'; }},
+ ]},
+{id:'war_child',a:[1,17],if:()=>C().war,w:3,text:()=>'炮聲由遠而近，你哋一家要連夜逃難。',
+ go(){ if(R()<.07){ die('戰火'); return '一枚炮彈落喺你哋附近。'; } fx({hp:-10,hap:-15,wealth:-5}); return '你喺難民營住咗好耐。'; }},
+{id:'rich_kid',a:[6,15],if:()=>S.cls>=4,w:2,text:()=>'你學鋼琴、學馬術，暑假去外國遊學。你以為全世界都係咁。',
+ choices:[
+  {t:'跟屋企人去探訪貧民區做義工',go(){ good(3,'行善'); fx({int:3}); return '你第一次見到同齡細路赤腳拾荒。'; }},
+  {t:'繼續享受',go(){ fx({hap:5}); return '你過得好開心。'; }},
+ ]},
+{id:'parents_fight',a:[3,14],w:1,text:()=>'阿爸阿媽成晚嗌交，摔爛咗啲嘢。',go(){ fx({hap:-8}); return '你縮喺被竇入面，等天光。'; }},
+{id:'child_fill',a:[1,12],once:false,w:1,text:()=>pick([
+  S.cls<=1?'屋企好窮，你成日食唔飽，但同鄰居細路追追逐逐都好開心。':'你同鄰居細路追追逐逐，一日又一日。',
+  '你學識咗游水。','你養咗一隻小雞，佢第二個月死咗。你喊咗好耐。','你開始識認字。']),go(){ fx({hap:2}); return ''; }},
+
+// ---------- 少年 ----------
+{id:'cig',a:[12,18],w:4,text:()=>'朋友遞一支煙俾你：「試下啦，唔會點。」',
+ choices:[
+  {t:'接過嚟食',go(){ S.flags.smoker=1; fx({hap:3,jiang:3}); return '你咳到眼淚都出埋。之後，你食咗好多年。'; }},
+  {t:'唔食',go(){ return '朋友話你扮乖。你冇理佢。'; }},
+ ]},
+{id:'exam',a:[15,18],if:()=>C().t>=2||S.flags.school||S.cls>=2,w:5,text:()=>'公開試就嚟，決定你可唔可以讀大學。',
+ choices:[
+  {t:'搏命溫書',go(){ fx({int:8,hap:-6,hp:-3}); return examResult(0); }},
+  {t:'買槍手／作弊',go(){ bad(5,'考試作弊'); if(R()<.3){ fx({hap:-10}); S.flags.cheat=1; return '你被捉到，成績取消。'; } return examResult(.25); }},
+  {t:'放棄，早啲出嚟搵錢',go(){ fx({hap:4}); return '你冇考。'; }},
+ ]},
+{id:'love',a:[14,20],w:3,text:()=>'你暗戀咗班上一個人好耐。',
+ choices:[
+  {t:'鼓起勇氣表白',go(){ if(R()<.45){ fx({hap:12}); S.flags.firstlove=1; return '對方紅住塊面點頭。嗰個夏天，你覺得自己好幸福。'; } fx({hap:-8}); return '對方話：「你係好人。」'; }},
+  {t:'收埋喺心',go(){ return '好多年後，你喺尋人網站搵返佢個名，最後冇撳落去。'; }},
+ ]},
+{id:'dropout',a:[13,16],if:()=>S.cls<=1&&!S.job,w:4,text:()=>'屋企欠債，阿媽問你可唔可以停學出去打工。',
+ choices:[
+  {t:'輟學打工',go(){ fx({int:-4,wealth:6}); good(2,'孝順父母'); const j=assignJob(); return `你去咗做${j}。`; }},
+  {t:'堅持讀落去',go(){ fx({int:6,hap:-6,wealth:-3}); S.flags.school=1; return '你晚晚做兼職，日頭返學。'; }},
+ ]},
+{id:'protest',a:[15,28],w:2,text:()=>C().auth?'有同學秘密組織抗議，問你去唔去。喺呢度，係會坐監嘅。':'城中有大型示威，朋友問你去唔去。',
+ choices:[
+  {t:'上街',go(){ S.flags.activist=1; fx({fame:3}); good(3,'為公義發聲'); if(C().auth&&R()<.35){ jail(ri(2,5)); return '你被捕。審判只用咗十分鐘。'; } return '你喺人群中大嗌，覺得自己第一次真正活過。'; }},
+  {t:'留喺屋企',go(){ return '你喺電視睇住。'; }},
+ ]},
+{id:'gang_recruit',a:[13,22],if:()=>!S.career&&(S.jiang>=10||S.flags.street||(S.cls<=1&&R()<.4)),w:3,text:()=>'街頭大佬睇中你：「跟我啦，有大把錢搵。」',
+ choices:[
+  {t:'斟茶拜大佬',go(){ return startCareer('gang','你正式入咗社團。'); }},
+  {t:'婉拒',go(){ fx({jiang:-3}); return '大佬冷笑：「唔緊要，遲早你會返嚟搵我。」'; }},
+ ]},
+{id:'mem_skill',a:[12,22],if:()=>S.flags.mem&&SOUL.mem.career&&!S.career,w:6,text:()=>`前世嘅記憶突然湧現。你記得自己曾經係${SOUL.mem.career}，嗰啲本事好似從未離開過你。`,
+ choices:[
+  {t:'行返前世嘅路',special:1,go(){ const p=SOUL.mem.path; const r=startCareer(p,'你憑住前世經驗，起步就快人一步。'); S.career.rank=1; S.job=CAREERS[p].ranks[1]; S.peak={path:p,rank:1}; return r; }},
+  {t:'今世想過另一種人生',go(){ fx({int:4,hap:3}); return '你決定唔重蹈覆轍。'; }},
+ ]},
+{id:'band',a:[14,24],if:()=>S.flags.music&&!S.career,w:4,text:()=>'幾個朋友想夾band，問你加唔加入。',
+ choices:[
+  {t:'加入！',go(){ return startCareer('music','你哋喺工廈租咗間band房，每晚夾到半夜。'); }},
+  {t:'讀書／搵工要緊',go(){ return '你將結他收埋入床底。'; }},
+ ]},
+{id:'teen_fill',a:[13,17],once:false,w:1,text:()=>pick(['你同朋友打機打通宵。','你開始諗將來要做乜。','你同屋企人嗌交，摔門出去。','你第一次搭夜車去好遠嘅地方。']),go(){ return ''; }},
+
+// ---------- 成年 ----------
+{id:'uni',a:[18,19],if:()=>S.flags.uniPending,w:20,text:()=>'你考到大學。不過學費唔平。',
+ choices:[
+  {t:'借學債都要讀',go(){ S.flags.uni=1; delete S.flags.uniPending; fx({int:10}); if(S.cls<=2) S.flags.debt=1; return S.cls<=2?'你成為家族第一個大學生，亦都背咗一身債。':'你入咗大學。'; }},
+  {t:'算啦，出嚟做嘢',go(){ delete S.flags.uniPending; const j=assignJob(); return `你去咗做${j}。`; }},
+ ]},
+{id:'migrate',a:[18,40],if:()=>C().t<=3&&!S.flags.migrated,w:2,text:()=>'有人話，去外國就有出路。',
+ choices:()=>{
+   const o=[];
+   if(S.wealth>=35) o.push({t:'賣晒家當，合法移民',go(){ fx({wealth:-25}); return doMigrate(false); }});
+   o.push({t:'俾錢蛇頭，偷渡',go(){ if(R()<.08){ die('偷渡途中遇難'); return '艇喺半夜翻咗。'; } return doMigrate(true); }});
+   o.push({t:'留喺家鄉',go(){ return '你留低。呢度始終係屋企。'; }});
+   return o; }},
+{id:'marry',a:[21,40],w:3,text:()=>'有個人同你拍拖幾年，對方問：「不如結婚？」',
+ choices:[
+  {t:'結婚',go(){ S.married=1; fx({hap:10,wealth:-5}); return '婚禮簡單，但大家都好開心。'; }},
+  {t:'未準備好',go(){ fx({hap:-5}); return '對方離開咗。'; }},
+ ]},
+{id:'kids',a:[23,42],if:()=>S.married,w:4,text:()=>'另一半想生BB。',
+ choices:[
+  {t:'生',go(){ S.kids=ri(1,3); fx({hap:8,wealth:-8}); return `你有咗${S.kids}個細路。屋企好嘈，但好熱鬧。`; }},
+  {t:'唔生',go(){ return '你哋決定兩個人過。'; }},
+ ]},
+{id:'loan',a:[18,55],if:()=>S.wealth<30&&!S.flags.debt,w:2,text:()=>'手頭好緊。財務公司打電話嚟：「免入息證明，即日批核。」',
+ choices:[
+  {t:'借',go(){ fx({wealth:25,hap:5}); S.flags.loan=1; return '錢即日到手。你鬆咗一口氣。'; }},
+  {t:'唔借',go(){ fx({hap:-3}); return '你再捱多陣。'; }},
+ ]},
+{id:'loan_collect',a:[19,70],if:()=>S.flags.loan,w:8,text:()=>'幾個紋身大漢喺你門口淋紅油：「還錢！」',
+ choices:[
+  {t:'變賣家當還錢',go(){ fx({wealth:-35,hap:-10}); delete S.flags.loan; return '你終於還清。'; }},
+  {t:'走佬',go(){ delete S.flags.loan; if(R()<.4){ fx({hp:-30}); return '佢哋喺火車站捉到你，打斷咗你兩條肋骨。'; } fx({jiang:5,hap:-5}); return '你連夜搬去另一個城市。'; }},
+  {t:'幫佢哋做嘢抵債',go(){ delete S.flags.loan; bad(6,'為虎作倀'); fx({jiang:12}); return '你開始幫佢哋追數。'; }},
+ ]},
+{id:'gamble',a:[18,75],once:false,w:1,text:()=>'朋友帶你去賭場。',
+ choices:[
+  {t:'全副身家押落去',go(){ if(R()<.12){ fx({wealth:35,hap:15}); return '你中咗！成個賭場都望住你。'; } fx({wealth:-25,hap:-12}); S.flags.gambler=1; return '輸清光。你話下次一定贏返。'; }},
+  {t:'玩少少',go(){ fx({wealth:-2,hap:2}); return '有輸有贏。'; }},
+  {t:'唔去',go(){ return ''; }},
+ ]},
+{id:'scam',a:[18,50],w:2,text:()=>'有人請你去東南亞「做客服」，月入過萬，包食包住。你知道其實係電騙。',
+ choices:[
+  {t:'去',go(){ bad(12,'詐騙老人積蓄'); fx({wealth:15,jiang:6}); if(R()<.3){ jail(ri(3,7)); return '你哋被一網打盡。'; } return '你每日打幾百個電話，呃人退休金。'; }},
+  {t:'報警',go(){ good(5,'舉報罪案'); return '警方話會跟進，之後冇咗下文。'; }},
+  {t:'當冇聽過',go(){ return ''; }},
+ ]},
+{id:'layoff',a:[25,60],if:()=>S.job&&!S.career,w:1.5,text:()=>`公司裁員，你${S.job}嘅位冇咗。`,go(){ fx({wealth:-10,hap:-10}); return '你搵咗三個月工，最後搵到份差唔多嘅。'; }},
+{id:'illness',a:[30,85],once:false,w:1,text:()=>'你病咗一場大病。',
+ go(){ if(S.wealth>=50){ fx({hp:-10,wealth:-10}); return '你睇私家醫生，好快就康復。'; } fx({hp:-20,wealth:-6}); return '公立醫院排期排咗半年，你一路捱。'; }},
+{id:'parent_die',a:[35,60],w:2,text:()=>'阿媽走咗。',go(){ fx({hap:-15}); return '喪禮之後，你喺佢衣櫃搵到你細個嘅成績表，佢一直留住。'; }},
+{id:'affair',a:[28,55],if:()=>S.married,w:2,text:()=>'同事對你好有好感，暗示可以發展。',
+ choices:[
+  {t:'偷食',go(){ bad(5,'背叛伴侶'); fx({hap:5}); if(R()<.4){ S.married=0; fx({hap:-20,wealth:-15}); return '另一半發現咗，你哋離婚。'; } return '冇人發現。暫時。'; }},
+  {t:'拒絕',go(){ good(2,'忠於伴侶'); return '你返屋企，抱咗另一半一下。'; }},
+ ]},
+{id:'beggar',a:[16,90],once:false,w:1,text:()=>'街角有個斷腳乞丐向你伸手。',
+ choices:[
+  {t:'俾錢',go(){ good(2,'布施'); fx({wealth:-1}); return '佢向你點頭。'; }},
+  {t:'行過',go(){ return ''; }},
+ ]},
+{id:'drown',a:[16,60],w:1.5,text:()=>'河邊有個細路跌咗落水，喺度掙扎。',
+ choices:[
+  {t:'跳落水救人',go(){ good(12,'捨身救人'); if(R()<.06){ die('捨身救人'); return '細路得救，你就冇再上岸。'; } fx({fame:6,hap:8}); return '你成功救起細路。報紙登咗你張相。'; }},
+  {t:'大叫救命',go(){ good(2,'呼救'); return '有人跳咗落去。細路得救。'; }},
+  {t:'拎手機出嚟拍片',go(){ bad(3,'見死不救'); fx({fame:2}); return '條片好多人睇。'; }},
+ ]},
+{id:'hitrun',a:[20,70],if:()=>S.wealth>=25,w:1.5,text:()=>'夜晚揸車，你撞到一個人。四圍冇人。',
+ choices:[
+  {t:'落車救人、報警',go(){ good(6,'承擔責任'); fx({wealth:-12,hap:-5}); return '傷者冇生命危險。你賠咗好多錢。'; }},
+  {t:'踩油走人',go(){ bad(15,'肇事逃逸'); if(R()<.3){ jail(ri(2,5)); return '閉路電視影到你。'; } fx({hap:-10}); return '第二日新聞話傷者搶救無效。'; }},
+ ]},
+{id:'witness',a:[20,60],w:1.5,text:()=>'你發現老闆／官員偷偷倒有毒廢料落河。',
+ choices:[
+  {t:'公開揭發',go(){ good(10,'揭發不公'); fx({fame:8}); if(C().auth&&R()<.4){ jail(ri(2,6)); return '你以「散播謠言」罪名被捕。'; } fx({wealth:-8}); return '你被炒，但條河最後清理咗。'; }},
+  {t:'收錢收聲',go(){ bad(6,'同流合污'); fx({wealth:12}); return '下游條村好多人患癌。'; }},
+ ]},
+{id:'strike',a:[20,55],if:()=>['工廠工人','製衣廠工人','建築工人','建築散工','外送員'].includes(S.job),w:2,text:()=>'工友準備罷工爭取加人工，老闆私下搵你：「做工賊，升你做管工。」',
+ choices:[
+  {t:'同工友企埋一齊',go(){ good(4,'團結工友'); fx({hap:4,wealth:-3}); return '罷工三日，老闆讓步咗少少。'; }},
+  {t:'做工賊',go(){ bad(6,'出賣工友'); fx({wealth:8}); S.job='管工'; return '你升咗職，冇人再同你食飯。'; }},
+ ]},
+{id:'disaster',a:[5,90],if:()=>C().t<=3,w:.8,text:()=>pick(['洪水沖走咗成條村。','大地震。','颱風吹塌咗你間屋。']),
+ go(){ if(R()<.04){ die('天災'); return '你冇走得切。'; } fx({hp:-8,wealth:-12,hap:-10}); return '你喺頹垣敗瓦中重新開始。'; }},
+{id:'pandemic',a:[10,95],w:.8,text:()=>'一場大流行病席捲全球。',
+ go(){ const p = S.age>70?.08:S.age>50?.02:.003; if(R()<p){ die('大流行病'); return '你喺隔離病房，見唔到屋企人最後一面。'; } fx({hap:-6,wealth:-4}); return '你喺屋企困咗兩年。'; }},
+{id:'addict_offer',a:[16,45],if:()=>S.career&&['music','gang'].includes(S.career.path)||S.jiang>=30,w:2,text:()=>'派對上有人遞粉俾你：「試下，飛到上天。」',
+ choices:[
+  {t:'試',go(){ S.flags.addict=1; fx({hap:10,hp:-10}); return '你從未咁開心過。之後，你從未咁需要過一樣嘢。'; }},
+  {t:'拒絕',go(){ return ''; }},
+ ]},
+{id:'addict',a:[16,80],once:false,if:()=>S.flags.addict,w:4,text:()=>'毒癮發作，你手震冒汗。',
+ choices:[
+  {t:'入戒毒所',go(){ if(R()<.45){ delete S.flags.addict; fx({hap:5}); good(3,'改過自新'); return '你熬過咗。'; } fx({hap:-5}); return '你出嚟之後第三日就翻食。'; }},
+  {t:'再食',go(){ fx({hp:-12,wealth:-6}); if(S.hp<15&&R()<.4){ die('吸毒過量'); return ''; } return ''; }},
+ ]},
+{id:'lung',a:[45,90],if:()=>S.flags.smoker,w:2,text:()=>'你咳咗幾個月，照肺發現有黑影。',
+ choices:[
+  {t:'即刻戒煙，積極治療',go(){ delete S.flags.smoker; fx({hp:-15,wealth:-10}); return '醫生話發現得早。'; }},
+  {t:'照食，人生苦短',go(){ fx({hp:-25,hap:3}); return ''; }},
+ ]},
+{id:'midlife',a:[38,50],w:3,text:()=>`你望住鏡入面嘅自己，問：我就係咁做${S.job||'落去'}直到退休？`,
+ choices:()=>crossChoices(true)},
+{id:'crossroad',a:[17,45],once:false,w:()=>2.2+(C().t>=3?1:0),text:()=>pick(['人生嘅交叉點喺你面前。','一個機會擺喺你面前。','你成晚瞓唔着，諗緊人生。']),
+ choices:()=>crossChoices(false)},
+{id:'donate',a:[50,90],if:()=>S.wealth>=50,w:3,text:()=>'你有咗唔少積蓄。',
+ choices:[
+  {t:'捐出大部份財產',go(){ good(20,'散盡家財行善'); fx({wealth:-40,hap:8,fame:6}); return '你建咗幾間學校。'; }},
+  {t:'留俾仔女',go(){ fx({hap:4}); return ''; }},
+  {t:'盡情揮霍',go(){ fx({hap:10,wealth:-25}); return '遊艇、名錶、環遊世界。'; }},
+ ]},
+{id:'repent',a:[55,95],if:()=>S.sin>=20,w:3,text:()=>'你夜晚發夢，夢見以前害過嘅人。',
+ choices:[
+  {t:'去搵佢哋道歉、補償',go(){ good(Math.round(S.sin*.3),'懺悔補過'); fx({wealth:-10,hap:6}); return '有人原諒你，有人當面吐口水。'; }},
+  {t:'冇做錯，係個世界咁',go(){ return ''; }},
+ ]},
+{id:'grandkids',a:[55,85],if:()=>S.kids,w:3,text:()=>'你做咗爺爺／嫲嫲。',go(){ fx({hap:12}); return '孫仔喺你懷入面瞓著。'; }},
+{id:'lonely',a:[65,100],if:()=>!S.married&&!S.kids,w:2,text:()=>'過時過節，屋企得你一個。',go(){ fx({hap:-10}); return ''; }},
+{id:'adult_fill',a:[18,64],once:false,w:1.6,text:()=>pick([
+  `你繼續做${S.job||'散工'}。日子一日一日咁過，同大部份人一樣。`,
+  `又一年。你做${S.job||'散工'}，人工加咗少少，物價加得仲多。`,
+  '你同朋友飲酒，講起細個嘅夢想，大家都笑。',
+  '你搬咗屋，間屋細咗，但離公司近啲。',
+  '你開始有白頭髮。']),go(){ return ''; }},
+{id:'old_fill',a:[65,130],once:false,w:2,text:()=>pick(['你開始成日覆診。','你坐喺門口曬太陽，望住街上嘅後生仔。','你學識咗用手機睇片。','你嘅老朋友一個一個咁走。']),go(){ return ''; }},
+
+// ---------- 新增：童年 ----------
+{id:'child_labor',a:[6,12],if:()=>S.cls<=1&&C().t<=2,w:3,text:()=>pick(['你同阿哥一齊去磚窰搬磚，一日十個鐘。','你去礦場執礦石，指甲全部爛晒。','你喺街口擦鞋，一對鞋收一蚊。']),
+ go(){ fx({hp:-8,int:-3,wealth:2}); return '收工返到屋企，你瞓到連飯都唔記得食。'; }},
+{id:'steal_food',a:[5,13],if:()=>S.cls<=1,w:2,text:()=>'你已經兩日冇食嘢。街市檔口有一袋麵包冇人睇住。',
+ choices:[
+  {t:'偷一個',go(){ bad(1,'偷竊'); fx({hp:4}); if(R()<.3){ fx({hp:-6}); return '檔主捉住你，打咗你一身。'; } return '你躲喺後巷，三啖食晒。'; }},
+  {t:'忍住，走開',go(){ fx({hp:-4}); good(1,'守本份'); return '你飲咗一肚水頂肚餓。'; }},
+ ]},
+{id:'vaccine',a:[1,4],if:()=>C().t<=2,w:3,text:()=>'有醫療隊嚟條村打疫苗，要行三個鐘山路。',
+ choices:[
+  {t:'阿媽揹你去',go(){ fx({hp:8}); return '你打咗針，喊到成條村都聽到。'; }},
+  {t:'屋企人話打針會病',go(){ fx({hp:-4}); S.flags.novax=1; return '你冇打。'; }},
+ ]},
+{id:'grandma',a:[4,10],w:1.5,text:()=>'嫲嫲成日同你講古，講佢細個點樣捱過饑荒同戰亂。',go(){ fx({hap:5,int:2}); return '你覺得而家嘅日子都唔算差。'; }},
+{id:'sport_talent',a:[7,13],w:2,text:()=>'學校運動會，你跑贏晒全級。體育老師問你有冇興趣練田徑。',
+ choices:[
+  {t:'練！',go(){ S.flags.athlete=1; fx({hp:8,hap:3}); return '你每朝五點起身跑步。'; }},
+  {t:'冇興趣',go(){ return ''; }},
+ ]},
+{id:'homework',a:[8,14],w:1.5,text:()=>'同學想抄你功課。',
+ choices:[
+  {t:'俾佢抄',go(){ fx({hap:2}); return '佢請你食咗一包薯片。'; }},
+  {t:'唔俾，叫佢自己做',go(){ return '佢之後一個禮拜唔同你講嘢。'; }},
+  {t:'教佢點做',go(){ good(2,'助人'); fx({int:2}); return '佢終於明咗。'; }},
+ ]},
+{id:'lost',a:[3,7],w:1,text:()=>'你喺人山人海嘅市集同屋企人失散。',
+ go(){ if(C().t<=2&&R()<.05){ S.flags.trafficked=1; fx({hap:-25,hp:-10}); return '一個陌生人拖住你行。你之後好多年都見唔返屋企人。'; } return '一個賣菜阿婆陪你等，阿媽喊住跑返嚟。'; }},
+{id:'child_bride',a:[12,16],if:()=>!S.male&&S.cls<=1&&C().t<=2,w:4,text:()=>'阿爸收咗聘金，要你嫁俾隔籬村一個大你二十歲嘅男人。',
+ choices:[
+  {t:'連夜逃走',go(){ fx({hap:-5,jiang:8}); S.flags.runaway=1; return '你搭咗架貨車去咗城市，身上得幾個銀仔。'; }},
+  {t:'認命',go(){ S.married=1; fx({hap:-15,int:-5}); return '你停咗學。十六歲，你生咗第一個細路。'; }},
+ ]},
+
+// ---------- 新增：少年 ----------
+{id:'cyberbully',a:[13,19],if:()=>C().t>=3,w:2,text:()=>'班群入面，大家起緊一個同學底，仲改圖嘲笑佢。',
+ choices:[
+  {t:'一齊改圖',go(){ bad(3,'網上欺凌'); return '你張圖最多人like。'; }},
+  {t:'喺群組講句「夠啦」',go(){ good(3,'仗義執言'); fx({hap:-3}); return '冇人覆你，但嗰個同學私訊你講多謝。'; }},
+  {t:'靜靜雞退群',go(){ return ''; }},
+ ]},
+{id:'shoplift',a:[12,17],w:2,text:()=>'朋友喺便利店塞咗包糖入褲袋，示意你都拎啲。',
+ choices:[
+  {t:'跟住拎',go(){ bad(2,'盜竊'); if(R()<.25){ fx({hap:-8}); return '店員捉住你，打電話叫你屋企人嚟。'; } fx({jiang:3}); return '好刺激。'; }},
+  {t:'唔拎',go(){ return '朋友話你冇膽。'; }},
+ ]},
+{id:'coding',a:[13,20],if:()=>C().t>=3&&S.int>=50,w:2,text:()=>'你喺網上睇到寫程式教學，好似好好玩。',
+ choices:[
+  {t:'自學到半夜',go(){ S.flags.coder=1; fx({int:6,hap:2,hp:-2}); return '你寫咗第一個遊戲，雖然得你自己玩。'; }},
+  {t:'睇兩條片就算',go(){ return ''; }},
+ ]},
+{id:'runaway',a:[13,17],if:()=>S.hap<35,w:3,text:()=>'屋企嘅氣氛令你透唔到氣。',
+ choices:[
+  {t:'離家出走',go(){ fx({jiang:8,hap:4,hp:-5}); S.flags.street=1; return '你喺天橋底瞓咗兩晚，識咗啲街頭朋友。'; }},
+  {t:'忍到十八歲',go(){ fx({hap:-4,int:2}); return '你喺日記寫低倒數。'; }},
+ ]},
+{id:'tryout',a:[15,22],if:()=>S.flags.athlete&&!S.career,w:6,text:()=>'職業隊嘅球探睇中你，邀請你試訓。',
+ choices:[
+  {t:'去試訓',go(){ if(S.hp+R()*40>75) return startCareer('sport','你簽咗第一份職業合約。'); fx({hap:-6}); return '你喺試訓扭傷腳，落選。'; }},
+  {t:'專心讀書',go(){ return '你將跑鞋收起。'; }},
+ ]},
+{id:'first_job_abuse',a:[15,20],if:()=>S.cls<=2,w:1.5,text:()=>'你第一份工，老闆扣起你三個月人工。',
+ choices:[
+  {t:'去勞工處投訴',go(){ if(C().t>=4||R()<.4){ fx({wealth:3}); return '你攞返啲錢。'; } fx({hap:-6}); return '職員話：「你有冇合約？冇？咁冇計。」'; }},
+  {t:'夜晚返去砸佢舖',go(){ bad(3,'刑事毀壞'); fx({jiang:6}); if(R()<.3){ jail(1); return '你被捕。'; } return '你覺得好爽。'; }},
+  {t:'算數',go(){ fx({hap:-4}); return ''; }},
+ ]},
+
+// ---------- 新增：成年 ----------
+{id:'tech_startup',a:[21,40],if:()=>S.flags.coder&&!S.career,w:4,text:()=>'你同兩個朋友寫咗個app，有投資者有興趣。',
+ choices:[
+  {t:'辭工，全力創業',go(){ const r=startCareer('biz','你哋喺劏房開咗間公司。'); if(R()<.35){ S.career.rank=2; S.job=CAREERS.biz.ranks[2]; S.peak={path:'biz',rank:2}; fx({wealth:25}); return r+' 一年後，你哋融資成功，估值過億。'; } return r; }},
+  {t:'穩陣返工',go(){ return '後來嗰個app被大公司收購咗。你冇份。'; }},
+ ]},
+{id:'crypto',a:[20,60],if:()=>C().t>=3,w:1.5,text:()=>'朋友話有隻新幣一定升一百倍。',
+ choices:[
+  {t:'All in',go(){ if(R()<.15){ fx({wealth:40,hap:15}); return '真係升咗一百倍！你即刻沽晒。'; } fx({wealth:-25,hap:-12}); return '個幣歸零，項目方走佬。'; }},
+  {t:'買少少玩下',go(){ fx({wealth:R()<.4?3:-3}); return ''; }},
+  {t:'唔買',go(){ return ''; }},
+ ]},
+{id:'property',a:[27,50],if:()=>S.wealth>=40&&!S.flags.home,w:2,text:()=>'樓價又創新高。人人都話「今日唔買，聽日更貴」。',
+ choices:[
+  {t:'借盡按揭上車',go(){ S.flags.home=1; fx({wealth:-20,hap:8}); return '你成為業主，之後三十年為銀行打工。'; }},
+  {t:'繼續租',go(){ return ''; }},
+ ]},
+{id:'neg_equity',a:[28,70],if:()=>S.flags.home,w:1.5,text:()=>'樓市大跌，你層樓變咗負資產。',go(){ fx({wealth:-15,hap:-10}); return '你每個月供緊一層唔值錢嘅樓。'; }},
+{id:'friend_loan',a:[20,65],w:2,text:()=>'老朋友開口借錢，話屋企出咗事。',
+ choices:[
+  {t:'借',go(){ good(3,'雪中送炭'); if(R()<.5){ fx({wealth:-10}); return '佢之後冇再出現。'; } return '一年後佢還錢，仲請你食飯。'; }},
+  {t:'唔借',go(){ return '你哋之後冇再聯絡。'; }},
+ ]},
+{id:'draft',a:[18,40],if:()=>C().war&&!S.career,w:5,text:()=>'軍隊入村徵兵。',
+ choices:[
+  {t:'從軍',go(){ return startCareer('mil','你被送上前線。'); }},
+  {t:'逃兵，躲入山',go(){ if(R()<.3){ jail(ri(2,5)); return '你被捉到。'; } fx({hap:-8}); return '你喺山洞躲咗半年。'; }},
+  {t:'俾錢買通',go(){ if(S.wealth>=20){ fx({wealth:-20}); bad(2,'行賄'); return '你個名喺名單上消失。'; } jail(ri(1,3)); return '你冇錢，佢哋當你逃兵。'; }},
+ ]},
+{id:'refugee',a:[20,80],if:()=>C().t>=4,w:1.5,text:()=>'附近要起難民收容所，街坊聯署反對。',
+ choices:[
+  {t:'支持收容所',go(){ good(3,'接納他人'); fx({hap:-2}); return '有街坊喺你門口貼紙罵你。'; }},
+  {t:'簽名反對',go(){ bad(2,'排斥弱者'); return ''; }},
+  {t:'唔關我事',go(){ return ''; }},
+ ]},
+{id:'lottery',a:[18,90],once:false,w:.5,text:()=>'你買咗張彩票。',
+ go(){ if(R()<.01){ fx({wealth:60,hap:20}); return '頭獎！你喺電視機前面嗌到隔籬屋報警。'; } fx({wealth:-1}); return '冇中。'; }},
+{id:'cult',a:[25,65],w:1.5,text:()=>'有個「心靈成長課程」話可以令你脫胎換骨，學費唔平。',
+ choices:[
+  {t:'報名',go(){ fx({wealth:-20,hap:8}); S.flags.cult=1; return '導師話你前世業障深重，要再交錢先可以「升班」。'; }},
+  {t:'婉拒',go(){ return ''; }},
+ ]},
+{id:'fire',a:[18,80],w:1.5,text:()=>'半夜火警，隔籬屋傳嚟細路喊聲。',
+ choices:[
+  {t:'衝入去救',go(){ good(10,'火場救人'); if(R()<.04){ die('火場救人'); return '你抱住細路衝出嚟，自己就冇再起身。'; } fx({hp:-12,fame:5}); return '你同細路都救咗出嚟。'; }},
+  {t:'逃生，打999',go(){ good(1,'報警'); return '消防十分鐘後到。'; }},
+ ]},
+{id:'seat',a:[15,70],once:false,w:.8,text:()=>'車廂好迫，有個大肚婆企喺你面前。',
+ choices:[
+  {t:'讓座',go(){ good(1,'讓座'); return ''; }},
+  {t:'扮瞓',go(){ return ''; }},
+ ]},
+{id:'bribe_cop',a:[18,70],if:()=>C().t<=3,w:1.5,text:()=>'交通警截停你，暗示「俾少少茶錢就算」。',
+ choices:[
+  {t:'俾',go(){ bad(1,'行賄'); fx({wealth:-2}); return ''; }},
+  {t:'唔俾',go(){ fx({wealth:-5,hap:-4}); return '你被告咗三條罪，罰款仲貴。'; }},
+ ]},
+{id:'care_parent',a:[35,62],w:2.5,text:()=>'阿爸中風，要人全日照顧。',
+ choices:[
+  {t:'辭工親自照顧',go(){ good(8,'孝順父母'); fx({wealth:-15,hap:-8}); return '你陪佢捱咗三年。佢臨走前叫咗你個名。'; }},
+  {t:'送老人院',go(){ fx({wealth:-8}); return '你每個禮拜去探佢一次，後來變咗每個月。'; }},
+  {t:'由得佢',go(){ bad(6,'不顧父母'); return '佢喺屋企跌低，兩日後先有人發現。'; }},
+ ]},
+{id:'inherit',a:[25,65],if:()=>S.cls>=4,w:3,text:()=>'家族長輩過身，兄弟姊妹爭遺產。',
+ choices:[
+  {t:'請律師爭到盡',go(){ bad(4,'骨肉相殘'); fx({wealth:20,hap:-8}); return '你贏咗官司，輸咗所有親人。'; }},
+  {t:'平分，和氣收場',go(){ good(4,'顧全親情'); fx({hap:4}); return ''; }},
+ ]},
+{id:'ai_job',a:[25,60],if:()=>C().t>=4&&!S.career,w:2,text:()=>`公司引入AI，你${S.job}嘅工作被取代。`,
+ choices:[
+  {t:'讀夜校轉行',go(){ fx({int:6,wealth:-6,hap:-3}); S.job=pick(['護理員','水喉匠','電工','社工']); return `你轉做${S.job}。AI暫時未搶到呢份工。`; }},
+  {t:'攞失業救濟',go(){ fx({wealth:-10,hap:-10}); return ''; }},
+ ]},
+{id:'kid_trouble',a:[40,65],if:()=>S.kids,w:2,text:()=>'你個仔女同壞人行埋，仲俾差人帶咗返警署。',
+ choices:[
+  {t:'狠狠咁鬧佢',go(){ fx({hap:-6}); return '佢摔門走咗，幾日冇返屋企。'; }},
+  {t:'坐低同佢傾',go(){ good(2,'教子有方'); fx({hap:2}); return '佢喊咗，話好耐冇人聽佢講嘢。'; }},
+ ]},
+{id:'reunion',a:[35,70],if:()=>S.flags.firstlove,w:2,text:()=>'舊同學聚會，你見返初戀。',
+ choices:()=>S.married?[
+  {t:'交換電話',go(){ bad(2,'心猿意馬'); fx({hap:4}); return '你哋之後成日WhatsApp。'; }},
+  {t:'微笑問好就算',go(){ return '你返到屋企，抱住另一半瞓。'; }},
+ ]:[
+  {t:'約佢食飯',go(){ if(R()<.5){ S.married=1; fx({hap:15}); return '兜兜轉轉，你哋終於一齊。'; } return '佢已經有家庭。你哋做返朋友。'; }},
+  {t:'就咁算',go(){ return ''; }},
+ ]},
+{id:'volunteer',a:[18,85],w:1.5,text:()=>'社區中心請人派飯俾無家者。',
+ choices:[
+  {t:'報名做義工',go(){ good(4,'做義工'); fx({hap:5}); return '有個伯伯每次都同你講佢以前做海員嘅事。'; }},
+  {t:'冇時間',go(){ return ''; }},
+ ]},
+{id:'organ',a:[18,45],if:()=>S.cls<=1&&C().t<=2,w:2,text:()=>'中介話：賣一個腎，夠你屋企食兩年。',
+ choices:[
+  {t:'賣',go(){ fx({wealth:15,hp:-20}); if(R()<.05){ die('非法摘腎手術併發症'); return '手術室好污糟。'; } return '你條疤由背脊一直去到肚。'; }},
+  {t:'唔賣',go(){ return ''; }},
+ ]},
+{id:'depress',a:[20,70],if:()=>S.hap<25,w:3,text:()=>'你每朝都起唔到身，咩都提唔起勁。',
+ choices:[
+  {t:'搵人傾、睇醫生',go(){ fx({hap:15,wealth:-3}); return '醫生話：「你肯嚟，已經好勇敢。」'; }},
+  {t:'自己頂住',go(){ fx({hap:-5,hp:-5}); return ''; }},
+ ]},
+{id:'gang_war',a:[16,70],if:()=>S.career&&S.career.path==='gang',w:2,text:()=>'兩個社團為咗地盤開片。',
+ choices:[
+  {t:'帶頭衝',go(){ bad(5,'聚眾鬥毆'); fx({jiang:10}); if(R()<.08){ die('江湖仇殺'); return ''; } fx({hp:-15}); return '你身上多咗幾條刀疤。'; }},
+  {t:'喺後面睇定啲',go(){ fx({jiang:-6}); return '大佬留意到你縮。'; }},
+ ]},
+{id:'fixing',a:[16,40],if:()=>S.career&&S.career.path==='sport',w:3,text:()=>'有賭集團搵你打假波，報酬係你一年人工。',
+ choices:[
+  {t:'收錢',go(){ bad(8,'打假波'); fx({wealth:15}); if(R()<.25){ S.career=null; S.job='被終身禁賽'; fx({fame:-20}); return '事敗，你被終身禁賽。'; } return ''; }},
+  {t:'舉報',go(){ good(6,'維護公平'); fx({fame:5}); return ''; }},
+ ]},
+{id:'sport_retire',a:[33,40],if:()=>S.career&&S.career.path==='sport',w:8,text:()=>'你嘅身體開始跟唔上。',
+ choices:[
+  {t:'退役做教練',go(){ S.career=null; S.job='教練'; fx({hap:3}); return '你開始教細路。'; }},
+  {t:'打到最後一場',go(){ fx({hp:-10,fame:3}); return ''; }},
+ ]},
+
+// ---------- 新增：晚年 ----------
+{id:'old_scam',a:[65,95],w:2,text:()=>'有人打電話嚟：「我係你孫，出咗事，即刻要錢。」',
+ choices:[
+  {t:'即刻過數',go(){ fx({wealth:-20,hap:-10}); return '你孫第二日打嚟問你食咗飯未。'; }},
+  {t:'收線，打返俾個孫',go(){ fx({hap:2}); return ''; }},
+ ]},
+{id:'will',a:[70,100],w:2,text:()=>'律師問你遺囑點寫。',
+ choices:()=>S.kids?[
+  {t:'平分俾仔女',go(){ return ''; }},
+  {t:'全部捐出去',go(){ good(Math.max(3,Math.round(S.wealth/5)),'遺產捐贈'); return '仔女喺喪禮上冇喊。'; }},
+ ]:[
+  {t:'捐俾慈善機構',go(){ good(Math.max(3,Math.round(S.wealth/5)),'遺產捐贈'); return ''; }},
+  {t:'留俾隻貓',go(){ fx({hap:5}); return '新聞報導咗。'; }},
+ ]},
+{id:'memoir',a:[65,100],w:1.5,text:()=>'你開始寫回憶錄。',
+ choices:[
+  {t:'照直寫，包括做錯嘅事',go(){ if(S.sin>0) good(3,'坦承過錯'); fx({hap:5}); return ''; }},
+  {t:'只寫光輝事蹟',go(){ fx({hap:3}); return ''; }},
+ ]},
+
+// ---------- 職涯專屬 ----------
+{id:'promo',a:[14,80],once:false,if:()=>S.career&&S.career.rank<4&&!(S.career.path==='sport'&&S.age>36),w:5,text:()=>CAREERS[S.career.path].promo,
+ choices:()=>{ const K=CAREERS[S.career.path]; return [
+   {t:K.clean,go:()=>tryPromo(false)},
+   {t:K.dirty,go:()=>tryPromo(true)},
+   {t:'唔搏住，保持現狀',go:()=>'你揀穩陣。機會一閃即逝。'}]; }},
+{id:'g_collect',a:[14,70],once:false,if:()=>S.career&&S.career.path==='gang',w:2,text:()=>'大佬叫你去收數。欠債嘅係個阿伯，屋企得一張床。',
+ choices:[
+  {t:'照斬',go(){ bad(8,'暴力追債'); fx({jiang:8,wealth:3}); return '阿伯跪喺地上求你。'; }},
+  {t:'自己墊錢放過佢',go(){ good(5,'惻隱之心'); fx({wealth:-5,jiang:-6}); return '大佬話你心軟，做唔成大事。'; }},
+ ]},
+{id:'g_rat',a:[18,70],if:()=>S.career&&S.career.path==='gang',w:2,text:()=>'差人搵上你：「做線人，你嘅案底我幫你搞掂。」',
+ choices:[
+  {t:'做二五仔',go(){ bad(5,'出賣兄弟'); S.flags.rat=1; return '你每個禮拜同佢喺茶餐廳見面。'; }},
+  {t:'拒絕',go(){ if(R()<.35){ jail(ri(3,8)); return '一個月之後，你被差人以舊案拉咗。'; } return '你冇事，暫時。'; }},
+ ]},
+{id:'g_quit',a:[30,70],if:()=>S.career&&S.career.path==='gang'&&S.career.rank>=1,w:2,text:()=>'你喺醫院探完被斬嘅兄弟，諗：係時候收手？',
+ choices:[
+  {t:'金盆洗手',go(){ good(6,'金盆洗手'); S.career=null; S.job='茶餐廳老闆'; fx({jiang:-15,hap:5}); return '你開咗間茶餐廳，偶爾有舊兄弟嚟食飯。'; }},
+  {t:'一入江湖，身不由己',go(){ fx({jiang:4}); return ''; }},
+ ]},
+{id:'m_charity',a:[16,80],if:()=>S.career&&S.career.path==='music'&&S.career.rank>=2,w:2,text:()=>'有人邀請你為災民開慈善騷，冇酬勞。',
+ choices:[
+  {t:'義唱',go(){ good(7,'義演賑災'); fx({fame:5,hap:5}); return '全場大合唱。'; }},
+  {t:'推咗佢',go(){ return '經理人話你好醒。'; }},
+ ]},
+{id:'b_sweat',a:[18,80],if:()=>S.career&&S.career.path==='biz'&&S.career.rank>=1,w:2,text:()=>'顧問話：搬廠去冇勞工法例嘅地方，成本減一半。',
+ choices:[
+  {t:'搬，利潤至上',go(){ bad(10,'壓榨勞工'); fx({wealth:12}); return '新廠嘅工人每日做十四個鐘。'; }},
+  {t:'俾合理人工',go(){ good(5,'善待員工'); fx({wealth:-4}); return '員工喺你生日送咗張卡。'; }},
+ ]},
+{id:'b_crash',a:[20,80],if:()=>S.career&&S.career.path==='biz'&&S.career.rank>=2,w:1.5,text:()=>'金融風暴。',
+ go(){ fx({wealth:-25,hap:-10}); if(R()<.4){ S.career.rank--; S.job=CAREERS.biz.ranks[S.career.rank]; return '你嘅公司縮水，好多年心血一夜冇咗。'; } return '你捱過咗，執咗好多平貨。'; }},
+{id:'p_bribe',a:[20,80],if:()=>S.career&&S.career.path==='pol'&&S.career.rank>=1,w:2,text:()=>'地產商送嚟一個信封：「一啲小心意。」',
+ choices:[
+  {t:'收',go(){ bad(10,'貪污受賄'); fx({wealth:15}); if(R()<.2){ jail(ri(2,6)); S.career=null; return '廉署上門。'; } return ''; }},
+  {t:'退返',go(){ good(4,'清廉'); return ''; }},
+ ]},
+{id:'p_crack',a:[25,90],if:()=>S.career&&S.career.path==='pol'&&S.career.rank>=3,w:3,text:()=>'全國大示威，軍方問你：「開唔開槍？」',
+ choices:[
+  {t:'下令鎮壓',go(){ bad(30,'下令屠殺示威者'); fx({hap:-10}); return '廣場清場。歷史書冇記低呢一日，但你記得。'; }},
+  {t:'拒絕，同人民對話',go(){ good(20,'拒絕鎮壓'); if(C().auth){ S.career=null; jail(ri(5,15)); return '你被黨內同志軟禁，罪名係「分裂」。'; } S.career.rank=Math.max(1,S.career.rank-1); return '你被逼落台，但冇人流血。'; }},
+ ]},
+{id:'mo_donate',a:[18,95],if:()=>S.career&&S.career.path==='monk'&&S.career.rank>=1,w:2,text:()=>'有大施主捐咗一筆巨款俾寺院。',
+ choices:[
+  {t:'用嚟賑災、施粥',go(){ good(10,'以財濟世'); fx({fame:4}); return '寺門口排長龍。'; }},
+  {t:'起金殿，順便袋少少',go(){ bad(12,'中飽私囊'); fx({wealth:15}); return '金殿好靚。'; }},
+ ]},
+{id:'mo_teach',a:[25,95],once:false,if:()=>S.career&&S.career.path==='monk'&&S.career.rank>=2,w:1.5,text:()=>'有個迷失嘅後生嚟問你人生意義。',
+ go(){ good(4,'開示眾生'); fx({hap:3}); return '佢離開時，眼神清咗。'; }},
+{id:'s_vaccine',a:[25,85],if:()=>S.career&&S.career.path==='sci'&&S.career.rank>=2,w:2,text:()=>'你研發出一種可以救幾百萬人嘅新藥。',
+ choices:[
+  {t:'放棄專利，公開配方',go(){ good(20,'公開救命藥方'); fx({fame:12}); return '窮國嘅藥廠即刻開始生產。'; }},
+  {t:'申請專利，高價出售',go(){ fx({wealth:30}); bad(5,'囤積救命藥'); return '你成為億萬富翁。'; }},
+ ]},
+{id:'mi_massacre',a:[18,70],if:()=>S.career&&S.career.path==='mil',w:2,text:()=>'上級命令：「條村有叛軍，全村清除。」',
+ choices:[
+  {t:'執行命令',go(){ bad(25,'屠村'); fx({hap:-15}); return '你之後每晚都聽到嗰啲聲。'; }},
+  {t:'抗命',go(){ good(15,'抗命救村民'); if(R()<.4){ die('抗命被處決'); return '你被軍事法庭判處死刑。'; } S.career=null; jail(ri(2,6)); return '你被開除軍籍，送入軍事監獄。'; }},
+ ]},
+{id:'mi_coup',a:[30,75],if:()=>S.career&&S.career.path==='mil'&&S.career.rank===3,w:3,text:()=>'幾個將軍秘密約你：「政府腐敗，我哋接管。」',
+ choices:[
+  {t:'發動政變',go(){ bad(10,'發動政變'); if(R()<.55){ S.career.rank=4; S.job='軍政府首腦'; ach('leader'); fx({fame:30,wealth:30}); return '坦克開入首都。你喺電視宣佈：「國家由今日起，由我守護。」'; } if(R()<.5){ die('政變失敗被處決'); return ''; } S.career=null; jail(ri(10,20)); return '政變失敗。'; }},
+  {t:'告密',go(){ fx({fame:6}); bad(3,'出賣同袍'); return '幾個將軍被捕，你升職加薪。'; }},
+  {t:'置身事外',go(){ return ''; }},
+ ]},
+
+// ---------- 監獄 ----------
+{id:'j_life',a:[0,130],jail:1,once:false,w:3,text:()=>'監倉入面，日子好長。',
+ choices:[
+  {t:'讀書，改過自新',go(){ good(4,'獄中悔改'); fx({int:5}); return '你喺獄中考咗個文憑。'; }},
+  {t:'拜監倉大佬',go(){ fx({jiang:12}); bad(2,'獄中結黨'); return '大佬話：「出去之後搵我。」'; }},
+ ]},
+{id:'j_riot',a:[0,130],jail:1,w:1,text:()=>'獄中發生暴動。',go(){ fx({hp:-12}); if(R()<.04){ die('獄中暴動'); return ''; } return '你縮埋喺角落，捱過咗。'; }},
+{id:'j_fill',a:[0,130],jail:1,once:false,w:2,text:()=>'你喺獄中又過咗一年。',go(){ return ''; }},
+
+// ---------- 畜生道 ----------
+{id:'b_dog1',beast:'dog',w:3,text:()=>'一個細路被惡狗追，喊到失聲。',
+ choices:[
+  {t:'撲出去咬走惡狗',go(){ good(8,'護主之義'); fx({hp:-20}); return '細路得救，你條腳跛咗。'; }},
+  {t:'夾住尾走',go(){ return ''; }},
+ ]},
+{id:'b_dog2',beast:'dog',w:2,text:()=>'街市阿嬸每日留啲飯俾你。',go(){ fx({hap:10}); return '你每日喺佢檔口等佢收工，陪佢行返屋企。'; }},
+{id:'b_chicken',beast:'chicken',w:3,text:()=>'你喺一個A4紙咁大嘅籠入面長大。隔籠隻雞一直啄你。',
+ choices:[
+  {t:'啄返佢',go(){ bad(1,'相殘'); return ''; }},
+  {t:'縮埋一角',go(){ return ''; }},
+  {t:'對住燈光叫',go(){ good(1,'忍辱'); return '冇人聽到。'; }},
+ ]},
+{id:'b_cow',beast:'cow',once:false,w:3,text:()=>'你日日拉犁，條鞭落喺背脊。',go(){ good(3,'勞苦還債'); fx({hp:-10}); return '主人家靠你養大咗三個細路。'; }},
+{id:'b_cat',beast:'cat',w:3,text:()=>'有個獨居老人每日放貓糧喺樓梯口。',
+ choices:[
+  {t:'陪佢',go(){ good(8,'陪伴孤老'); return '老人過身嗰晚，你喺佢床邊。'; }},
+  {t:'食完就走',go(){ return ''; }},
+ ]},
+{id:'b_rat',beast:'rat',w:3,text:()=>'米倉入面有好多米。',
+ choices:[
+  {t:'偷食',go(){ bad(1,'偷竊'); return ''; }},
+  {t:'咬電線',go(){ bad(4,'引致火災'); return '貨倉燒咗。'; }},
+ ]},
+{id:'b_fill',beast:'any',once:false,w:1,text:()=>'你為咗搵食，又過咗一日。',go(){ return ''; }},
+];
+
+function examResult(bonus){
+  const p = S.int/120 + bonus + (S.cls>=3?.1:0);
+  if(R() < p){ S.flags.uniPending = 1; fx({hap:5}); return '放榜，你考到大學嘅分數。'; }
+  return '放榜，分數唔夠入大學。';
+}
+function doMigrate(illegal){
+  const dests = COUNTRIES.filter(c => c.t>=4 && c.reg!==C().reg);
+  const d = wpick(dests, c => c.w);
+  const from = C().n;
+  S.ci = COUNTRIES.indexOf(d);
+  S.flags.migrated = 1; ach('migrant');
+  S.cls = illegal ? 1 : Math.max(1, Math.min(S.cls, 2));
+  if(illegal){ S.flags.illegal = 1; S.job = pick(['餐館洗碗','黑工','農場散工','建築散工']); fx({hap:-5}); return `你由${from}偷渡到咗${d.n}。冇身份，只可以做${S.job}。`; }
+  S.job = pick(['餐館侍應','超市理貨','的士司機','護理員']);
+  return `你移民到${d.n}。你以前嘅學歷唔被承認，由${S.job}做起。`;
+}
+function startCareer(path, txt){
+  S.career = {path, rank:0};
+  S.job = CAREERS[path].ranks[0];
+  if(!S.peak || S.peak.rank < 0) S.peak = {path, rank:0};
+  if(path==='gang'){ fx({jiang:10}); bad(3,'加入黑社會'); }
+  if(path==='monk'){ fx({wealth:-30,hap:5}); good(3,'發心出家'); if(S.married) bad(3,'拋妻棄子'); }
+  if(path==='biz') fx({wealth:-10});
+  return txt;
+}
+function crossChoices(mid){
+  const o = [];
+  const cur = S.career && S.career.path;
+  if(cur!=='gang' && (S.jiang>=10||S.cls<=2)) o.push({t:'加入社團，搵快錢',go:()=>startCareer('gang','你斟茶拜咗大佬，正式入咗社團。')});
+  if(cur!=='music' && (S.flags.music||tl('樂感'))) o.push({t:'辭工，全職玩音樂',go:()=>startCareer('music','你揹住結他去街頭賣唱，第一晚收咗幾個銀仔。')});
+  if(cur!=='biz' && (S.wealth>=15||tl('商才'))) o.push({t:'拎晒積蓄出嚟創業',go:()=>startCareer('biz','你開咗一間小店。')});
+  if(cur!=='pol' && S.age>=18) o.push({t:'投身社運／從政',go:()=>startCareer('pol', C().auth?'喺呢個國家搞政治係危險嘅。你仍然企咗出嚟。':'你開始落區派傳單。')});
+  if(cur!=='monk') o.push({t:'看破紅塵，出家修行',special:S.flags.zen||tl('佛緣'),go:()=>startCareer('monk','你剃度出家。')});
+  if(cur!=='sci' && S.int>=60 && S.age<=40) o.push({t:'返去讀研究院做研究',go:()=>startCareer('sci','你重新做返學生。')});
+  if(cur!=='sport' && S.flags.athlete && S.age<=26) o.push({t:'轉做職業運動員',go:()=>startCareer('sport','你重新落場。')});
+  if(cur!=='mil' && S.age<=30) o.push({t:'參軍',go:()=>startCareer('mil','你著上軍服。')});
+  const out = shuffle(o).slice(0, 3);
+  out.push({t:mid?'算啦，繼續過平凡日子':'維持現狀',go:()=>mid?'你諗咗一晚，最後都係返工。大部份人都係咁。':'你冇改變乜嘢。'});
+  return out;
+}
+function tryPromo(dirty){
+  const k = S.career.path, K = CAREERS[k], r = S.career.rank;
+  let p = K.base + (S[K.stat]||0)/220 + tl(K.tal)*.1 - r*.04 + (dirty?.25:0);
+  if(k==='monk') p += Math.max(0, S.merit - S.sin)/200;
+  if(k==='music' && S.flags.music) p += .05;
+  if(dirty) bad(K.dirtySin, K.dirtyWhy);
+  else if(K.cleanMerit) good(K.cleanMerit, K.cleanWhy);
+  if(!dirty && K.risk && R() < K.risk){ die(K.riskCause); return K.riskText; }
+  if(R() < p){
+    S.career.rank++;
+    const nr = K.ranks[S.career.rank];
+    S.job = nr;
+    fx(K.upFx);
+    if(K.upSin) bad(K.upSin[0], K.upSin[1]);
+    if(!S.peak || S.career.rank >= S.peak.rank) S.peak = {path:k, rank:S.career.rank};
+    if(S.career.rank===4) ach(K.ach);
+    if(k==='monk' && S.career.rank>=3) SOUL.buddha = true;
+    return `${K.win}你成為「${nr}」。`;
+  }
+  fx(K.failFx);
+  if(dirty && K.dirtyJail && R()<K.dirtyJail){ jail(ri(2,6)); S.career=null; return '事敗，你被捕。'; }
+  if(K.failJail && R()<K.failJail){ jail(ri(2,6)); return K.fail + '仲俾差人拉咗。'; }
+  if(K.authJail && C().auth && R()<K.authJail){ jail(ri(3,10)); S.career=null; return '當局以「顛覆」罪名拘捕你。'; }
+  return K.fail;
+}
+
+function eligible(e){
+  if(S.beast){ return e.beast===S.beast || e.beast==='any'; }
+  if(e.beast) return false;
+  if(!!S.jail !== !!e.jail) return false;
+  if(e.a && (S.age < e.a[0] || S.age > e.a[1])) return false;
+  if(e.once!==false && S.seen[e.id]) return false;
+  if(e.once===false && S.last[e.id]!=null && S.age - S.last[e.id] < (e.jail||S.beast?0:3) && !e.id.endsWith('fill')) return false;
+  if(e.if && !e.if()) return false;
+  return true;
+}
+function pickEvent(){
+  const pool = EVENTS.filter(eligible);
+  return wpick(pool, e => typeof e.w==='function' ? e.w() : (e.w||1));
+}
+const EV = Object.fromEntries(EVENTS.map(e => [e.id, e]));
+
+/* ============ 回合 ============ */
+function logE(text, kind){ if(text) S.log.push({y:S.beast?'':S.age, t:text, k:kind||'', d:S.lastK||0}); S.lastK = 0; }
+function advance(){
+  if(S.alive){
+    const yrs = stepYears();
+    if(S.age===0 && !S.beast){
+      // 第一年：嬰兒死亡率
+      const c = C(); const mod = [1.6,1.25,1,.6,.35,.25][S.cls] * (SOUL.K<0 ? 1 + (-SOUL.K)/200 : 1);
+      S.age = 1;
+      if(R() < c.u5/1000*.7*mod){ die(deathCause()); ach('infant'); }
+    } else {
+      for(let i=0;i<yrs;i++){ yearTick(); if(!S.alive) break; }
+    }
+    if(S.beast){ S.bturns++; if(S.bturns > S.blife){ die(BEASTS[S.beast].cause); } }
+  }
+  if(!S.alive){ logE(deathLine(), 'death'); S.pending=null; save(); render(); return; }
+  const e = pickEvent();
+  S.seen[e.id] = 1; S.last[e.id] = S.age;
+  const head = e.text();
+  if(e.go){ const out = e.go(); logE(head + (out?' '+out:'')); S.pending = null;
+    if(!S.alive){ logE(deathLine(), 'death'); }
+  } else { S.pending = {id:e.id, text:head}; CH = null; }
+  save(); render();
+}
+function deathLine(){
+  if(S.beast) return `你${S.cause}。`;
+  const when = S.age<=1 ? '你未滿一歲' : `你喺${S.age}歲`;
+  return S.cause==='壽終正寢' ? `${when}壽終正寢。` : `${when}死於${S.cause}。`;
+}
+// 選項快取放喺 S 外面：入面有 function，唔可以 JSON 化
+let CH = null, CH_KEY = '';
+function currentChoices(){
+  const e = EV[S.pending.id], key = S.pending.id + '@' + S.age;
+  if(!CH || CH_KEY !== key){
+    CH = typeof e.choices==='function' ? e.choices() : e.choices.filter(c => !c.if || c.if());
+    CH_KEY = key;
+  }
+  return CH;
+}
+function choose(i){
+  const ch = currentChoices()[i];
+  logE(S.pending.text);
+  const out = ch.go();
+  S.log.push({y:'', t:'›  ' + ch.t, k:'choice', d:S.lastK||0}); S.lastK = 0;
+  if(out) logE(out);
+  S.pending = null; CH = null;
+  if(!S.alive) logE(deathLine(), 'death');
+  save(); render();
+}
+
+/* ============ 審判 ============ */
+function judge(){
+  if(UI.judge){ UI.screen = 'judge'; render(); return; }
+  const net = S.merit - S.sin;
+  if(!S.beast){
+    if(S.age>=100) ach('centenarian');
+    if(S.merit>=60) ach('saint');
+    if(S.sin>=60) ach('villain');
+  }
+  const prevK = SOUL.K;
+  const newK = Math.round(prevK*.6 + net);
+  const peakTitle = S.peak ? CAREERS[S.peak.path].ranks[S.peak.rank] : (S.job || (S.beast?S.name:'—'));
+  // 今世可得天賦
+  const gain = [];
+  if(!S.beast){
+    if(S.int>=75) gain.push('慧根');
+    if(S.age>=90) gain.push('體魄');
+    if(S.merit>=40) gain.push('仁心');
+    if(S.peak && S.peak.rank>=2){ const t = CAREERS[S.peak.path].tal; if(!gain.includes(t)) gain.push(t); }
+    if(S.flags.music && !gain.includes('樂感')) gain.push('樂感');
+    if(S.jiang>=50 && !gain.includes('江湖')) gain.push('江湖');
+  }
+  UI.judge = {net, prevK, newK, peakTitle, gain:gain.slice(0,3)};
+  SOUL.hist.push({n:SOUL.life, name:S.name, country:S.beast?'畜生道':C().n, cls:S.beast?'—':CLASSES[S.cls], age:S.beast?'—':S.age, cause:S.cause, net, title:peakTitle});
+  SOUL.K = newK;
+  UI.screen = 'judge';
+  save(); render();
+}
+function canNirvana(){ return SOUL.buddha && SOUL.K >= 150; }
+function drinkSoup(drink){
+  const J = UI.judge;
+  if(drink){
+    SOUL.talents = {}; SOUL.mem = null; SOUL.K += 10;
+  } else {
+    SOUL.K -= 15; ach('memory');
+    for(const t of J.gain) SOUL.talents[t] = Math.min(3, (SOUL.talents[t]||0) + 1);
+    SOUL.mem = S.beast ? null : {name:S.name, country:C().n, cause:S.cause,
+      career: S.peak ? CAREERS[S.peak.path].ranks[Math.max(1,S.peak.rank)] : null, path: S.peak ? S.peak.path : null};
+    if(SOUL.mem && (!S.peak || S.peak.rank < 1)) SOUL.mem.career = null;
+  }
+  SOUL.life++;
+  if(SOUL.life >= 10) ach('ten');
+  if(SOUL.K <= -200){ ach('hell'); UI.hell = true; SOUL.K += 100; } else UI.hell = false;
+  S = null; UI.judge = null; UI.screen = 'birth';
+  save(); render();
+}
+function nirvana(){ ach2('nirvana'); UI.screen = 'nirvana'; save(); render(); }
+function ach2(id){ if(!SOUL.ach[id]) SOUL.ach[id] = SOUL.life; }
+
+/* ============ 畫面 ============ */
+function soulbar(){
+  const t = Object.entries(SOUL.talents);
+  $('#soulbar').innerHTML = UI.screen==='title' ? '' : `
+    <span>第 <b>${SOUL.life}</b> 世</span>
+    <span>業力 <b>${SOUL.K}</b>（${karmaWord(SOUL.K)}）</span>
+    ${t.length?`<span>天賦 <b>${t.map(([k,v])=>k+'×'+v).join('、')}</b></span>`:''}
+    <button class="linkbtn" id="codexBtn">輪迴錄</button>`;
+  const b = $('#codexBtn'); if(b) b.onclick = () => { UI.prev = UI.screen; UI.screen = 'codex'; render(); };
+}
+function render(){
+  soulbar();
+  const st = $('#stage');
+  const scr = UI.screen;
+  if(scr==='title') st.innerHTML = viewTitle();
+  else if(scr==='birth') st.innerHTML = viewBirth();
+  else if(scr==='life') st.innerHTML = viewLife();
+  else if(scr==='judge') st.innerHTML = viewJudge();
+  else if(scr==='codex') st.innerHTML = viewCodex();
+  else if(scr==='nirvana') st.innerHTML = viewNirvana();
+  bind();
+  if(scr==='life'){ const l = $('#log'); if(l) l.scrollTop = l.scrollHeight; }
+}
+function viewTitle(){
+  const has = !!(SOUL.hist.length || S);
+  return `<section class="hero">
+    <h2>輪<span>迴</span></h2>
+    <p>按世界人口統計投胎。大部份人生於貧窮，大部份人生平庸。但今次，你前世積落嘅德同孽，會跟住你落下一世。</p>
+    <div class="rules">
+      <div class="rule"><b>投胎</b>第一世完全靠抽。業力越高，下一世可以揀嘅出身越多；業障太深，可能做唔成人。</div>
+      <div class="rule"><b>人生</b>由出世到死，每個抉擇都會記喺生死簿。你可以做龍頭、巨星、將軍、高僧，亦可以平平凡凡。</div>
+      <div class="rule"><b>孟婆湯</b>死後飲咗，忘記一切，洗少少業障。唔飲，帶住天賦同記憶轉世，但要付代價。</div>
+    </div>
+    <div class="row">
+      ${has?`<button class="btn" data-a="continue">繼續第 ${SOUL.life} 世</button><button class="btn ghost" data-a="codex">輪迴錄</button><button class="btn ghost" data-a="askreset">重新開始</button>`
+           :`<button class="btn" data-a="begin">開始投胎</button>`}
+    </div>
+    ${UI.askReset?`<div class="confirm">清除所有前世紀錄、業力同天賦？呢個動作冇得返轉頭。<button class="btn red" data-a="reset">確定清除</button><button class="btn ghost" data-a="cancelreset">取消</button></div>`:''}
+  </section>`;
+}
+function viewBirth(){
+  const list = prepareBirths();
+  const K = SOUL.K, n = list.length;
+  let head = SOUL.life===1 ? '第一世，命運幫你抽。'
+    : list[0].beast ? '業障太深。今世，你做唔成人。'
+    : n>1 ? `你前世積德，今世可以由 ${n} 個出身入面揀一個。` : '業力平平，命運幫你抽。';
+  const hell = UI.hell ? '<p class="sub">投胎之前，你喺地獄受咗好長一段時間嘅苦。業障消咗一部份。</p>' : '';
+  const mem = SOUL.mem ? `<p class="sub">你冇飲孟婆湯。你仲記得自己係${esc(SOUL.mem.name)}，喺${esc(SOUL.mem.country)}，死於${esc(SOUL.mem.cause)}。</p>` : '';
+  return `<h2 class="sect-h">第 ${SOUL.life} 世 · 投胎</h2>${hell}<p class="sub">${head}</p>${mem}
+  <div class="cards">${list.map((c,i)=>{
+    if(c.beast){ const B=BEASTS[c.beast]; return `<article class="card beast"><span class="cls">畜生道</span><h3>${B.n}</h3>
+      <p class="odds">業力 ${K}。地球上嘅動物遠多過人。</p><button class="btn" data-a="born" data-i="${i}">接受</button></article>`; }
+    const co = COUNTRIES[c.ci];
+    return `<article class="card"><span class="cls">${CLASSES[c.cls]}家庭</span><h3>${co.n}</h3>
+      <dl><dt>五歲前夭折率</dt><dd>${co.u5}‰</dd><dt>平均壽命</dt><dd>${co.le} 歲</dd>
+      <dt>政局</dt><dd>${co.war?'戰亂':co.auth?'威權':'相對穩定'}</dd></dl>
+      <p class="odds">全球約每 ${c.oneIn.toLocaleString()} 人有 1 個係呢個出身</p>
+      <button class="btn" data-a="born" data-i="${i}">${n>1?'投呢胎':'出世'}</button></article>`;
+  }).join('')}</div>${viewRemake()}`;
+}
+const TIER_LABEL = {5:'富裕',4:'中高收入',3:'中等收入',2:'中低收入',1:'低收入'};
+function viewRemake(){
+  if(UI.birthPick == null) UI.birthPick = COUNTRIES.findIndex(c => c.reg==='hk');
+  const groups = [5,4,3,2,1].map(t => `<optgroup label="${TIER_LABEL[t]}">${
+    COUNTRIES.map((c,i)=>[c,i]).filter(([c])=>c.t===t).sort((a,b)=>b[0].w-a[0].w)
+      .map(([c,i])=>`<option value="${i}"${i===+UI.birthPick?' selected':''}>${c.n}・平均壽命 ${c.le}${c.war?'・戰亂':''}</option>`).join('')
+  }</optgroup>`).join('');
+  const cost = remakeCost(+UI.birthPick);
+  return `<section class="remake">
+    <h3>改命・指定投胎地點</h3>
+    <p>${SOUL.free?'自由模式：揀邊度都唔使代價。':'用業力換一個指定國家。越富裕嘅地方越貴；出身階級仍然由業力決定。'}</p>
+    <div class="row">
+      <label class="sr" for="birthCountry">國家</label>
+      <select id="birthCountry">${groups}</select>
+      <button class="btn ghost" data-a="remake">投去呢度${cost?`（業力 −${cost}）`:''}</button>
+    </div>
+    <label class="toggle"><input type="checkbox" id="freeMode"${SOUL.free?' checked':''}> 自由模式（唔計業力代價，適合淨係想試唔同國家）</label>
+  </section>`;
+}
+function bar(cls, label, v){ return `<div class="stat ${cls}"><span>${label}</span><span class="bar"><i style="width:${Math.round(v)}%"></i></span><span>${Math.round(v)}</span></div>`; }
+function viewLife(){
+  const c = S.beast ? null : C();
+  const career = S.career ? `${CAREERS[S.career.path].name}・${CAREERS[S.career.path].ranks[S.career.rank]}` : (S.job || (S.age<14?'讀書／玩':'未有'));
+  const flags = [];
+  if(S.married) flags.push('已婚'); if(S.kids) flags.push(`${S.kids} 個仔女`); if(S.flags.uni) flags.push('大學');
+  if(S.flags.smoker) flags.push('食煙'); if(S.flags.addict) flags.push('毒癮'); if(S.flags.illegal) flags.push('冇身份');
+  if(S.jail) flags.push(`坐監中（尚餘 ${S.jail} 年）`); if(S.flags.mem) flags.push('帶住前世記憶');
+  const panel = `<aside class="panel">
+    <div class="who">${esc(S.name)}<small>${S.beast?'畜生道':`${c.n}・${CLASSES[S.cls]}出身`}</small></div>
+    ${S.beast?'':`<div class="age"><b>${S.age}</b>歲</div>`}
+    <div class="stats">${bar('hp','健康',S.hp)}${S.beast?'':bar('int','智慧',S.int)}${bar('hap','快樂',S.hap)}${S.beast?'':bar('wealth','財富',S.wealth)+bar('fame','名聲',S.fame)+bar('jiang','江湖',S.jiang)}</div>
+    <div class="karma"><div class="m"><b>${S.merit}</b><small>德</small></div><div class="s"><b>${S.sin}</b><small>孽</small></div></div>
+    ${S.beast?'':`<div class="meta"><span>身份 <b>${esc(career)}</b></span>${flags.length?`<span>${flags.map(esc).join('・')}</span>`:''}</div>`}
+  </aside>`;
+  let act;
+  if(!S.alive) act = `<p class="prompt">一生完結。生死簿合上。</p><button class="btn" data-a="judge">往閻羅殿</button>`;
+  else if(S.pending) act = `<p class="prompt">${esc(S.pending.text)}</p><div class="choices">${currentChoices().map((ch,i)=>`<button class="choice${ch.special?' special':''}" data-a="choose" data-i="${i}">${esc(ch.t)}</button>`).join('')}</div>`;
+  else act = `<button class="btn" data-a="next">${S.beast?'繼續':'過咗幾年 →'}</button>`;
+  const log = S.log.map(e => `<div class="entry ${e.k}"><span class="y">${e.y===''?'':e.y+'歲'}</span><span>${esc(e.t)}${e.d>0?`<span class="k plus">德 +${e.d}</span>`:e.d<0?`<span class="k minus">孽 +${-e.d}</span>`:''}</span></div>`).join('');
+  return `<div class="life">${panel}<section class="book"><h4>生死簿・第${SOUL.life}世</h4><div class="log" id="log">${log}</div><div class="act">${act}</div></section></div>`;
+}
+function viewJudge(){
+  const J = UI.judge;
+  const verdict = J.net>=60?'大善':J.net>=20?'善':J.net>-20?'庸庸碌碌':J.net>-60?'惡':'大惡';
+  const vColor = J.net>=20?'var(--jade)':J.net>-20?'var(--ink)':'var(--cinnabar)';
+  const lines = [...S.ledger].sort((a,b)=>Math.abs(b[1])-Math.abs(a[1])).slice(0,12);
+  const yen = J.net>=60?'閻羅王起身拱手：「善哉。」':J.net>=20?'閻羅王點頭：「唔錯。」':J.net>-20?'閻羅王打個喊露：「又一個平凡人。下一個。」':J.net>-60?'閻羅王眉頭一皺：「你自己知。」':'閻羅王拍案：「押落去！」';
+  const ep = S.beast ? `一隻${S.name}，${S.cause}。` : `${esc(S.name)}，${C().n}人，${CLASSES[S.cls]}出身。享年 ${S.age} 歲，死於${esc(S.cause)}。一生最高身份：${esc(J.peakTitle)}。`;
+  const newA = S.newAch.map(id => `<span class="chip">${ACH[id][0]}</span>`).join('');
+  const nextN = nChoices(SOUL.K+10), nextN2 = nChoices(SOUL.K-15);
+  return `<div class="court">
+    <section class="book">
+      <h4>閻羅殿・判詞</h4>
+      <div class="verdict" style="color:${vColor}">${verdict}</div>
+      <p class="epitaph">${ep}</p>
+      <p class="epitaph">${yen}</p>
+      <p class="epitaph">今世德 <b>${S.merit}</b>　孽 <b>${S.sin}</b>　淨 <b>${J.net>0?'+':''}${J.net}</b><br>靈魂業力：${J.prevK} → <b>${J.newK}</b>（前世業力六成 + 今世淨德）</p>
+      ${lines.length?`<ul class="ledger">${lines.map(l=>`<li><span>${esc(l[0])}</span><span class="v ${l[1]>0?'p':'n'}">${l[1]>0?'+':''}${l[1]}</span></li>`).join('')}</ul>`:'<p class="epitaph">生死簿上，冇乜值得記低。</p>'}
+      ${newA?`<div class="newach">${newA}</div>`:''}
+    </section>
+    <section class="soup">
+      <h2 class="sect-h">奈何橋頭</h2>
+      <p class="sub">孟婆遞俾你一碗湯。</p>
+      ${canNirvana()?`<div class="option nirvana"><h3>放下</h3><p>你曾經修成高僧，業力已滿 150。你可以唔再投胎，跳出輪迴。</p><button class="btn" data-a="nirvana">涅槃</button></div>`:''}
+      <div class="option"><h3>飲孟婆湯</h3><p>忘記前世一切，所有天賦清零。業力 +10。下一世可揀 ${nextN} 個出身。</p><button class="btn ghost" data-a="drink">一飲而盡</button></div>
+      <div class="option"><h3>唔飲，硬過奈何橋</h3><p>帶住記憶同天賦轉世，但違逆天道，業力 −15。下一世可揀 ${nextN2} 個出身。${J.gain.length?`今世可帶走嘅天賦：<b>${J.gain.join('、')}</b>。`:'今世冇練成乜天賦。'}</p><button class="btn red" data-a="refuse">倒咗碗湯</button></div>
+    </section>
+  </div>`;
+}
+function viewCodex(){
+  const rows = SOUL.hist.slice().reverse().map(h => `<tr><td class="num">${h.n}</td><td>${esc(h.name)}</td><td>${esc(h.country)}</td><td>${esc(h.cls)}</td><td>${esc(h.title)}</td><td class="num">${h.age}</td><td>${esc(h.cause)}</td><td class="num" style="color:${h.net>0?'#6cc3a5':h.net<0?'#e2675b':'inherit'}">${h.net>0?'+':''}${h.net}</td></tr>`).join('');
+  const achs = Object.entries(ACH).map(([id,[n,d]]) => `<div class="ach ${SOUL.ach[id]?'on':'off'}"><b>${n}</b>${d}${SOUL.ach[id]?`<br>第 ${SOUL.ach[id]} 世達成`:''}</div>`).join('');
+  return `<h2 class="sect-h">輪迴錄</h2><p class="sub">你嘅靈魂經歷過嘅每一世。</p>
+    ${rows?`<div class="tablewrap"><table><thead><tr><th>世</th><th>名</th><th>出生地</th><th>出身</th><th>最高身份</th><th>享年</th><th>死因</th><th>淨德</th></tr></thead><tbody>${rows}</tbody></table></div>`:'<p class="sub">仲未有前世。</p>'}
+    <h2 class="sect-h" style="margin-top:28px">成就</h2><div class="achgrid">${achs}</div>
+    <div class="row" style="margin-top:22px"><button class="btn ghost" data-a="back">返回</button></div>`;
+}
+function viewNirvana(){
+  return `<section class="end"><h2>涅槃</h2>
+    <p class="sub">經歷 ${SOUL.life} 世，你終於放低。冇下一世，冇閻羅殿，冇孟婆湯。</p>
+    <p class="sub">八十億人仲喺輪迴入面，抽緊佢哋嘅出身。</p>
+    <div class="row"><button class="btn ghost" data-a="codex">睇輪迴錄</button><button class="btn" data-a="reset">以新靈魂重新開始</button></div></section>`;
+}
+function bind(){
+  const sel = $('#birthCountry');
+  if(sel) sel.onchange = () => { UI.birthPick = +sel.value; save(); render(); };
+  const fm = $('#freeMode');
+  if(fm) fm.onchange = () => { SOUL.free = fm.checked; save(); render(); };
+  document.querySelectorAll('[data-a]').forEach(b => b.onclick = () => {
+    const a = b.dataset.a, i = +b.dataset.i, before = UI.screen;
+    if(a==='begin'){ UI.screen='birth'; save(); render(); }
+    else if(a==='continue'){ UI.screen = UI.judge ? 'judge' : S ? 'life' : 'birth'; render(); }
+    else if(a==='codex'){ UI.prev = UI.screen; UI.screen='codex'; render(); }
+    else if(a==='back'){ UI.screen = UI.prev && UI.prev!=='codex' ? UI.prev : 'title'; render(); }
+    else if(a==='askreset'){ UI.askReset = true; render(); }
+    else if(a==='cancelreset'){ UI.askReset = false; render(); }
+    else if(a==='reset'){ SOUL = freshSoul(); S = null; UI = {screen:'title'}; save(); render(); }
+    else if(a==='born') startLife(SOUL.births[i]);
+    else if(a==='next') advance();
+    else if(a==='choose') choose(i);
+    else if(a==='judge') judge();
+    else if(a==='drink') drinkSoup(true);
+    else if(a==='refuse') drinkSoup(false);
+    else if(a==='nirvana') nirvana();
+    else if(a==='remake') remake();
+    if(UI.screen !== before) window.scrollTo({top:0});
+  });
+}
+
+load();
+if(UI.screen==='codex') UI.screen = 'title';
+if(UI.screen!=='title' && UI.screen!=='nirvana') UI.screen = 'title';
+render();
+</script>
+</body>
+</html>
