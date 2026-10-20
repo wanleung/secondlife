@@ -1,0 +1,148 @@
+#!/usr/bin/env python3
+"""Rebuild the COUNTRIES table in index.html from UN data.
+
+Sources
+- World Bank API (WDI), which republishes UN figures:
+    SP.POP.TOTL     population            (UN WPP / national)
+    SP.DYN.CBRT.IN  crude birth rate      (UN WPP)
+    SH.DYN.MORT     under-5 mortality     (UN IGME)
+    SP.DYN.LE00.IN  life expectancy       (UN WPP)
+    NY.GNP.PCAP.CD  GNI per capita        (World Bank, Atlas method)
+    country metadata: income group, region
+- Our World in Data (UN WPP 2024) for Taiwan, which the World Bank does not list.
+
+Under-5 mortality is missing for Taiwan, Hong Kong, Macao and some small
+territories (UN IGME does not publish them). For those we estimate it from
+life expectancy with a log-linear fit over every country that has both, and
+mark the row with est:1.
+
+The auth/war flags are game design judgements, not data.
+
+Usage: python3 tools/build_countries.py   (rewrites index.html in place)
+"""
+import csv, io, json, math, re, sys, urllib.request
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+HTML = ROOT / 'index.html'
+UA = {'User-Agent': 'Mozilla/5.0 (samsara-game data build)'}
+
+def get(url):
+    with urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=60) as r:
+        return r.read().decode('utf-8')
+
+def wb(ind):
+    rows = json.loads(get(f'https://api.worldbank.org/v2/country/all/indicator/{ind}?format=json&per_page=20000&mrnev=1'))[1]
+    return {r['countryiso3code']: (r['value'], r['date']) for r in rows if r['value'] is not None}
+
+def owid(slug, entity):
+    text = get(f'https://ourworldindata.org/grapher/{slug}.csv?v=1&csvType=full&useColumnShortNames=true')
+    best = None
+    for row in csv.reader(io.StringIO(text)):
+        if row and row[0] == entity and len(row) > 3 and row[3]:
+            if best is None or int(row[2]) > int(best[0]):
+                best = (row[2], float(row[3]))
+    return best  # (year, value) of latest historical estimate
+
+# Chinese names (Traditional, Taiwan-style transliteration to match the rest of the game)
+ZH = {
+ 'ABW':'阿魯巴','AFG':'阿富汗','AGO':'安哥拉','ALB':'阿爾巴尼亞','AND':'安道爾','ARE':'阿聯酋','ARG':'阿根廷','ARM':'亞美尼亞',
+ 'ASM':'美屬薩摩亞','ATG':'安地卡及巴布達','AUS':'澳洲','AUT':'奧地利','AZE':'亞塞拜然','BDI':'蒲隆地','BEL':'比利時','BEN':'貝南',
+ 'BFA':'布吉納法索','BGD':'孟加拉','BGR':'保加利亞','BHR':'巴林','BHS':'巴哈馬','BIH':'波士尼亞與赫塞哥維納','BLR':'白俄羅斯','BLZ':'貝里斯',
+ 'BMU':'百慕達','BOL':'玻利維亞','BRA':'巴西','BRB':'巴貝多','BRN':'汶萊','BTN':'不丹','BWA':'波札那','CAF':'中非共和國',
+ 'CAN':'加拿大','CHE':'瑞士','CHI':'海峽群島','CHL':'智利','CHN':'中國','CIV':'象牙海岸','CMR':'喀麥隆','COD':'剛果民主共和國',
+ 'COG':'剛果共和國','COL':'哥倫比亞','COM':'葛摩','CPV':'維德角','CRI':'哥斯大黎加','CUB':'古巴','CUW':'古拉索','CYM':'開曼群島',
+ 'CYP':'賽普勒斯','CZE':'捷克','DEU':'德國','DJI':'吉布地','DMA':'多米尼克','DNK':'丹麥','DOM':'多明尼加','DZA':'阿爾及利亞',
+ 'ECU':'厄瓜多','EGY':'埃及','ERI':'厄利垂亞','ESP':'西班牙','EST':'愛沙尼亞','ETH':'衣索比亞','FIN':'芬蘭','FJI':'斐濟',
+ 'FRA':'法國','FRO':'法羅群島','FSM':'密克羅尼西亞','GAB':'加彭','GBR':'英國','GEO':'喬治亞','GHA':'迦納','GIB':'直布羅陀',
+ 'GIN':'幾內亞','GMB':'甘比亞','GNB':'幾內亞比索','GNQ':'赤道幾內亞','GRC':'希臘','GRD':'格瑞那達','GRL':'格陵蘭','GTM':'瓜地馬拉',
+ 'GUM':'關島','GUY':'蓋亞那','HKG':'香港','HND':'宏都拉斯','HRV':'克羅埃西亞','HTI':'海地','HUN':'匈牙利','IDN':'印尼',
+ 'IMN':'曼島','IND':'印度','IRL':'愛爾蘭','IRN':'伊朗','IRQ':'伊拉克','ISL':'冰島','ISR':'以色列','ITA':'義大利',
+ 'JAM':'牙買加','JOR':'約旦','JPN':'日本','KAZ':'哈薩克','KEN':'肯亞','KGZ':'吉爾吉斯','KHM':'柬埔寨','KIR':'吉里巴斯',
+ 'KNA':'聖克里斯多福及尼維斯','KOR':'南韓','KWT':'科威特','LAO':'寮國','LBN':'黎巴嫩','LBR':'賴比瑞亞','LBY':'利比亞','LCA':'聖露西亞',
+ 'LIE':'列支敦斯登','LKA':'斯里蘭卡','LSO':'賴索托','LTU':'立陶宛','LUX':'盧森堡','LVA':'拉脫維亞','MAC':'澳門','MAF':'法屬聖馬丁',
+ 'MAR':'摩洛哥','MCO':'摩納哥','MDA':'摩爾多瓦','MDG':'馬達加斯加','MDV':'馬爾地夫','MEX':'墨西哥','MHL':'馬紹爾群島','MKD':'北馬其頓',
+ 'MLI':'馬利','MLT':'馬爾他','MMR':'緬甸','MNE':'蒙特內哥羅','MNG':'蒙古','MNP':'北馬利安納群島','MOZ':'莫三比克','MRT':'茅利塔尼亞',
+ 'MUS':'模里西斯','MWI':'馬拉威','MYS':'馬來西亞','NAM':'納米比亞','NCL':'新喀里多尼亞','NER':'尼日','NGA':'奈及利亞','NIC':'尼加拉瓜',
+ 'NLD':'荷蘭','NOR':'挪威','NPL':'尼泊爾','NRU':'諾魯','NZL':'紐西蘭','OMN':'阿曼','PAK':'巴基斯坦','PAN':'巴拿馬',
+ 'PER':'秘魯','PHL':'菲律賓','PLW':'帛琉','PNG':'巴布亞紐幾內亞','POL':'波蘭','PRI':'波多黎各','PRK':'北韓','PRT':'葡萄牙',
+ 'PRY':'巴拉圭','PSE':'巴勒斯坦','PYF':'法屬玻里尼西亞','QAT':'卡達','ROU':'羅馬尼亞','RUS':'俄羅斯','RWA':'盧安達','SAU':'沙烏地阿拉伯',
+ 'SDN':'蘇丹','SEN':'塞內加爾','SGP':'新加坡','SLB':'索羅門群島','SLE':'獅子山','SLV':'薩爾瓦多','SMR':'聖馬利諾','SOM':'索馬利亞',
+ 'SRB':'塞爾維亞','SSD':'南蘇丹','STP':'聖多美普林西比','SUR':'蘇利南','SVK':'斯洛伐克','SVN':'斯洛維尼亞','SWE':'瑞典','SWZ':'史瓦帝尼',
+ 'SXM':'荷屬聖馬丁','SYC':'塞席爾','SYR':'敘利亞','TCA':'土克凱可群島','TCD':'查德','TGO':'多哥','THA':'泰國','TJK':'塔吉克',
+ 'TKM':'土庫曼','TLS':'東帝汶','TON':'東加','TTO':'千里達及托巴哥','TUN':'突尼西亞','TUR':'土耳其','TUV':'吐瓦魯','TZA':'坦尚尼亞',
+ 'UGA':'烏干達','UKR':'烏克蘭','URY':'烏拉圭','USA':'美國','UZB':'烏茲別克','VCT':'聖文森及格瑞那丁','VEN':'委內瑞拉','VGB':'英屬維京群島',
+ 'VIR':'美屬維京群島','VNM':'越南','VUT':'萬那杜','WSM':'薩摩亞','XKX':'科索沃','YEM':'葉門','ZAF':'南非','ZMB':'尚比亞',
+ 'ZWE':'辛巴威','TWN':'臺灣',
+}
+
+# Game-design flags (not data): authoritarian government / ongoing armed conflict
+AUTH = set('AFG BLR CHN CUB EGY ERI ETH IRN KHM LAO MMR NIC PAK PRK RUS RWA SAU SDN SYR TCD TJK TKM UZB VEN VNM ARE BHR QAT OMN KWT AZE BDI GNQ BFA MLI NER'.split())
+WAR = set('COD MMR SDN SSD SOM SYR UKR YEM MLI BFA HTI PSE CAF LBY'.split())
+
+# Region code -> name pool used by the game
+REGION_OVERRIDE = {'CHN':'cn','HKG':'hk','MAC':'hk','TWN':'tw','JPN':'jp','KOR':'kr','PRK':'kr',
+  'AUS':'west','NZL':'west','PAK':'sa','MLT':'west','ISR':'west',
+  'RUS':'ru','UKR':'ru','BLR':'ru','MDA':'ru','KAZ':'ru','UZB':'ru','KGZ':'ru','TJK':'ru','TKM':'ru',
+  'TUR':'me','AZE':'me','ARM':'ru','GEO':'ru','MNG':'cn'}
+REGION_BY_WB = {'SAS':'sa','EAS':'sea','SSF':'af','MEA':'me','LCN':'la','ECS':'west','NAC':'west'}
+
+def tier(income, gni):
+    if income == 'LIC': return 1
+    if income == 'LMC': return 2
+    if income == 'UMC': return 3
+    if income == 'HIC': return 4 if (gni is not None and gni < 30000) else 5
+    return 3
+
+def main():
+    meta = [c for c in json.loads(get('https://api.worldbank.org/v2/country?format=json&per_page=400'))[1]
+            if c['region']['value'] != 'Aggregates']
+    pop, cbr, u5, le, gni = (wb(i) for i in ['SP.POP.TOTL','SP.DYN.CBRT.IN','SH.DYN.MORT','SP.DYN.LE00.IN','NY.GNP.PCAP.CD'])
+
+    rows = []
+    for c in meta:
+        k = c['id']
+        if k not in pop or k not in cbr or k not in le:
+            print('skip (missing data):', k, c['name'], file=sys.stderr); continue
+        rows.append(dict(iso=k, pop=pop[k][0], births=pop[k][0]*cbr[k][0]/1000, le=le[k][0],
+                         u5=u5[k][0] if k in u5 else None,
+                         t=tier(c['incomeLevel']['id'], gni.get(k, (None,))[0]),
+                         reg=REGION_OVERRIDE.get(k, REGION_BY_WB.get(c['region']['id'], 'west'))))
+
+    # Taiwan from OWID (UN WPP). High income per IMF/its own GNI (~US$33k), so tier 5.
+    tw_pop = owid('population', 'Taiwan'); tw_b = owid('number-of-births-per-year', 'Taiwan'); tw_le = owid('life-expectancy', 'Taiwan')
+    rows.append(dict(iso='TWN', pop=tw_pop[1], births=tw_b[1], le=tw_le[1], u5=None, t=5, reg='tw'))
+
+    # Fill missing under-5 mortality: log(u5) = a + b*le
+    xs = [(r['le'], math.log(r['u5'])) for r in rows if r['u5']]
+    n = len(xs); mx = sum(x for x,_ in xs)/n; my = sum(y for _,y in xs)/n
+    b = sum((x-mx)*(y-my) for x,y in xs) / sum((x-mx)**2 for x,_ in xs); a = my - b*mx
+    for r in rows:
+        r['est'] = r['u5'] is None
+        if r['est']: r['u5'] = math.exp(a + b*r['le'])
+
+    rows.sort(key=lambda r: -r['births'])
+    lines = []
+    for r in rows:
+        f = [f"n:'{ZH[r['iso']]}'", f"iso:'{r['iso']}'", f"w:{round(r['births']/1000, 1)}", f"p:{round(r['pop']/1e6, 2)}",
+             f"t:{r['t']}", f"u5:{round(r['u5'], 1)}", f"le:{round(r['le'], 1)}", f"reg:'{r['reg']}'"]
+        if r['est']: f.append('est:1')
+        if r['iso'] in AUTH: f.append('auth:1')
+        if r['iso'] in WAR: f.append('war:1')
+        lines.append('  {' + ','.join(f) + '},')
+
+    yr_pop = max(v[1] for v in pop.values()); yr_b = max(v[1] for v in cbr.values())
+    block = ("/* COUNTRIES:BEGIN — generated by tools/build_countries.py, do not edit by hand */\n"
+             f"// w: 每年出生人數（千）, p: 人口（百萬）, u5: 五歲前死亡率 ‰（est:1 = 由預期壽命估算）, le: 預期壽命\n"
+             f"// t: 經濟層級 1–5（世界銀行收入組別；高收入按人均國民所得再分兩級）, auth/war: 遊戲設定\n"
+             f"const DATA_SOURCE = '聯合國《世界人口展望》（出生、人口、壽命）及聯合國兒童死亡率估算小組（五歲前死亡率），經世界銀行及 Our World in Data 取得；人口 {yr_pop}、出生及壽命 {yr_b}（臺灣為 {tw_b[0]}）。';\n"
+             "const COUNTRIES = [\n" + '\n'.join(lines) + "\n];\n/* COUNTRIES:END */")
+    html = HTML.read_text(encoding='utf-8')
+    new, k = re.subn(r'/\* COUNTRIES:BEGIN.*?/\* COUNTRIES:END \*/', lambda m: block, html, flags=re.S)
+    if k != 1: sys.exit('COUNTRIES markers not found in index.html')
+    HTML.write_text(new, encoding='utf-8')
+    print(f'{len(rows)} countries, {sum(r["births"] for r in rows)/1e6:.1f}M births/yr, '
+          f'{sum(r["est"] for r in rows)} with estimated u5 (fit: ln u5 = {a:.2f} {b:+.4f}·le)')
+
+if __name__ == '__main__':
+    main()
