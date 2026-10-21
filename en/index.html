@@ -204,7 +204,7 @@ td.num{font-variant-numeric:tabular-nums;text-align:right}
   <footer class="foot">
     <p><b>Disclaimer</b>: This game is a work of fiction made for entertainment. “Everyone is reborn” is only a rule of the game. It does not express the author’s position on any religion, belief or lack of belief, and it is not meant to offend, belittle or promote any religion. Shares of religious population come from Pew Research Center statistics and are used only to decide a character’s background; the clergy, holy places, afterlife scenes and dialogue of each religion are simplified and fictional and do not represent any doctrine or believers. Freemasonry’s degrees, rituals and events are also simplified and do not represent any lodge or member; the conspiracy theories about Freemasons in the game depict the misunderstandings members face, not facts. Countries’ politics, laws and all event odds are game settings, not judgements of any country, people or group. If anything offends, we apologise; please <a href="https://github.com/wanleung/secondlife/issues" target="_blank" rel="noopener">raise it on GitHub</a>.</p>
     <p><a href="paths.html">Life map: every career, faith, money and emigration path</a></p>
-    <p>Version <b>v1.9.0</b> (2026-10-21) · <a href="https://github.com/wanleung/secondlife" target="_blank" rel="noopener">Source code</a></p>
+    <p>Version <b>v1.10.0</b> (2026-10-21) · <a href="https://github.com/wanleung/secondlife" target="_blank" rel="noopener">Source code</a></p>
   </footer>
 </div>
 
@@ -1181,8 +1181,61 @@ const EVENTS = [
  ]},
 {id:'protest',a:[15,28],w:2,text:()=>harsh()>0?'Some classmates are secretly organising a protest and ask if you’ll come. Here, that means prison.':'There’s a big protest in the city and your friends ask if you’re coming.',
  choices:[
-  {t:'Take to the streets',go(){ S.flags.activist=1; fx({fame:3}); good(3,'Spoke up for justice'); if(R()<.35*harsh()){ jail(ri(2,5), 1); return 'You’re arrested. The trial takes ten minutes.'; } return 'You shout in the crowd and feel truly alive for the first time.'; }},
+  {t:'March peacefully',go(){ S.flags.activist=1; fx({fame:3}); good(3,'Spoke up for justice'); if(R()<.35*harsh()){ jail(ri(2,5), 1); return 'You’re arrested. The trial takes ten minutes.'; } return 'You shout in the crowd and feel truly alive for the first time.'; }},
   {t:'Stay home',go(){ return 'You watch it on TV.'; }},
+ ]},
+// ---------- 好心做壞事：動機好，手段錯，德同孽一齊記 ----------
+{id:'riot',a:[16,40],if:()=>S.flags.activist&&!S.jail,w:3,text:()=>'By nightfall the protest turns. People start throwing bricks, smashing bank windows, setting shops on fire. They shout: “Peaceful protest got us nowhere!”',
+ choices:[
+  {t:'Join in',go(){ bad(6,'Rioting and vandalism'); fx({hap:4,fame:2}); S.flags.rioter=1;
+    if(R()<.25+.35*harsh()){ jail(ri(1,3)+Math.round(4*harsh())); return 'CCTV caught your face. The judge says: “A good motive is no excuse for destruction.”'; }
+    return 'It feels great. The next morning, the news shows the owner of a burnt-out shop sitting in his doorway, crying.'; }},
+  {t:'Step in and tell them to stop',go(){ good(4,'Holding the line'); fx({hap:-3}); if(R()<.3){ fx({hp:-8}); return 'Someone calls you an undercover cop and shoves you to the ground.'; } return 'A few of them stop. The rest act as if you were not there.'; }},
+  {t:'Stay and help the injured',go(){ good(3,'Tending the wounded'); if(R()<.2*harsh()){ jail(ri(1,3), 1); return 'You are arrested along with the injured.'; } return 'You bandage a bleeding teenager about your own age.'; }},
+  {t:'Leave at once',go(){ return 'You catch the last bus home and say nothing the whole way.'; }},
+ ]},
+{id:'steal_med',a:[15,34],if:()=>!S.jail&&S.money<G(),w:1.2,text:()=>'Your mother is seriously ill. The medicine costs a month’s wages. At night the pharmacy has only one clerk on duty.',
+ choices:[
+  {t:'Steal the medicine',go(){ good(4,'Desperate to save your mother'); bad(6,'Theft');
+    if(R()<.3){ jail(ri(1,2)); return 'You are caught at the door. Your mother waits in hospital for the medicine, and for you. Neither comes.'; }
+    fx({hap:-3}); return 'Your mother takes the medicine and slowly recovers. She asks where it came from. You have no answer.'; }},
+  {t:'Borrow money from everyone',go(){ good(3,'Supported your parents'); pay(G()*.5); fx({hap:-5}); return 'You borrow from every relative and friend, then from a loan shark. Your mother recovers. It takes you five years to pay it all back.'; }},
+  {t:'Crowdfund online',go(){ if(R()<.5){ fx({hap:5}); return 'A crowd of strangers covers the whole cost.'; } fx({hap:-6}); return 'You raise a tenth of it. Your mother tells you to stop trying.'; }},
+ ]},
+{id:'vigilante',a:[18,60],if:()=>!S.jail,w:1,text:()=>'The man next door beats his wife. You have called the police before; they came and left. Tonight you hear screaming again.',
+ choices:[
+  {t:'Get some friends and beat him up',go(){ good(2,'Standing up for the wronged'); bad(6,'Vigilante assault');
+    if(R()<.35){ jail(ri(1,3)); return 'He calls the police and you are charged with assault. His wife testifies for him in court.'; }
+    return 'He is quiet for two months, then starts again. Now he hates you too.'; }},
+  {t:'Call the police again and take his wife to a social worker',go(){ good(5,'Stood up for someone'); fx({hap:-2}); return R()<.5?'His wife finally moves into a shelter.':'His wife says, “It’s none of your business,” and goes grocery shopping the next day as usual.'; }},
+  {t:'Close the window',go(){ bad(1,'Looking away'); return 'The screaming stops. You do not know whether that is good or bad.'; }},
+ ]},
+{id:'doxx',a:[15,55],if:()=>C().t>=3,w:1.2,text:()=>'A video of someone torturing a cat goes viral and the whole city is furious. Someone says they recognise the man and calls on everyone to dox him.',
+ choices:[
+  {t:'Help dox him and post his address',go(){ good(1,'Righteous anger'); bad(4,'Online mob justice');
+    if(R()<.3){ bad(8,'Framing an innocent person'); fx({hap:-10}); return 'It later turns out you had the wrong man. His door was splashed with red paint and he lost his job. The real culprit was never found.'; }
+    return 'His door is splashed with red paint and his whole family moves away. His daughter changes schools three times.'; }},
+  {t:'Hand the video to the police and an animal welfare group',go(){ good(3,'Leaving it to the law'); return 'Three months later the man is jailed. The news gives it one paragraph.'; }},
+  {t:'Share it with the caption “Scum”',go(){ fx({hap:1}); return 'You feel like you have done something.'; }},
+ ]},
+{id:'fangsheng',a:[20,80],if:()=>S.faith==='bud'||['cn','hk','tw'].includes(C().reg),w:1,text:()=>'A friend invites you to a life-release ceremony, saying it earns boundless merit. The fishmongers on the pier have already laid out buckets of fish and caged birds for you.',
+ choices:[
+  {t:'Buy them and set them free',go(){ good(2,'A compassionate heart'); bad(4,'Animals killed by release'); pay(G()*.01); return 'Half the fish go belly-up in the salt water. After you leave, the fishmongers net the ones too weak to swim away, to sell again tomorrow.'; }},
+  {t:'Give the money to an animal rescue instead',go(){ good(3,'Saved an animal'); pay(G()*.01); return 'Your friend says you don’t understand merit.'; }},
+  {t:'Politely decline',go(){ return ''; }},
+ ]},
+{id:'take_blame',a:[40,75],if:()=>S.kids&&!S.jail,w:2.5,text:()=>'Your son hit someone while driving late at night and fled. He comes home in tears, asking what to do.',
+ choices:[
+  {t:'Take the blame for him',go(){ good(3,'Protecting your child'); bad(7,'Obstructing justice');
+    if(R()<.6){ jail(ri(1,3)); return 'You say you were driving. While you are in prison, your son never visits once.'; }
+    return 'The police believe you. Your son never mentions it again, but he still drives too fast.'; }},
+  {t:'Go with him to turn himself in',go(){ good(6,'Raised your child well'); fx({hap:-10}); return 'He gets two years. On the day he walks out, the first thing he says is thank you.'; }},
+  {t:'Tell him to act as if nothing happened',go(){ bad(5,'Covering up a crime'); return 'The victim spends six months in hospital. No one in your family ever drives that car again.'; }},
+ ]},
+{id:'white_lie',a:[30,65],w:1,text:()=>'Your father is diagnosed with terminal cancer and has six months left. The doctor asks you: should we tell him?',
+ choices:[
+  {t:'Keep it from him and tell him to rest',go(){ good(3,'Filial love'); bad(3,'Deception'); return 'He believes he will recover, and plans a trip for next year. When he dies, much is left unsaid.'; }},
+  {t:'Tell him',go(){ good(3,'Respecting his choices'); fx({hap:-6}); return 'He is silent for a night. Then he sees many old friends and writes his will in his own hand.'; }},
  ]},
 {id:'gang_recruit',a:[13,22],if:()=>!S.career&&(S.jiang>=10||S.flags.street||(S.cls<=1&&R()<.4)),w:3,text:()=>'A street boss has his eye on you: “Come with me, there’s plenty of money.”',
  choices:[
