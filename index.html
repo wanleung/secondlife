@@ -188,9 +188,9 @@ td.num{font-variant-numeric:tabular-nums;text-align:right}
   </header>
   <main id="stage"></main>
   <footer class="foot">
-    <p><b>免責聲明</b>：本遊戲係虛構嘅娛樂作品。「人人都會輪迴」只係遊戲規則，唔代表作者對任何宗教、信仰或者無信仰嘅立場，亦無意冒犯、貶低或者宣揚任何宗教。宗教人口比例來自皮尤研究中心嘅統計，只用嚟決定角色出身；各宗教嘅神職、聖地、死後情節同對白都經過簡化同虛構，唔代表任何教義或者信眾。國家政局、法律同各種事件機率亦屬遊戲設定，唔係對任何國家、民族或者群體嘅評價。如有冒犯，敬請見諒，歡迎<a href="https://github.com/wanleung/secondlife/issues" target="_blank" rel="noopener">喺 GitHub 提出意見</a>。</p>
+    <p><b>免責聲明</b>：本遊戲係虛構嘅娛樂作品。「人人都會輪迴」只係遊戲規則，唔代表作者對任何宗教、信仰或者無信仰嘅立場，亦無意冒犯、貶低或者宣揚任何宗教。宗教人口比例來自皮尤研究中心嘅統計，只用嚟決定角色出身；各宗教嘅神職、聖地、死後情節同對白都經過簡化同虛構，唔代表任何教義或者信眾。共濟會嘅職級、儀式同事件亦經過簡化，唔代表任何會所或者會員；遊戲入面外界對共濟會嘅陰謀論，係用嚟描寫會員面對嘅誤解，唔係事實。國家政局、法律同各種事件機率亦屬遊戲設定，唔係對任何國家、民族或者群體嘅評價。如有冒犯，敬請見諒，歡迎<a href="https://github.com/wanleung/secondlife/issues" target="_blank" rel="noopener">喺 GitHub 提出意見</a>。</p>
     <p><a href="paths.html">人生圖譜：所有職涯、信仰、金錢同出國路線</a></p>
-    <p>版本 <b>v1.6.0</b>（2026-10-21）・<a href="https://github.com/wanleung/secondlife" target="_blank" rel="noopener">原始碼</a></p>
+    <p>版本 <b>v1.7.0</b>（2026-10-21）・<a href="https://github.com/wanleung/secondlife" target="_blank" rel="noopener">原始碼</a></p>
   </footer>
 </div>
 
@@ -544,6 +544,8 @@ const ACH = {
   conscience:['良心犯','做異見人士做到民主象徵'],
   peace:['和平獎','做異見人士拎到諾貝爾和平獎'],
   informer:['線人','幫當局監視鄰居'],
+  mason:['導師','晉升共濟會第三級'],
+  grandmaster:['總會長','做到共濟會總會長'],
   master:['一代宗師','神職做到最高位'],
   nobel:['諾貝爾','攞到諾貝爾獎'],
   migrant:['他鄉','移民去另一個國家'],
@@ -695,6 +697,14 @@ for(const k of ['ranks','promo','clean','dirty','dirtySin','dirtyWhy','win','fai
   Object.defineProperty(CAREERS.pol, k, {get:() => POLITY[polOf()][k], enumerable:true, configurable:true});
 const polCap = () => (POLITY[polOf()].cap || (() => 4))();
 
+/* ============ 共濟會（副線，可以同任何職業並行）============ */
+const MASON_RANKS = ['學徒','技工','導師','會所尊主','總會長'];
+// 共濟會唔合法或者唔容許公開活動嘅地方（遊戲設定）
+const MASON_BAN = 'CHN PRK VNM LAO IRN AFG SAU PAK IRQ SYR LBY YEM EGY'.split(' ');
+const masonOK = () => !MASON_BAN.includes(C().iso);
+const masonRank = () => MASON_RANKS[S.mason.r];
+function masonBump(){ S.mason.r++; S.mason.since = S.age; if(S.mason.r===2) ach('mason'); if(S.mason.r===4) ach('grandmaster'); }
+
 // 叛教可被判刑嘅國家（遊戲設定，參考各國法律）
 const APOSTASY = ['AFG','IRN','SAU','YEM','QAT','MRT','MDV','BRN','SOM','SDN'];
 function templeFaith(){ return S.faith!=='none' ? S.faith : mainFaith(C()); }
@@ -738,7 +748,7 @@ function convertTo(f){
   let t = f==='none' ? '你放低咗信仰。' : `你改信${FAITHS[f].n}。`;
   if(S.career && S.career.path==='monk'){ S.career = null; S.job = ''; t += '你離開咗原本嘅教職。'; }
   if(old==='mus' && APOSTASY.includes(C().iso)){
-    if(R() < .35){ jail(ri(3,10)); ach('apostate'); return t + '有人舉報你叛教。法庭判你入獄。'; }
+    if(R() < .35){ jail(ri(3,10), 1); ach('apostate'); return t + '有人舉報你叛教。法庭判你入獄。'; }
     fx({hap:-12}); return t + '你屋企人同你斷絕關係，你唔敢俾外人知。';
   }
   return t;
@@ -748,7 +758,9 @@ function convertTo(f){
 const SAVE_KEY = 'samsara-v1';
 let SOUL, S, UI = {screen:'title'};
 function freshSoul(){ return {life:1,K:0,talents:{},mem:null,ach:{},hist:[],exit:null,births:null}; }
-function save(){ try{ localStorage.setItem(SAVE_KEY, JSON.stringify({v:5,SOUL,S,UI})); }catch(e){} }
+function save(){ try{ localStorage.setItem(SAVE_KEY, JSON.stringify({v:6,SOUL,S,UI})); }catch(e){} }
+// v5 → v6：分開刑事同政治坐監；舊紀錄當刑事
+function migrateV5(){ if(S && S.flags && S.flags.excon) S.flags.crime = 1; }
 // v4 → v5：政體
 function migrateV4(){
   if(!S || S.beast) return;
@@ -786,6 +798,7 @@ function load(){
       if(!d.v || d.v < 3) migrateV2();
       if(!d.v || d.v < 4) migrateV3();
       if(!d.v || d.v < 5) migrateV4();
+      if(!d.v || d.v < 6) migrateV5();
       return true;
     }
   }catch(e){}
@@ -803,7 +816,11 @@ function good(n, why){ S.merit += n; S.ledger.push([why, n]); S.lastK = (S.lastK
 function bad(n, why){ S.sin += n; S.ledger.push([why, -n]); S.lastK = (S.lastK||0) - n; }
 function die(cause){ S.alive = false; S.cause = cause; }
 function ach(id){ if(!SOUL.ach[id]){ SOUL.ach[id] = SOUL.life; S.newAch.push(id); } }
-function jail(y){ S.jail = y; ach('jail'); fx({wealth:-15,hap:-15}); S.flags.excon = 1; }
+// pol：因政治、信仰或者良知坐監，唔當刑事罪行；共濟會只會開除真正犯罪嘅會員
+function jail(y, pol){ S.jail = y; ach('jail'); fx({wealth:-15,hap:-15}); S.flags.excon = 1;
+  if(pol) return;
+  S.flags.crime = 1;
+  if(S.mason){ S.mason = null; S.flags.masonBan = 1; S.flags.masonExpelled = 1; } }
 function karmaWord(k){ return k>=100?'大善':k>=40?'善':k>-40?'平':k>-100?'惡':'大惡'; }
 
 /* ============ 投胎 ============ */
@@ -1142,7 +1159,7 @@ const EVENTS = [
  ]},
 {id:'protest',a:[15,28],w:2,text:()=>harsh()>0?'有同學秘密組織抗議，問你去唔去。喺呢度，係會坐監嘅。':'城中有大型示威，朋友問你去唔去。',
  choices:[
-  {t:'上街',go(){ S.flags.activist=1; fx({fame:3}); good(3,'為公義發聲'); if(R()<.35*harsh()){ jail(ri(2,5)); return '你被捕。審判只用咗十分鐘。'; } return '你喺人群中大嗌，覺得自己第一次真正活過。'; }},
+  {t:'上街',go(){ S.flags.activist=1; fx({fame:3}); good(3,'為公義發聲'); if(R()<.35*harsh()){ jail(ri(2,5), 1); return '你被捕。審判只用咗十分鐘。'; } return '你喺人群中大嗌，覺得自己第一次真正活過。'; }},
   {t:'留喺屋企',go(){ return '你喺電視睇住。'; }},
  ]},
 {id:'gang_recruit',a:[13,22],if:()=>!S.career&&(S.jiang>=10||S.flags.street||(S.cls<=1&&R()<.4)),w:3,text:()=>'街頭大佬睇中你：「跟我啦，有大把錢搵。」',
@@ -1228,7 +1245,7 @@ const EVENTS = [
  ]},
 {id:'witness',a:[20,60],w:1.5,text:()=>'你發現老闆／官員偷偷倒有毒廢料落河。',
  choices:[
-  {t:'公開揭發',go(){ good(10,'揭發不公'); fx({fame:8}); if(R()<.4*harsh()){ jail(ri(2,6)); return '你以「散播謠言」罪名被捕。'; } fx({wealth:-8}); return '你被炒，但條河最後清理咗。'; }},
+  {t:'公開揭發',go(){ good(10,'揭發不公'); fx({fame:8}); if(R()<.4*harsh()){ jail(ri(2,6), 1); return '你以「散播謠言」罪名被捕。'; } fx({wealth:-8}); return '你被炒，但條河最後清理咗。'; }},
   {t:'收錢收聲',go(){ bad(6,'同流合污'); fx({wealth:12}); return '下游條村好多人患癌。'; }},
  ]},
 {id:'strike',a:[20,55],if:()=>['工廠工人','製衣廠工人','建築工人','建築散工','外送員'].includes(S.job),w:2,text:()=>'工友準備罷工爭取加人工，老闆私下搵你：「做工賊，升你做管工。」',
@@ -1518,7 +1535,7 @@ const EVENTS = [
 {id:'ilr',a:[18,90],once:false,if:()=>S.status==='visa'&&S.visa==='work'&&!isCitizen()&&S.yearsHere>=5&&!S.flags.noPR,w:8,text:()=>`你喺${C().n}住滿五年，可以申請永久居留（ILR／PR）。`,
  choices:()=>[
   {t:`申請（${fmt$(Math.round(G()*.08))}）`,go(){ pay(Math.round(G()*.08));
-    const p = .8 - (S.flags.excon?.45:0) - S.sin/250 - (S.jail?1:0);
+    const p = .8 - (S.flags.crime?.45:0) - S.sin/250 - (S.jail?1:0);
     if(R()<p){ S.status='pr'; S.visa=null; S.yearsHere=0; fx({hap:10}); return '批咗！你終於唔使再驚簽證到期。'; }
     fx({hap:-8}); return '被拒。信入面寫：「申請人未能證明品格良好。」'; }},
   {t:'遲啲先',go(){ return ''; }},
@@ -1577,6 +1594,79 @@ const EVENTS = [
    o.push({t:S.money>=2500?'慳返啲錢':'冇錢，喺屋企睇旅遊節目',go(){ return ''; }});
    return o; }},
 
+// ---------- 共濟會 ----------
+{id:'mason_invite',a:[21,60],if:()=>!S.mason&&!S.flags.masonBan&&!S.flags.crime&&!S.jail&&S.merit>=S.sin,w:()=>(masonOK()?1:.3)+S.fame/50,
+ text:()=>masonOK() ? '一位你好尊敬嘅長輩問你：「有冇興趣加入共濟會？我可以做你嘅推薦人。」'
+   : `一位你好尊敬嘅長輩壓低聲線問你：「有冇興趣加入共濟會？」喺${C().n}，共濟會係非法組織。`,
+ choices:[
+  {t:'申請入會',go(){
+    if(S.faith==='none' && !['FRA','BEL'].includes(C().iso)){ S.flags.masonBan=1; return '面試時佢哋問你信唔信有一位至高存在。你老實答唔信。主流會所要求會員有信仰，佢哋好客氣咁拒絕咗你。'; }
+    const fee = Math.round(G()*.05); pay(fee); S.mason = {r:0, since:S.age}; fx({hap:5});
+    if(!masonOK()) return `你哋喺一間閂埋窗簾嘅住宅單位聚會，入會費 ${fmt$(fee)}。冇圍裙，冇會所，只有幾個互相信任嘅人。佢哋叫你做兄弟。`;
+    return `你蒙住眼，被帶入會所，入會費 ${fmt$(fee)}。${S.male?'':'你加入嘅係女子會所。'}除低眼罩，見到一班平時喺街見到都唔會留意嘅人：有醫生、有巴士司機、有茶餐廳老闆。佢哋叫你做兄弟${S.male?'':'（喺女子會所，係姊妹）'}。`+
+      (S.faith==='chr' && R()<.4 ? '你嘅神父知道之後唔太高興。' : ''); }},
+  {t:'共濟會？咪即係光明會？',go(){ fx({hap:1}); return '長輩嘆咗口氣：「呢條問題我聽咗四十年。」'; }},
+ ]},
+{id:'mason_degree',a:[21,95],once:false,if:()=>S.mason&&S.mason.r<2&&S.age-S.mason.since>=2&&!S.jail,w:4,
+ text:()=>S.mason.r===0?'你背熟咗學徒嘅問答，可以晉升技工。':'你可以晉升第三級：導師。',
+ go(){ masonBump(); fx({int:3,hap:4}); return S.mason.r===1 ? '儀式之後，兄弟教你點樣用矩尺同圓規比喻做人：行事要正直，慾望要有界線。' : '你完成咗第三級儀式，成為導師。你明白咗個儀式講嘅係生死同正直，唔係統治世界。'; }},
+{id:'mason_master',a:[30,95],if:()=>S.mason&&S.mason.r===2&&S.age-S.mason.since>=5&&S.merit-S.sin>=10&&!S.jail,w:3,text:()=>'會所兄弟提名你做今屆尊主，帶領會所一年。',
+ choices:[
+  {t:'接受',go(){ masonBump(); fx({fame:5,hap:6}); return '你坐上東方嘅位置，主持會議同儀式。最難嘅係令大家準時開會。'; }},
+  {t:'我仲未夠資格',go(){ return '兄弟話：「肯咁講嘅人，通常已經夠資格。」'; }},
+ ]},
+{id:'mason_grand',a:[50,95],if:()=>S.mason&&S.mason.r===3&&S.merit-S.sin>=40&&S.fame>=25&&!S.jail,w:3,text:()=>'總會想提名你做總會長。',
+ choices:[
+  {t:'接受',go(){ masonBump(); fx({fame:10,hap:8}); return '你成為總會長。你嘅第一個決定，係將今年嘅籌款全部撥去兒童醫院。'; }},
+  {t:'留俾年輕人',go(){ good(2,'讓賢'); return '你推薦咗一位後輩。'; }},
+ ]},
+{id:'mason_charity',a:[21,95],once:false,if:()=>S.mason&&!S.jail,w:2,text:()=>pick(['會所籌款，幫醫院買洗腎機。','會所為災區重建學校籌款。','會所設立獎學金，資助基層學生讀大學。','會所去老人院探訪，需要人手。']),
+ choices:()=>{ const amt = Math.round(G()*.08); return [
+  ...(S.money>=amt ? [{t:`捐 ${fmt$(amt)}`,go(){ pay(amt); good(5,'慈善捐獻'); fx({hap:4}); return '收據上冇寫你個名。你覺得咁啱。'; }}] : []),
+  {t:'去做義工',go(){ good(3,'義務服務'); fx({hap:5,hp:-2}); return '你搬咗一日嘢，腰好痛，心好舒服。'; }},
+  {t:'今次唔參加',go(){ return ''; }}]; }},
+{id:'mason_self',a:[21,95],once:false,if:()=>S.mason&&!S.jail,w:1.2,text:()=>'會所導師叫你每晚反省：今日有冇做錯嘢？有冇對人好啲？',
+ choices:[
+  {t:'認真咁做',go(){ good(1,'自省修身'); fx({int:2,hap:3}); if(S.sin>S.merit && R()<.4){ good(4,'補過'); return '你諗起以前傷害過嘅一個人，搵佢道咗歉。'; } return '你發覺自己脾氣好咗。'; }},
+  {t:'做兩晚就算',go(){ return ''; }},
+ ]},
+{id:'mason_rumor',a:[21,95],once:false,if:()=>S.mason&&!S.jail,w:1.5,text:()=>pick([
+   '親戚喺飯局問你：「你哋係咪控制緊全世界？」',
+   '網上有人將你嘅會所合照圈起，標題係「光明會成員曝光」。',
+   '你見工時講漏口，面試官即刻問你識唔識羅斯柴爾德。',
+   '另一半喺衣櫃搵到一條圍裙同一對白手套，以為你有外遇。',
+   '有政客話某單醜聞「背後有共濟會黑手」，之後一個禮拜成日有朋友問你。']),
+ choices:[
+  {t:'耐心解釋：我哋係慈善同修身團體',go(){ fx({hap:-2,fame:1}); return '對方半信半疑：「你咁講，即係你要咁講。」'; }},
+  {t:'「係呀，我哋仲養咗隻蜥蜴人。」',go(){ fx({hap:3,fame:-1}); return '對方笑咗。之後佢同人講你親口承認咗。'; }},
+  {t:'以會員身份為榮，公開戴戒指',go(){ fx({hap:4,fame:3}); return '你戴住矩尺圓規戒指返工。有個客人睇到，同你握手時用咗個特別嘅手勢。'; }},
+ ]},
+{id:'mason_favor',a:[25,85],if:()=>S.mason&&S.mason.r>=1&&!S.jail,w:1.2,text:()=>pick([
+   '有位兄弟喺政府負責採購，暗示可以幫你公司拎合約。',
+   '你被告上法庭，有人話個法官都係兄弟，叫你喺庭上打暗號。',
+   '有位兄弟喺大公司做人事，話可以幫你個仔走後門入職。']),
+ choices:[
+  {t:'利用關係',go(){ bad(8,'濫用兄弟情誼'); fx({wealth:10});
+    if(R()<.3){ S.mason=null; S.flags.masonBan=1; S.flags.masonExpelled=1; fx({hap:-10,fame:-5}); return '會所知道咗。你違反咗誓言，被開除會籍，以後都唔可以再入。'; }
+    return '事情辦成咗。你喺會所見到嗰位兄弟，佢冇望你。'; }},
+  {t:'拒絕：咁做違反誓言',go(){ good(3,'守正不阿'); return '你話：「我入會係想做好啲嘅人，唔係想走捷徑。」'; }},
+ ]},
+{id:'mason_raid',a:[21,95],once:false,if:()=>S.mason&&!masonOK()&&!S.jail,w:2.5,text:()=>pick([
+   '國安上門，問你同「外國秘密組織」有咩關係。',
+   '官方報紙刊登文章，話共濟會係「顛覆國家嘅外國勢力」，仲列出一啲名。',
+   '你哋聚會嘅單位樓下，停咗架冇車牌嘅車。']),
+ choices:()=>{ const sev = Math.max(.4, harsh()); return [
+  {t:'退會，簽聲明同共濟會劃清界線',go(){ S.mason=null; fx({hap:-8}); return '你簽咗名。之後喺街見到以前嘅兄弟，你哋都扮唔識。'; }},
+  {t:'否認，繼續秘密聚會',go(){ if(R()<.35*sev){ S.flags.masonPol=1; jail(ri(2,8), 1); return '你哋喺聚會時被一鍋端，罪名係「參加非法組織」。'; } fx({hap:-3}); return '你哋改咗每次喺唔同地方聚會。'; }},
+  {t:'公開身份：我哋係慈善團體',go(){ good(3,'堅守良知'); fx({fame:6}); if(R()<.6*sev){ S.flags.masonPol=1; jail(ri(3,10), 1); return '訪問刊出之後一個禮拜，你被拘捕。'; } return '外國傳媒報道咗你。當局暫時冇郁你。'; }}]; }},
+{id:'mason_interrogate',a:[0,130],jail:1,if:()=>S.mason&&S.flags.masonPol,w:8,text:()=>'審訊人員將一張白紙推到你面前：「寫低你所有會員嘅名，就可以減刑。」',
+ choices:[
+  {t:'寫',go(){ bad(10,'出賣兄弟'); S.jail=Math.max(1,S.jail-3); S.mason=null; delete S.flags.masonPol; fx({hap:-10}); return '幾日之後，你喺監獄走廊見到其中一個兄弟被押入嚟。'; }},
+  {t:'交白卷',go(){ good(5,'守護兄弟'); S.jail+=2; delete S.flags.masonPol; fx({hp:-5}); return '刑期加咗。你喺牆上用指甲刻咗一個矩尺同圓規。'; }},
+ ]},
+{id:'mason_expelled',a:[0,130],jail:1,if:()=>S.flags.masonExpelled&&!S.flags.masonExpelNote,w:20,text:()=>'會所寄咗封信入監獄。',
+ go(){ S.flags.masonExpelNote=1; fx({hap:-6}); return '你犯咗法，違反咗入會時嘅誓言，被永久開除會籍。信尾寫住：「願你仍然努力做一個更好嘅人。」'; }},
+
 // ---------- 信仰 ----------
 {id:'mem_reveal',a:[3,8],if:()=>S.flags.mem,w:8,text:()=>`你開始同大人講前世嘅事：你以前叫${SOUL.mem.name}，住喺${SOUL.mem.country}。`,
  choices:[
@@ -1607,9 +1697,9 @@ const EVENTS = [
  ]},
 {id:'persecute',a:[16,80],if:()=>S.faith!=='none'&&harsh()>=.5&&relOf(C(),S.faith)<10,w:2,text:()=>`當局話你哋${F().n}嘅聚會「非法」，開始拉人。`,
  choices:[
-  {t:'轉入地下，繼續秘密聚會',go(){ if(R()<.3){ jail(ri(2,8)); return '你哋被一鍋端。'; } fx({hap:-3}); return '你哋每次換一個地方，用暗號約時間。'; }},
+  {t:'轉入地下，繼續秘密聚會',go(){ if(R()<.3){ jail(ri(2,8), 1); return '你哋被一鍋端。'; } fx({hap:-3}); return '你哋每次換一個地方，用暗號約時間。'; }},
   {t:'簽悔過書，表面放棄',go(){ fx({hap:-8}); return '你簽咗名。夜晚，你仍然偷偷祈禱。'; }},
-  {t:'公開堅持，接受外國記者訪問',go(){ good(3,'堅守良知'); fx({fame:8}); if(R()<.5){ jail(ri(3,10)); return '訪問播出之後第三日，你被帶走。'; } return '你嘅訪問傳遍全世界。當局暫時唔敢郁你。'; }},
+  {t:'公開堅持，接受外國記者訪問',go(){ good(3,'堅守良知'); fx({fame:8}); if(R()<.5){ jail(ri(3,10), 1); return '訪問播出之後第三日，你被帶走。'; } return '你嘅訪問傳遍全世界。當局暫時唔敢郁你。'; }},
  ]},
 {id:'pilgrim',a:[25,80],if:()=>S.faith!=='none'&&!S.jail&&S.money>=pilgrimCost(),w:1.2,text:()=>`你儲夠錢，可以${PILGRIM[S.faith][1]}。`,
  choices:()=>[
@@ -1802,7 +1892,7 @@ const EVENTS = [
 {id:'p_crack',a:[25,90],if:()=>S.career&&S.career.path==='pol'&&S.career.rank>=3,w:3,text:()=>'全國大示威，軍方問你：「開唔開槍？」',
  choices:[
   {t:'下令鎮壓',go(){ bad(30,'下令屠殺示威者'); fx({hap:-10}); return '廣場清場。歷史書冇記低呢一日，但你記得。'; }},
-  {t:'拒絕，同人民對話',go(){ good(20,'拒絕鎮壓'); if(harsh()>=.5){ S.career=null; jail(ri(5,15)); return '你被軟禁，之後被判入獄，罪名係「分裂國家」。'; } S.career.rank=Math.max(1,S.career.rank-1); return '你被逼落台，但冇人流血。'; }},
+  {t:'拒絕，同人民對話',go(){ good(20,'拒絕鎮壓'); if(harsh()>=.5){ S.career=null; jail(ri(5,15), 1); return '你被軟禁，之後被判入獄，罪名係「分裂國家」。'; } S.career.rank=Math.max(1,S.career.rank-1); return '你被逼落台，但冇人流血。'; }},
  ]},
 {id:'p_order',a:[22,85],once:false,if:()=>S.career&&S.career.path==='pol'&&S.career.rank>=1&&polOf()!=='dem',w:2,text:()=>({
    elec:'黨要你用司法程序，取消反對派候選人嘅參選資格。',
@@ -1816,7 +1906,7 @@ const EVENTS = [
   {t:'照做',go(){ bad(10,'助紂為虐'); fx({fame:3}); return '上面好滿意。你之後幾晚都瞓唔著。'; }},
   {t:'陽奉陰違，做少啲',go(){ bad(3,'敷衍了事'); if(R()<.3){ S.career.rank=Math.max(0,S.career.rank-1); S.job=CAREERS.pol.ranks[S.career.rank]; return '有人打小報告。你被降職。'; } return '你交咗份好睇嘅報告，實際上冇點做。'; }},
   {t:'拒絕',go(){ good(10,'拒絕不義命令'); S.career=null; S.job='';
-    if(R()<.4*harsh()){ jail(ri(2,8)); return '你被撤職查辦，之後判咗入獄。'; } fx({hap:-6}); return '你被撤職。以前啲同事喺街見到你都扮唔識。'; }},
+    if(R()<.4*harsh()){ jail(ri(2,8), 1); return '你被撤職查辦，之後判咗入獄。'; } fx({hap:-6}); return '你被撤職。以前啲同事喺街見到你都扮唔識。'; }},
  ]},
 {id:'p_purge',a:[28,85],if:()=>S.career&&S.career.path==='pol'&&S.career.rank>=2&&!['dem','sar'].includes(polOf()),w:2,
  text:()=>polOf()==='party'?'反腐運動開始。你嘅靠山落馬。':'一場清洗開始。你嘅靠山失勢。',
@@ -1879,7 +1969,7 @@ const EVENTS = [
 {id:'mi_massacre',a:[18,70],if:()=>S.career&&S.career.path==='mil',w:2,text:()=>'上級命令：「條村有叛軍，全村清除。」',
  choices:[
   {t:'執行命令',go(){ bad(25,'屠村'); fx({hap:-15}); return '你之後每晚都聽到嗰啲聲。'; }},
-  {t:'抗命',go(){ good(15,'抗命救村民'); if(R()<.4){ die('抗命被處決'); return '你被軍事法庭判處死刑。'; } S.career=null; jail(ri(2,6)); return '你被開除軍籍，送入軍事監獄。'; }},
+  {t:'抗命',go(){ good(15,'抗命救村民'); if(R()<.4){ die('抗命被處決'); return '你被軍事法庭判處死刑。'; } S.career=null; jail(ri(2,6), 1); return '你被開除軍籍，送入軍事監獄。'; }},
  ]},
 {id:'mi_coup',a:[30,75],if:()=>S.career&&S.career.path==='mil'&&S.career.rank===3,w:3,text:()=>'幾個將軍秘密約你：「政府腐敗，我哋接管。」',
  choices:[
@@ -2034,7 +2124,7 @@ function tryPromo(dirty){
   fx(K.failFx);
   if(dirty && K.dirtyJail && R()<K.dirtyJail){ jail(ri(2,6)); S.career=null; return '事敗，你被捕。'; }
   if(K.failJail && R()<K.failJail){ jail(ri(2,6)); return K.fail + '仲俾差人拉咗。'; }
-  if(K.authJail && R() < K.authJail*harsh()){ jail(ri(3,10)); return '當局以「顛覆國家政權」罪名拘捕你。'; }
+  if(K.authJail && R() < K.authJail*harsh()){ jail(ri(3,10), 1); return '當局以「顛覆國家政權」罪名拘捕你。'; }
   if(k==='pol' && R() < .15*harsh()){ S.career=null; if(R()<.5){ jail(ri(5,15)); return K.fail + '你喺權鬥中失勢，被查出「嚴重違紀」，判咗入獄。'; } return K.fail + '你喺權鬥中失勢，被迫「提早退休」。'; }
   return K.fail;
 }
@@ -2256,6 +2346,7 @@ function viewLife(){
   const flags = [];
   if(S.married) flags.push('已婚'); if(S.kids) flags.push(`${S.kids} 個仔女`); if(S.flags.uni) flags.push('大學');
   if(S.flags.smoker) flags.push('食煙'); if(S.flags.addict) flags.push('毒癮');
+  if(S.mason) flags.push(`共濟會・${masonRank()}`); else if(S.flags.masonExpelled) flags.push('已被開除共濟會會籍');
   if(S.jail) flags.push(`坐監中（尚餘 ${S.jail} 年）`); if(S.flags.mem) flags.push('帶住前世記憶');
   const panel = `<aside class="panel">
     <div class="who">${esc(S.name)}<small>${S.beast?(BEASTS[S.beast].realm||'畜生道'):`${COUNTRIES[S.home].n}・${CLASSES[S.cls]}出身`}</small></div>
@@ -2278,7 +2369,7 @@ function viewJudge(){
   const vColor = J.net>=20?'var(--jade)':J.net>-20?'var(--ink)':'var(--cinnabar)';
   const lines = [...S.ledger].sort((a,b)=>Math.abs(b[1])-Math.abs(a[1])).slice(0,12);
   const yen = J.net>=60?'閻羅王起身拱手：「善哉。」':J.net>=20?'閻羅王點頭：「唔錯。」':J.net>-20?'閻羅王打個喊露：「又一個平凡人。下一個。」':J.net>-60?'閻羅王眉頭一皺：「你自己知。」':'閻羅王拍案：「押落去！」';
-  const ep = S.beast ? `一隻${S.name}，${S.cause}。` : `${esc(S.name)}，${COUNTRIES[S.home].n}人，${CLASSES[S.cls]}出身，${S.faith==='none'?'無宗教':`信${F().n}`}${S.ci!==S.home?`，最後喺${C().n}終老`:''}。享年 ${S.age} 歲，死於${esc(S.cause)}。一生最高身份：${esc(J.peakTitle)}。最高身家 ${fmt$(S.peakMoney||0)}，死時剩低 ${fmt$(S.money)}${S.cit.length>1?`，持有 ${S.cit.map(i=>COUNTRIES[i].n).join('、')} 國籍`:''}。`;
+  const ep = S.beast ? `一隻${S.name}，${S.cause}。` : `${esc(S.name)}，${COUNTRIES[S.home].n}人，${CLASSES[S.cls]}出身，${S.faith==='none'?'無宗教':`信${F().n}`}${S.ci!==S.home?`，最後喺${C().n}終老`:''}。享年 ${S.age} 歲，死於${esc(S.cause)}。一生最高身份：${esc(J.peakTitle)}${S.mason?`，共濟會${masonRank()}`:S.flags.masonExpelled?'，曾經係共濟會會員，後被開除':''}。最高身家 ${fmt$(S.peakMoney||0)}，死時剩低 ${fmt$(S.money)}${S.cit.length>1?`，持有 ${S.cit.map(i=>COUNTRIES[i].n).join('、')} 國籍`:''}。`;
   const newA = S.newAch.map(id => `<span class="chip">${ACH[id][0]}</span>`).join('');
   const nextN = nChoices(SOUL.K+10), nextN2 = nChoices(SOUL.K-15);
   return `<div class="court">
