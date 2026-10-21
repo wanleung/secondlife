@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
 <style>
-/* Layout: 同遊戲同一個幽冥世界；一生流程 → 十條職涯梯級 → 信仰 → 金錢 → 出國 → 平凡職業 */
+/* Layout: 同遊戲同一個幽冥世界；一生流程 → 十一條職涯梯級 → 政體 → 信仰 → 金錢 → 出國 → 平凡職業 */
 :root{
   --night:#11151c; --night-2:#1a2130; --line:#2b3446;
   --mist:#93a0b6; --glow:#e9e3d2;
@@ -91,7 +91,7 @@ footer.foot a{color:var(--mist)}
 <div class="wrap">
   <header>
     <h1>輪迴<span>人生</span>圖譜</h1>
-    <p class="lede">遊戲入面所有可以行嘅路：一世由出世到奈何橋點樣行，十條非凡職涯點樣升，信仰同離開輪迴嘅門，錢點樣搵，點樣出國留學、打工、拎永居同入籍，同埋大部份人會做嘅平凡工作。</p>
+    <p class="lede">遊戲入面所有可以行嘅路：一世由出世到奈何橋點樣行，十一條非凡職涯點樣升，八種政體點樣從政，信仰同離開輪迴嘅門，錢點樣搵，點樣出國留學、打工、拎永居同入籍，同埋大部份人會做嘅平凡工作。</p>
   </header>
 
   <section>
@@ -123,7 +123,7 @@ footer.foot a{color:var(--mist)}
   </section>
 
   <section>
-    <h2>十條非凡路</h2>
+    <h2>十一條非凡路</h2>
     <p class="sub">由下而上升級。每次升遷都可以行<span class="clean">正途</span>或者<span class="dirty">旁門</span>：旁門成功率高 25%，但一定加孽。升到最頂有成就。</p>
     <div class="ladders">
 
@@ -159,12 +159,24 @@ footer.foot a{color:var(--mist)}
       </article>
 
       <article class="lad">
-        <header><h3>政治</h3><span class="tal">天賦 權謀</span></header>
+        <header><h3>從政</h3><span class="tal">天賦 權謀</span></header>
         <ol class="ranks"><li><i>1</i>社運人士</li><li><i>2</i>地方議員</li><li><i>3</i>國會議員</li><li><i>4</i>部長</li><li class="top"><i>5</i>國家領袖<em>成就：一國之君</em></li></ol>
         <dl class="kv">
-          <dt>入行</dt><dd>交叉點（18 歲以上）</dd>
-          <dt>升遷</dt><dd><span class="clean">落區靠民意</span>／<span class="dirty">操控選票 +12 孽</span>；威權國家失敗有機會坐監</dd>
-          <dt>事件</dt><dd>收地產商信封；部長級要決定鎮唔鎮壓示威（+30 孽／+20 德）</dd>
+          <dt>入行</dt><dd>交叉點（18 歲以上，要係公民）</dd>
+          <dt>升遷</dt><dd>上面係民主國家；職位同升遷方式跟政體變，見下面「政體」</dd>
+          <dt>事件</dt><dd>收地產商信封、醜聞、上級命令、反腐清洗；第 4 級要決定鎮唔鎮壓示威（+30 孽／+20 德）</dd>
+          <dt>出國</dt><dd>搬去另一個國家就要由頭嚟過</dd>
+        </dl>
+      </article>
+
+      <article class="lad">
+        <header><h3>異見</h3><span class="tal">天賦 風骨</span></header>
+        <ol class="ranks"><li><i>1</i>維權人士</li><li><i>2</i>異見人士</li><li><i>3</i>知名異見者</li><li><i>4</i>流亡領袖</li><li class="top"><i>5</i>民主象徵<em>成就：良心犯</em></li></ol>
+        <dl class="kv">
+          <dt>入行</dt><dd>非民主國家嘅交叉點；中學參加過示威會特別標示</dd>
+          <dt>升遷</dt><dd><span class="clean">實名發聲 +6 德</span>／<span class="dirty">打壓運動內部異己 +8 孽</span>；每次都有機會被拉</dd>
+          <dt>事件</dt><dd>獄中逼認罪（認罪、出賣同伴 +12 孽、拒絕 +5 德）、流亡、中毒、諾貝爾和平獎</dd>
+          <dt>流亡</dt><dd>流亡之後唔可以退休返鄉</dd>
         </dl>
       </article>
 
@@ -240,6 +252,34 @@ footer.foot a{color:var(--mist)}
 
 
   <section>
+    <h2>政體</h2>
+    <p class="sub">每個國家嘅政體用 V-Dem《世界政體分類》2025 年數據：0 封閉專制、1 選舉專制、2 選舉民主、3 自由民主。封閉專制再分一黨、君主、軍政府、神權等，屬遊戲設定。從政路線跟你所在國家嘅政體行。</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>政體</th><th class="num">V-Dem</th><th>從政五級</th><th>點升</th><th>旁門（孽）</th><th>鎮壓力度</th></tr></thead>
+        <tbody>
+          <tr><td>自由民主／選舉民主</td><td class="num">2–3</td><td><span class="rk">社運人士 → 地方議員 → 國會議員 → 部長 → 國家領袖</span></td><td>選舉</td><td><span class="dirty">操控選票、抹黑對手 +12</span></td><td>0</td></tr>
+          <tr><td>選舉專制</td><td class="num">1</td><td><span class="rk">執政黨黨員 → 地方議員 → 國會議員 → 部長 → 總統</span></td><td>結果早定嘅選舉</td><td><span class="dirty">幫手做票、打壓反對派 +12</span></td><td>一半</td></tr>
+          <tr><td>一黨專政</td><td class="num">0</td><td><span class="rk">黨員 → 基層幹部 → 地方書記 → 中央委員 → 最高領導人</span></td><td>黨內考核</td><td><span class="dirty">站隊、送禮、拉關係 +10</span></td><td>全</td></tr>
+          <tr><td>君主專制</td><td class="num">0</td><td><span class="rk">公務員 → 王室顧問 → 大臣 → 首相 → 國王</span></td><td>王室信任；國王只有權貴出身先做得</td><td><span class="dirty">擦鞋、獻禮、陷害同僚 +8</span></td><td>全</td></tr>
+          <tr><td>軍政府</td><td class="num">0</td><td><span class="rk">文員 → 局長 → 部長 → 傀儡總理</span></td><td>將軍賞識；真正權力要行軍旅路線發動政變</td><td><span class="dirty">幫軍方粉飾鎮壓 +12</span></td><td>全</td></tr>
+          <tr><td>神權</td><td class="num">0–1</td><td><span class="rk">宗教學生 → 地方官員 → 省長 → 監護委員會成員 → 最高領袖</span></td><td>教士審查；唔係穆斯林最高只到省長</td><td><span class="dirty">帶頭打壓「不虔誠」嘅人 +12</span></td><td>全</td></tr>
+          <tr><td>特別行政區</td><td class="num">0</td><td><span class="rk">地區組織幹事 → 區議員 → 立法會議員 → 局長 → 行政長官</span></td><td>「愛國者」審查</td><td><span class="dirty">表忠、出席每一個飯局 +6</span></td><td>八成</td></tr>
+          <tr><td>其他封閉專制</td><td class="num">0</td><td><span class="rk">小官僚 → 局長 → 省長 → 總理 → 最高掌權者</span></td><td>掌權者恩寵</td><td><span class="dirty">獻媚、出賣同僚 +10</span></td><td>全</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="side">
+      <div><b>業力睇揀擇，唔睇國籍</b>喺邊個國家出世都唔會加減業力；德同孽只嚟自你喺嗰個制度入面點揀。</div>
+      <div><b>上級命令</b>非民主國家嘅官員會收到命令，例如強拆、取消反對派資格、拉人：照做 +10 孽，陽奉陰違 +3 孽（30% 降職），拒絕 +10 德但即刻冇咗份工，可能坐監。</div>
+      <div><b>清洗</b>靠山落馬：揭發佢 +6 孽保住個位；唔出聲就睇你有冇收過信封，收過 60% 坐監。君主國有王子醉駕要你掩蓋（+10 孽／+8 德但失寵）。</div>
+      <div><b>民主國家</b>醜聞爆出：認錯辭職 +4 德，推俾下屬 +6 孽。</div>
+      <div><b>平民</b>鎮壓力度高嘅地方會有人請你飲茶做線人（+8 孽）；選舉專制有人派錢買票（+2 孽，唔收 +1 德）。示威、揭發污染被拉嘅機會按鎮壓力度計。</div>
+      <div><b>失勢</b>非民主國家從政，每次升遷失敗都有機會喺權鬥中失勢；鎮壓力度越高越危險，一半會坐監。</div>
+    </div>
+  </section>
+
+  <section>
     <h2>信仰</h2>
     <p class="sub">出世時按出生地真實宗教人口比例抽（皮尤研究中心，2020 年）。遊戲設定係人人都會輪迴，信唔信都一樣；每種信仰修到最高，都有自己離開輪迴嘅門。</p>
     <div class="tablewrap">
@@ -276,10 +316,11 @@ footer.foot a{color:var(--mist)}
       <table>
         <thead><tr><th>非凡路</th><th class="num">第 1 級</th><th class="num">第 2 級</th><th class="num">第 3 級</th><th class="num">第 4 級</th><th class="num">第 5 級</th></tr></thead>
         <tbody>
+          <tr><td>異見</td><td class="num">×0.05</td><td class="num">×0.1</td><td class="num">×0.3</td><td class="num">×0.8</td><td class="num">×1.5</td></tr>
           <tr><td>江湖</td><td class="num">×0.8</td><td class="num">×1.5</td><td class="num">×3</td><td class="num">×6</td><td class="num">×15</td></tr>
           <tr><td>音樂</td><td class="num">×0.3</td><td class="num">×0.8</td><td class="num">×3</td><td class="num">×10</td><td class="num">×40</td></tr>
           <tr><td>生意</td><td class="num">×0.8</td><td class="num">×1.5</td><td class="num">×4</td><td class="num">×15</td><td class="num">×100</td></tr>
-          <tr><td>政治</td><td class="num">×0.5</td><td class="num">×1.5</td><td class="num">×2.5</td><td class="num">×4</td><td class="num">×6</td></tr>
+          <tr><td>從政</td><td class="num">×0.5</td><td class="num">×1.5</td><td class="num">×2.5</td><td class="num">×4</td><td class="num">×6</td></tr>
           <tr><td>神職・有薪</td><td class="num">×0.5</td><td class="num">×0.8</td><td class="num">×1.2</td><td class="num">×1.8</td><td class="num">×3</td></tr>
           <tr><td>神職・僧侶／苦行僧</td><td class="num">×0.1</td><td class="num">×0.1</td><td class="num">×0.2</td><td class="num">×0.3</td><td class="num">×0.5</td></tr>
           <tr><td>學術</td><td class="num">×0.5</td><td class="num">×1.3</td><td class="num">×2</td><td class="num">×3</td><td class="num">×5</td></tr>
@@ -363,8 +404,8 @@ footer.foot a{color:var(--mist)}
 
   <footer class="foot">
     <p><b>免責聲明</b>：本遊戲係虛構嘅娛樂作品。「人人都會輪迴」只係遊戲規則，唔代表作者對任何宗教、信仰或者無信仰嘅立場，亦無意冒犯、貶低或者宣揚任何宗教。宗教人口比例來自皮尤研究中心嘅統計，只用嚟決定角色出身；各宗教嘅神職、聖地、死後情節同對白都經過簡化同虛構，唔代表任何教義或者信眾。國家政局、法律同各種事件機率亦屬遊戲設定，唔係對任何國家、民族或者群體嘅評價。如有冒犯，敬請見諒，歡迎<a href="https://github.com/wanleung/secondlife/issues" target="_blank" rel="noopener">喺 GitHub 提出意見</a>。</p>
-    <p>數據：聯合國《世界人口展望》、聯合國兒童死亡率估算小組、世界銀行、皮尤研究中心《各國宗教組成 2010–2020》，經世界銀行及 Our World in Data 取得。</p>
-    <p>對應遊戲版本 <b>v1.5.0</b>（2026-10-21）・<a href="./">返去玩</a></p>
+    <p>數據：聯合國《世界人口展望》、聯合國兒童死亡率估算小組、世界銀行、皮尤研究中心《各國宗教組成 2010–2020》、V-Dem《世界政體分類》，經世界銀行及 Our World in Data 取得。</p>
+    <p>對應遊戲版本 <b>v1.6.0</b>（2026-10-21）・<a href="./">返去玩</a></p>
   </footer>
 </div>
 </body>
