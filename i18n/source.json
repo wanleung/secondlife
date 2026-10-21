@@ -4,7 +4,7 @@
 "374e56e953": "    <nav class=\"langs\" aria-label=\"語言\"><a href=\"./\" aria-current=\"page\">粵語</a><a href=\"zh/\">中文</a><a href=\"en/\">English</a><a href=\"ja/\">日本語</a></nav>",
 "80579d3938": "    <p><b>免責聲明</b>：本遊戲係虛構嘅娛樂作品。「人人都會輪迴」只係遊戲規則，唔代表作者對任何宗教、信仰或者無信仰嘅立場，亦無意冒犯、貶低或者宣揚任何宗教。宗教人口比例來自皮尤研究中心嘅統計，只用嚟決定角色出身；各宗教嘅神職、聖地、死後情節同對白都經過簡化同虛構，唔代表任何教義或者信眾。共濟會嘅職級、儀式同事件亦經過簡化，唔代表任何會所或者會員；遊戲入面外界對共濟會嘅陰謀論，係用嚟描寫會員面對嘅誤解，唔係事實。國家政局、法律同各種事件機率亦屬遊戲設定，唔係對任何國家、民族或者群體嘅評價。如有冒犯，敬請見諒，歡迎<a href=\"https://github.com/wanleung/secondlife/issues\" target=\"_blank\" rel=\"noopener\">喺 GitHub 提出意見</a>。</p>",
 "49ed6220c7": "    <p><a href=\"paths.html\">人生圖譜：所有職涯、信仰、金錢同出國路線</a></p>",
-"e31194e6df": "    <p>版本 <b>v1.8.0</b>（2026-10-21）・<a href=\"https://github.com/wanleung/secondlife\" target=\"_blank\" rel=\"noopener\">原始碼</a></p>",
+"afd2f0a8db": "    <p>版本 <b>v1.8.1</b>（2026-10-21）・<a href=\"https://github.com/wanleung/secondlife\" target=\"_blank\" rel=\"noopener\">原始碼</a></p>",
 "6d066bd1f6": "'聯合國《世界人口展望》（出生、人口、壽命）及聯合國兒童死亡率估算小組（五歲前死亡率）、世界銀行（人均國民所得），經世界銀行及 Our World in Data 取得；宗教人口比例來自皮尤研究中心《各國宗教組成 2010–2020》（2020 年數字）；政體來自 V-Dem《世界政體分類》（2025 年）；人口 2025、出生及壽命 2024（臺灣為 2023）。'",
 "c246698bda": "'印度'",
 "6d0e9e84f7": "'中國'",
@@ -2224,7 +2224,9 @@
 "a3357c7594": "</b>　孽 <b>",
 "4c18a35636": "</b>　淨 <b>",
 "76ac663cd5": "</b><br>靈魂業力：",
-"d8eb98bd25": "</b>（前世業力六成 + 今世淨德）</p>\n      ",
+"972f6edec4": "'＋'",
+"5e99a59907": " ＝ <b>",
+"ae790aaed5": "</b>（前世業力保留六成，加今世淨德，四捨五入）</p>\n      ",
 "7cce7d4d5e": "'<p class=\"epitaph\">生死簿上，冇乜值得記低。</p>'",
 "0c10bed160": "\n    </section>\n    <section class=\"soup\">\n      <h2 class=\"sect-h\">奈何橋頭</h2>\n      <p class=\"sub\">孟婆遞俾你一碗湯。</p>\n      ",
 "271a4a1e83": "`<div class=\"option nirvana\"><h3>${F(SOUL.exit).exitH}</h3><p>你曾經${SOUL.exit==='none'?'無宗教而做到':`信${F(SOUL.exit).n}，修成`}${F(SOUL.exit).exitWho}，業力已滿 150。你可以唔再投胎，跳出輪迴。</p><button class=\"btn\" data-a=\"nirvana\">${F(SOUL.exit).exitBtn}</button></div>`",
@@ -2430,5 +2432,5 @@
 "1ec8591344": "      <div><b>金盆洗手</b>江湖中人 30 歲後可以退出，開茶餐廳。</div>",
 "d11ba9a1f4": "      <div><b>退役／禁賽</b>運動員退役做教練；打假波事敗就終身禁賽。</div>",
 "7274bbf58e": "    <p>數據：聯合國《世界人口展望》、聯合國兒童死亡率估算小組、世界銀行、皮尤研究中心《各國宗教組成 2010–2020》、V-Dem《世界政體分類》，經世界銀行及 Our World in Data 取得。</p>",
-"618d284d18": "    <p>對應遊戲版本 <b>v1.8.0</b>（2026-10-21）・<a href=\"./\">返去玩</a></p>"
+"75f5ddd209": "    <p>對應遊戲版本 <b>v1.8.1</b>（2026-10-21）・<a href=\"./\">返去玩</a></p>"
 }

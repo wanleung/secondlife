@@ -204,7 +204,7 @@ td.num{font-variant-numeric:tabular-nums;text-align:right}
   <footer class="foot">
     <p><b>Disclaimer</b>: This game is a work of fiction made for entertainment. “Everyone is reborn” is only a rule of the game. It does not express the author’s position on any religion, belief or lack of belief, and it is not meant to offend, belittle or promote any religion. Shares of religious population come from Pew Research Center statistics and are used only to decide a character’s background; the clergy, holy places, afterlife scenes and dialogue of each religion are simplified and fictional and do not represent any doctrine or believers. Freemasonry’s degrees, rituals and events are also simplified and do not represent any lodge or member; the conspiracy theories about Freemasons in the game depict the misunderstandings members face, not facts. Countries’ politics, laws and all event odds are game settings, not judgements of any country, people or group. If anything offends, we apologise; please <a href="https://github.com/wanleung/secondlife/issues" target="_blank" rel="noopener">raise it on GitHub</a>.</p>
     <p><a href="paths.html">Life map: every career, faith, money and emigration path</a></p>
-    <p>Version <b>v1.8.0</b> (2026-10-21) · <a href="https://github.com/wanleung/secondlife" target="_blank" rel="noopener">Source code</a></p>
+    <p>Version <b>v1.8.1</b> (2026-10-21) · <a href="https://github.com/wanleung/secondlife" target="_blank" rel="noopener">Source code</a></p>
   </footer>
 </div>
 
@@ -2413,7 +2413,7 @@ function viewJudge(){
       <p class="epitaph">${ep}</p>
       ${J.surprise?`<p class="epitaph">${J.surprise}</p>`:''}
       <p class="epitaph">${yen}</p>
-      <p class="epitaph">This life: merit <b>${S.merit}</b>   sin <b>${S.sin}</b>   net <b>${J.net>0?'+':''}${J.net}</b><br>Soul karma: ${J.prevK} → <b>${J.newK}</b> (60% of past karma + this life’s net)</p>
+      <p class="epitaph">This life: merit <b>${S.merit}</b>   sin <b>${S.sin}</b>   net <b>${J.net>0?'+':''}${J.net}</b><br>Soul karma: ${J.prevK<0?`(${J.prevK})`:J.prevK} × 0.6 ${J.net<0?'−':'+'} ${Math.abs(J.net)} = <b>${J.newK}</b> (60% of past karma, plus this life’s net, rounded)</p>
       ${lines.length?`<ul class="ledger">${lines.map(l=>`<li><span>${esc(l[0])}</span><span class="v ${l[1]>0?'p':'n'}">${l[1]>0?'+':''}${l[1]}</span></li>`).join('')}</ul>`:'<p class="epitaph">Nothing in the Book worth recording.</p>'}
       ${newA?`<div class="newach">${newA}</div>`:''}
     </section>

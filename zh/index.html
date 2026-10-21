@@ -204,7 +204,7 @@ td.num{font-variant-numeric:tabular-nums;text-align:right}
   <footer class="foot">
     <p><b>免責聲明</b>：本遊戲是虛構的娛樂作品。「人人都會輪迴」只是遊戲規則，不代表作者對任何宗教、信仰或無信仰的立場，也無意冒犯、貶低或宣揚任何宗教。宗教人口比例來自皮尤研究中心的統計，只用來決定角色出身；各宗教的神職、聖地、死後情節與對白都經過簡化和虛構，不代表任何教義或信眾。共濟會的職級、儀式與事件也經過簡化，不代表任何會所或會員；遊戲中外界對共濟會的陰謀論，是用來描寫會員面對的誤解，並非事實。國家政局、法律與各種事件機率亦屬遊戲設定，並非對任何國家、民族或群體的評價。如有冒犯，敬請見諒，歡迎<a href="https://github.com/wanleung/secondlife/issues" target="_blank" rel="noopener">在 GitHub 提出意見</a>。</p>
     <p><a href="paths.html">人生圖譜：所有職涯、信仰、金錢與出國路線</a></p>
-    <p>版本 <b>v1.8.0</b>（2026-10-21）・<a href="https://github.com/wanleung/secondlife" target="_blank" rel="noopener">原始碼</a></p>
+    <p>版本 <b>v1.8.1</b>（2026-10-21）・<a href="https://github.com/wanleung/secondlife" target="_blank" rel="noopener">原始碼</a></p>
   </footer>
 </div>
 
@@ -2413,7 +2413,7 @@ function viewJudge(){
       <p class="epitaph">${ep}</p>
       ${J.surprise?`<p class="epitaph">${J.surprise}</p>`:''}
       <p class="epitaph">${yen}</p>
-      <p class="epitaph">今生德 <b>${S.merit}</b>　孽 <b>${S.sin}</b>　淨 <b>${J.net>0?'+':''}${J.net}</b><br>靈魂業力：${J.prevK} → <b>${J.newK}</b>（前世業力六成 + 今生淨德）</p>
+      <p class="epitaph">今生德 <b>${S.merit}</b>　孽 <b>${S.sin}</b>　淨 <b>${J.net>0?'+':''}${J.net}</b><br>靈魂業力：${J.prevK<0?`(${J.prevK})`:J.prevK} × 0.6 ${J.net<0?'−':'＋'} ${Math.abs(J.net)} ＝ <b>${J.newK}</b>（前世業力保留六成，加今生淨德，四捨五入）</p>
       ${lines.length?`<ul class="ledger">${lines.map(l=>`<li><span>${esc(l[0])}</span><span class="v ${l[1]>0?'p':'n'}">${l[1]>0?'+':''}${l[1]}</span></li>`).join('')}</ul>`:'<p class="epitaph">生死簿上，沒什麼值得記下的。</p>'}
       ${newA?`<div class="newach">${newA}</div>`:''}
     </section>
