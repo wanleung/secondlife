@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Draw the 1200x630 link-preview images (og.png) for each language edition.
 
 Needs Pillow and the LXGW WenKai TC font (OFL, from Google Fonts):

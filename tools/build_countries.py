@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Rebuild the COUNTRIES table in index.html from UN data.
 
 Sources

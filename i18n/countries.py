@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Country names: Cantonese source (Taiwan-style, also used for 正體中文) -> (English, Japanese)
 NAMES = {
  '印度':('India','インド'),'中國':('China','中国'),'奈及利亞':('Nigeria','ナイジェリア'),'巴基斯坦':('Pakistan','パキスタン'),

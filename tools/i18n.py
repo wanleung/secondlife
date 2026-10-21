@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Build the English, Japanese and Standard Chinese editions from the Cantonese source.
 
 The Cantonese files at the repo root (index.html, paths.html) are the source of truth.

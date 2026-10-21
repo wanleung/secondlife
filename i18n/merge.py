@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Merge i18n/parts/*.jsonl ([id, en, ja, zh]; "=" means same as the Cantonese source) into en/ja/zh.json."""
 import glob, json
 from pathlib import Path
