@@ -204,7 +204,7 @@ td.num{font-variant-numeric:tabular-nums;text-align:right}
   <footer class="foot">
     <p><b>Disclaimer</b>: This game is a work of fiction made for entertainment. “Everyone is reborn” is only a rule of the game. It does not express the author’s position on any religion, belief or lack of belief, and it is not meant to offend, belittle or promote any religion. Shares of religious population come from Pew Research Center statistics and are used only to decide a character’s background; the clergy, holy places, afterlife scenes and dialogue of each religion are simplified and fictional and do not represent any doctrine or believers. Freemasonry’s degrees, rituals and events are also simplified and do not represent any lodge or member; the conspiracy theories about Freemasons in the game depict the misunderstandings members face, not facts. Countries’ politics, laws and all event odds are game settings, not judgements of any country, people or group. If anything offends, we apologise; please <a href="https://github.com/wanleung/secondlife/issues" target="_blank" rel="noopener">raise it on GitHub</a>.</p>
     <p><a href="paths.html">Life map: every career, faith, money and emigration path</a></p>
-    <p>Version <b>v1.8.1</b> (2026-10-21) · <a href="https://github.com/wanleung/secondlife" target="_blank" rel="noopener">Source code</a></p>
+    <p>Version <b>v1.9.0</b> (2026-10-21) · <a href="https://github.com/wanleung/secondlife" target="_blank" rel="noopener">Source code</a></p>
   </footer>
 </div>
 
@@ -831,7 +831,10 @@ function fx(o){
     else S[k] = clamp((S[k]||0) + o[k], 0, 100);
   }
 }
-function good(n, why){ S.merit += n; S.ledger.push([why, n]); S.lastK = (S.lastK||0) + n; }
+// 貧者一燈：以行善當刻嘅身家計（唔睇出身），身家少過一年人均收入，功德加成
+function lampMult(){ if(S.beast) return 1; const r = S.money / G(); return r < .3 ? 1.5 : r < 1 ? 1.25 : 1; }
+function good(n, why){ const m = Math.round(n * lampMult()); if(m > n){ n = m; why += ' (poor woman’s lamp)'; }
+  S.merit += n; S.ledger.push([why, n]); S.lastK = (S.lastK||0) + n; }
 function bad(n, why){ S.sin += n; S.ledger.push([why, -n]); S.lastK = (S.lastK||0) - n; }
 function die(cause){ S.alive = false; S.cause = cause; }
 function ach(id){ if(!SOUL.ach[id]){ SOUL.ach[id] = SOUL.life; S.newAch.push(id); } }

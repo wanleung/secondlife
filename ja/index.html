@@ -204,7 +204,7 @@ td.num{font-variant-numeric:tabular-nums;text-align:right}
   <footer class="foot">
     <p><b>免責事項</b>：本ゲームは娯楽のためのフィクションです。「誰もが輪廻する」というのはゲーム上のルールにすぎず、作者のいかなる宗教・信仰・無信仰に対する立場を示すものではなく、いかなる宗教を侮辱・軽視・宣伝する意図もありません。宗教人口の比率はピュー・リサーチ・センターの統計に基づき、キャラクターの出自を決めるためだけに使っています。各宗教の聖職、聖地、死後の場面や台詞は簡略化・創作されたもので、いかなる教義や信者を代表するものでもありません。フリーメイソンの位階・儀式・イベントも簡略化されており、いかなるロッジや会員を代表するものでもありません。ゲーム内で外部の人々が語るフリーメイソンの陰謀論は、会員が直面する誤解を描いたもので、事実ではありません。各国の政治・法律・イベントの確率もゲーム上の設定であり、いかなる国・民族・集団への評価でもありません。不快に感じられる点がありましたらご容赦ください。ご意見は<a href="https://github.com/wanleung/secondlife/issues" target="_blank" rel="noopener">GitHub</a>までお寄せください。</p>
     <p><a href="paths.html">人生図鑑：すべての職業・信仰・お金・海外ルート</a></p>
-    <p>バージョン <b>v1.8.1</b>（2026-10-21）・<a href="https://github.com/wanleung/secondlife" target="_blank" rel="noopener">ソースコード</a></p>
+    <p>バージョン <b>v1.9.0</b>（2026-10-21）・<a href="https://github.com/wanleung/secondlife" target="_blank" rel="noopener">ソースコード</a></p>
   </footer>
 </div>
 
@@ -831,7 +831,10 @@ function fx(o){
     else S[k] = clamp((S[k]||0) + o[k], 0, 100);
   }
 }
-function good(n, why){ S.merit += n; S.ledger.push([why, n]); S.lastK = (S.lastK||0) + n; }
+// 貧者一燈：以行善當刻嘅身家計（唔睇出身），身家少過一年人均收入，功德加成
+function lampMult(){ if(S.beast) return 1; const r = S.money / G(); return r < .3 ? 1.5 : r < 1 ? 1.25 : 1; }
+function good(n, why){ const m = Math.round(n * lampMult()); if(m > n){ n = m; why += '（貧者の一灯）'; }
+  S.merit += n; S.ledger.push([why, n]); S.lastK = (S.lastK||0) + n; }
 function bad(n, why){ S.sin += n; S.ledger.push([why, -n]); S.lastK = (S.lastK||0) - n; }
 function die(cause){ S.alive = false; S.cause = cause; }
 function ach(id){ if(!SOUL.ach[id]){ SOUL.ach[id] = SOUL.life; S.newAch.push(id); } }
