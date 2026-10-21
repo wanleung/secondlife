@@ -1,0 +1,2 @@
+["12d90db3c0","`${tr.t} (${fmt$(tr.cost)})`","`${tr.t}（${fmt$(tr.cost)}）`","="]
+["4267cd90f2","`${s}US$${a>=1e6?(a/1e6).toFixed(1)+'M':(a/1e3).toFixed(a>=1e5||a%1000===0?0:1)+'K'}`","`${s}US$${(a/1e4).toFixed(a>=1e5?0:1)}万`","="]

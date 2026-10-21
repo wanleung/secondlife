@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5TN9NNFY4Z"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-5TN9NNFY4Z');
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>輪迴人生圖譜</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* Layout: 同遊戲同一個幽冥世界；一生流程 → 十一條職涯梯級 → 政體 → 信仰 → 金錢 → 出國 → 平凡職業 */
+:root{
+  --night:#11151c; --night-2:#1a2130; --line:#2b3446;
+  --mist:#93a0b6; --glow:#e9e3d2;
+  --paper:#e9dcb6; --paper-2:#dccb9b; --ink:#251d13; --ink-soft:#5c4d36;
+  --gold:#c9a24c; --cinnabar:#b5352b; --jade:#3d8a72; --sin:#e2675b; --merit:#6cc3a5;
+  --font-brush:"LXGW WenKai TC","Kaiti TC","STKaiti","DFKai-SB","BiauKai",serif;
+  --font-ui:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--night);color:var(--glow);font-family:var(--font-ui);font-size:14px;line-height:1.6;
+  background-image:radial-gradient(1200px 600px at 50% -200px,#1f2a3d 0%,transparent 70%)}
+.wrap{max-width:1180px;margin:0 auto;padding-block:28px 56px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:44px}
+h1{font-family:var(--font-brush);font-size:clamp(34px,6vw,52px);margin:0;color:var(--paper);letter-spacing:.12em;line-height:1.1;text-wrap:balance}
+h1 span{color:var(--cinnabar)}
+.lede{margin:8px 0 0;color:var(--mist);max-width:62ch;font-size:15px}
+h2{font-family:var(--font-brush);font-size:28px;margin:0 0 4px;color:var(--paper);letter-spacing:.06em;text-wrap:balance}
+.sub{margin:0 0 18px;color:var(--mist);max-width:70ch}
+
+/* 一生流程 */
+.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:8px}
+.node{background:var(--paper);color:var(--ink);padding:10px 12px;border-radius:2px;min-width:0;flex:1 1 120px;display:grid;gap:2px;align-content:start}
+.node b{font-family:var(--font-brush);font-size:20px;line-height:1.2}
+.node small{font-size:12px;color:var(--ink-soft);line-height:1.45}
+.node.after{background:var(--night-2);color:var(--glow);border:1px solid var(--line)}
+.node.after small{color:var(--mist)}
+.arrow{align-self:center;color:var(--gold);font-size:18px;flex:0 0 auto}
+.outcomes{margin-top:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.out{border:1px solid var(--line);border-left:3px solid var(--mist);padding:10px 12px;border-radius:2px;display:grid;gap:2px}
+.out b{font-family:var(--font-brush);font-size:18px}
+.out small{color:var(--mist);font-size:12.5px}
+.out.good{border-left-color:var(--merit)}.out.bad{border-left-color:var(--sin)}.out.gold{border-left-color:var(--gold)}
+.out.good b{color:var(--merit)}.out.bad b{color:var(--sin)}.out.gold b{color:var(--gold)}
+
+/* 職涯梯級 */
+.ladders{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.lad{background:var(--night-2);border:1px solid var(--line);border-radius:4px;padding:16px;display:grid;gap:12px;align-content:start;min-width:0}
+.lad header{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.lad h3{margin:0;font-family:var(--font-brush);font-size:26px;color:var(--paper)}
+.tal{font-size:11.5px;color:var(--gold);border:1px solid var(--gold);border-radius:999px;padding:0 8px;white-space:nowrap}
+.ranks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column-reverse;gap:4px}
+.ranks li{display:grid;grid-template-columns:1.6em 1fr;gap:8px;align-items:center;padding:5px 9px;border-radius:2px;
+  background:var(--paper);color:var(--ink);font-family:var(--font-brush);font-size:16px}
+.ranks li i{font-style:normal;font-family:var(--font-ui);font-size:11px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.ranks li:nth-child(2){margin-right:7%}.ranks li:nth-child(3){margin-right:14%}.ranks li:nth-child(4){margin-right:21%}.ranks li:nth-child(5){margin-right:28%}
+.ranks li.top{background:var(--gold);color:#1a1408}
+.ranks li.top i{color:#4a3a14}
+.ranks li em{font-style:normal;font-family:var(--font-ui);font-size:11px;justify-self:end;grid-column:2;margin-top:-2px}
+dl.kv{margin:0;display:grid;grid-template-columns:3.6em 1fr;gap:5px 10px;font-size:13px}
+dl.kv dt{color:var(--mist)}
+dl.kv dd{margin:0;min-width:0}
+.clean{color:var(--merit)}.dirty{color:var(--sin)}
+
+/* 平凡職業 */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:4px}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:13.5px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--mist);font-weight:500;font-size:12px;letter-spacing:.06em;background:var(--night-2)}
+td:first-child{font-family:var(--font-brush);font-size:17px;color:var(--paper);white-space:nowrap}
+.jobs{display:flex;flex-wrap:wrap;gap:5px}
+.job{background:#202839;border:1px solid var(--line);border-radius:2px;padding:1px 8px;white-space:nowrap}
+.side{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:16px}
+.side div{border-top:1px solid var(--line);padding-top:8px;color:var(--mist);font-size:13px}
+.side b{display:block;color:var(--glow);font-family:var(--font-brush);font-size:17px}
+.job i{font-style:normal;color:var(--gold);font-size:11.5px;margin-left:5px;font-variant-numeric:tabular-nums}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td .rk{font-family:var(--font-brush);font-size:15px;color:var(--glow)}
+.formula{background:var(--paper);color:var(--ink);border-radius:2px;padding:14px 16px;display:grid;gap:6px;max-width:760px}
+.formula b{font-family:var(--font-brush);font-size:19px}
+.formula small{color:var(--ink-soft);font-size:12.5px}
+.langs{display:flex;gap:4px;font-size:12.5px;justify-content:flex-end;margin-bottom:8px}
+.langs a{color:var(--mist);text-decoration:none;padding:2px 8px;border:1px solid transparent;border-radius:999px}
+.langs a[aria-current]{color:var(--gold);border-color:var(--gold)}
+footer.foot{border-top:1px solid var(--line);padding-top:16px;display:grid;gap:8px;font-size:12px;color:var(--mist);max-width:80ch}
+footer.foot p{margin:0}
+footer.foot b{color:var(--glow);font-weight:500}
+footer.foot a{color:var(--mist)}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <nav class="langs" aria-label="語言"><a href="../paths.html">粵語</a><a href="paths.html" aria-current="page">中文</a><a href="../en/paths.html">English</a><a href="../ja/paths.html">日本語</a></nav>
+    <h1>輪迴<span>人生</span>圖譜</h1>
+    <p class="lede">遊戲中所有可走的路：一世從出生到奈何橋怎麼走，十一條非凡職涯怎麼升，共濟會副線，八種政體怎麼從政，信仰與離開輪迴的門，錢怎麼賺，怎麼出國留學、打工、拿永居與入籍，以及大部分人會做的平凡工作。</p>
+  </header>
+
+  <section>
+    <h2>一世怎麼走</h2>
+    <p class="sub">每個人生階段都會抽事件。死後，閻羅殿依德與孽計算業力，業力決定下一世。</p>
+    <div class="flow">
+      <div class="node"><b>投胎</b><small>抽國家（218 個，依聯合國出生人數的平方根遊戲化，小國也有機會），再抽階級與信仰（皮尤研究中心資料）；業力高可選 2–4 個，也可用業力改命</small></div>
+      <span class="arrow">→</span>
+      <div class="node"><b>童年 1–12</b><small>童工、疫苗、霸凌、天分覺醒、前世夢、說出前世記憶、遇到宗教長者</small></div>
+      <span class="arrow">→</span>
+      <div class="node"><b>少年 13–17</b><small>第一根菸、升學考試、街頭招攬、試訓、輟學</small></div>
+      <span class="arrow">→</span>
+      <div class="node"><b>成年 18–64</b><small>人生十字路口、留學、外勞、移民、永居、入籍、結婚、改信、朝聖、環遊世界、職涯升遷</small></div>
+      <span class="arrow">→</span>
+      <div class="node"><b>晚年 65+</b><small>65 歲退休、退休返鄉或去物價低的國家、詐騙、遺囑、懺悔</small></div>
+      <span class="arrow">→</span>
+      <div class="node after"><b>閻羅殿</b><small>新業力 = 舊業力 × 0.6 + 今生德 − 孽；不信輪迴的人會很驚訝</small></div>
+      <span class="arrow">→</span>
+      <div class="node after"><b>奈何橋</b><small>喝孟婆湯：業力 +10，忘記一切<br>不喝：業力 −15，帶走天賦與記憶</small></div>
+    </div>
+    <div class="outcomes">
+      <div class="out good"><b>做人，可以選</b><small>業力 ≥ 20 選 2 個、≥ 50 選 3 個、≥ 100 選 4 個，抽中富裕地方機會較高</small></div>
+      <div class="out"><b>做人，命運抽</b><small>業力 −40 至 20：純粹依全球出生比例</small></div>
+      <div class="out bad"><b>畜生道</b><small>業力 −40 以下開始有機會：流浪狗、肉雞、耕牛、街貓、水溝老鼠、蟑螂、大熊貓、富豪柯基、金魚</small></div>
+      <div class="out gold"><b>異世界</b><small>被砂石車撞死：下一世可以轉生成史萊姆，對付哥布林、魔王軍和勇者</small></div>
+      <div class="out bad"><b>地獄</b><small>業力 −200 或以下：先受苦，業力 +100，再投胎</small></div>
+      <div class="out gold"><b>離開輪迴</b><small>神職做到第 4 級（無宗教：學術做到院士），業力 ≥ 150：依信仰選出口，遊戲結束</small></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>十一條非凡路</h2>
+    <p class="sub">由下而上升級。每次升遷都可以走<span class="clean">正途</span>或<span class="dirty">旁門</span>：旁門成功率高 25%，但一定加孽。升到最頂有成就。</p>
+    <div class="ladders">
+
+      <article class="lad">
+        <header><h3>江湖</h3><span class="tal">天賦 江湖</span></header>
+        <ol class="ranks"><li><i>1</i>小弟</li><li><i>2</i>打手</li><li><i>3</i>頭目</li><li><i>4</i>堂主</li><li class="top"><i>5</i>幫派龍頭<em>成就：龍頭老大</em></li></ol>
+        <dl class="kv">
+          <dt>入行</dt><dd>13–22 歲街頭老大招攬；十字路口（江湖 ≥ 10 或基層以下）</dd>
+          <dt>升遷</dt><dd><span class="clean">正面打出名號</span>（10% 死亡）／<span class="dirty">暗殺同門 +15 孽</span></dd>
+          <dt>事件</dt><dd>討債、當線人、幫派火拼、毒品派對</dd>
+          <dt>出路</dt><dd>金盆洗手 → 茶餐廳老闆</dd>
+        </dl>
+      </article>
+
+      <article class="lad">
+        <header><h3>音樂</h3><span class="tal">天賦 樂感</span></header>
+        <ol class="ranks"><li><i>1</i>街頭藝人</li><li><i>2</i>地下樂團成員</li><li><i>3</i>簽約歌手</li><li><i>4</i>當紅歌手</li><li class="top"><i>5</i>天王巨星<em>成就：天王巨星</em></li></ol>
+        <dl class="kv">
+          <dt>入行</dt><dd>童年覺醒音樂天分，14–24 歲組樂團；十字路口</dd>
+          <dt>升遷</dt><dd><span class="clean">日夜苦練</span>／<span class="dirty">私下交易買榜 +8 孽</span></dd>
+          <dt>事件</dt><dd>慈善演唱會、毒品派對</dd>
+        </dl>
+      </article>
+
+      <article class="lad">
+        <header><h3>經商</h3><span class="tal">天賦 商才</span></header>
+        <ol class="ranks"><li><i>1</i>小攤販</li><li><i>2</i>小老闆</li><li><i>3</i>公司老闆</li><li><i>4</i>上市公司董事長</li><li class="top"><i>5</i>富可敵國<em>成就：富可敵國</em></li></ol>
+        <dl class="kv">
+          <dt>入行</dt><dd>十字路口（財富 ≥ 15）；會寫程式可科技創業，35% 直升公司老闆</dd>
+          <dt>升遷</dt><dd><span class="clean">穩紮穩打</span>／<span class="dirty">賄賂官員 +10 孽，15% 坐牢</span></dd>
+          <dt>事件</dt><dd>血汗工廠、金融風暴降級</dd>
+        </dl>
+      </article>
+
+      <article class="lad">
+        <header><h3>從政</h3><span class="tal">天賦 權謀</span></header>
+        <ol class="ranks"><li><i>1</i>社運人士</li><li><i>2</i>地方議員</li><li><i>3</i>國會議員</li><li><i>4</i>部長</li><li class="top"><i>5</i>國家領袖<em>成就：一國之君</em></li></ol>
+        <dl class="kv">
+          <dt>入行</dt><dd>十字路口（18 歲以上，必須是公民）</dd>
+          <dt>升遷</dt><dd>上面是民主國家；職位與升遷方式隨政體改變，見下方「政體」</dd>
+          <dt>事件</dt><dd>建商信封、醜聞、上級命令、反腐清洗；第 4 級要決定鎮不鎮壓示威（+30 孽／+20 德）</dd>
+          <dt>出國</dt><dd>搬到另一個國家就要從頭來過</dd>
+        </dl>
+      </article>
+
+      <article class="lad">
+        <header><h3>異見</h3><span class="tal">天賦 風骨</span></header>
+        <ol class="ranks"><li><i>1</i>維權人士</li><li><i>2</i>異見人士</li><li><i>3</i>知名異見者</li><li><i>4</i>流亡領袖</li><li class="top"><i>5</i>民主象徵<em>成就：良心犯</em></li></ol>
+        <dl class="kv">
+          <dt>入行</dt><dd>非民主國家的十字路口；中學參加過示威會特別標示</dd>
+          <dt>升遷</dt><dd><span class="clean">實名發聲 +6 德</span>／<span class="dirty">打壓運動內部異己 +8 孽</span>；每次都有機會被捕</dd>
+          <dt>事件</dt><dd>獄中逼供（認罪、出賣同伴 +12 孽、拒絕 +5 德）、流亡、中毒、諾貝爾和平獎</dd>
+          <dt>流亡</dt><dd>流亡之後不能退休返鄉</dd>
+        </dl>
+      </article>
+
+      <article class="lad">
+        <header><h3>神職</h3><span class="tal">天賦 靈性</span></header>
+        <ol class="ranks"><li><i>1</i>沙彌</li><li><i>2</i>比丘</li><li><i>3</i>住持</li><li><i>4</i>高僧</li><li class="top"><i>5</i>一代宗師<em>成就：一代宗師</em></li></ol>
+        <dl class="kv">
+          <dt>入行</dt><dd>十字路口，必須有信仰；小時候跟宗教長者學過會特別標示；轉世靈童直接當住持</dd>
+          <dt>升遷</dt><dd><span class="clean">清修 +6 德</span>／<span class="dirty">斂財或討好權貴 +10 孽</span>；淨德越高越容易升</dd>
+          <dt>事件</dt><dd>善款用來賑災或中飽私囊、開示眾生、揭發或包庇同工性侵</dd>
+          <dt>特別</dt><dd>名稱隨信仰改變（上面是佛教，見下方「信仰」）；做到第 4 級解鎖該信仰的出口</dd>
+        </dl>
+      </article>
+
+      <article class="lad">
+        <header><h3>學術</h3><span class="tal">天賦 慧根</span></header>
+        <ol class="ranks"><li><i>1</i>研究生</li><li><i>2</i>研究員</li><li><i>3</i>教授</li><li><i>4</i>院士</li><li class="top"><i>5</i>諾貝爾獎得主<em>成就：諾貝爾</em></li></ol>
+        <dl class="kv">
+          <dt>入行</dt><dd>十字路口（智慧 ≥ 60，40 歲或以下）</dd>
+          <dt>升遷</dt><dd><span class="clean">埋首做實驗</span>／<span class="dirty">偽造數據 +10 孽</span></dd>
+          <dt>事件</dt><dd>救命新藥：公開配方 +20 德，或申請專利致富</dd>
+        </dl>
+      </article>
+
+      <article class="lad">
+        <header><h3>軍旅</h3><span class="tal">天賦 權謀</span></header>
+        <ol class="ranks"><li><i>1</i>士兵</li><li><i>2</i>士官</li><li><i>3</i>軍官</li><li><i>4</i>將軍</li><li class="top"><i>5</i>軍政府首腦<em>成就：一國之君</em></li></ol>
+        <dl class="kv">
+          <dt>入行</dt><dd>十字路口（30 歲或以下）；戰亂國家會被徵兵</dd>
+          <dt>升遷</dt><dd><span class="clean">上前線立功</span>（10% 戰死）／<span class="dirty">出賣同袍 +12 孽</span></dd>
+          <dt>事件</dt><dd>屠村命令；將軍級可發動政變，55% 直接上位</dd>
+        </dl>
+      </article>
+
+      <article class="lad">
+        <header><h3>網紅</h3><span class="tal">天賦 戲精</span></header>
+        <ol class="ranks"><li><i>1</i>素人</li><li><i>2</i>小網紅</li><li><i>3</i>KOL</li><li><i>4</i>百萬訂閱</li><li class="top"><i>5</i>頂流<em>成就：頂流</em></li></ol>
+        <dl class="kv">
+          <dt>入行</dt><dd>13–25 歲拍出爆紅影片；十字路口（50 歲或以下）</dd>
+          <dt>升遷</dt><dd><span class="clean">用心拍內容</span>／<span class="dirty">造假炒作 +6 孽</span></dd>
+          <dt>失敗</dt><dd>影片只有三次觀看，其中兩次是你媽</dd>
+        </dl>
+      </article>
+
+      <article class="lad">
+        <header><h3>玄學</h3><span class="tal">天賦 戲精</span></header>
+        <ol class="ranks"><li><i>1</i>街頭看相</li><li><i>2</i>風水師</li><li><i>3</i>大師</li><li><i>4</i>國師</li><li class="top"><i>5</i>教主<em>成就：萬人迷信</em></li></ol>
+        <dl class="kv">
+          <dt>入行</dt><dd>十字路口（25 歲或以上），在廟街擺摺疊桌</dd>
+          <dt>升遷</dt><dd><span class="clean">勸人行善 +3 德</span>／<span class="dirty">賣十萬元水晶 +10 孽</span></dd>
+          <dt>失敗</dt><dd>預言大地震結果沒有，記者追著你問</dd>
+        </dl>
+      </article>
+
+      <article class="lad">
+        <header><h3>體育</h3><span class="tal">天賦 體魄</span></header>
+        <ol class="ranks"><li><i>1</i>業餘運動員</li><li><i>2</i>職業運動員</li><li><i>3</i>國家隊成員</li><li><i>4</i>世界冠軍</li><li class="top"><i>5</i>體壇傳奇<em>成就：體壇傳奇</em></li></ol>
+        <dl class="kv">
+          <dt>入行</dt><dd>7–13 歲發現運動天分，15–22 歲試訓；十字路口（26 歲或以下）</dd>
+          <dt>升遷</dt><dd><span class="clean">每天苦練</span>／<span class="dirty">服用禁藥 +8 孽</span>；36 歲後不能再升</dd>
+          <dt>事件</dt><dd>打假球（可能終身禁賽）；33 歲起退役當教練</dd>
+        </dl>
+      </article>
+
+    </div>
+    <div class="side">
+      <div><b>人生十字路口</b>17–45 歲隨機出現，每次從符合條件的路中抽 3 條給你選，或維持現狀。38–50 歲中年危機也會出現一次。</div>
+      <div><b>前世記憶</b>不喝孟婆湯，且前世至少升過一級：12–22 歲會想起來，可以直接從第 2 級重走前世那條路。</div>
+      <div><b>天賦</b>不喝湯才帶得走，最多 3 級。每級提升起始數值，或提高對應職涯升遷機會。</div>
+      <div><b>薪水</b>非凡路每級薪水 = 居住國人均收入 × 倍數，見下方「金錢」。</div>
+    </div>
+  </section>
+
+
+  <section>
+    <h2>政體</h2>
+    <p class="sub">每個國家的政體採用 V-Dem《世界政體分類》2025 年資料：0 封閉專制、1 選舉專制、2 選舉民主、3 自由民主。封閉專制再細分一黨、君主、軍政府、神權等，屬遊戲設定。從政路線依你所在國家的政體而定。</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>政體</th><th class="num">V-Dem</th><th>從政五級</th><th>怎麼升</th><th>旁門（孽）</th><th>鎮壓力度</th></tr></thead>
+        <tbody>
+          <tr><td>自由民主／選舉民主</td><td class="num">2–3</td><td><span class="rk">社運人士 → 地方議員 → 國會議員 → 部長 → 國家領袖</span></td><td>選舉</td><td><span class="dirty">操控選票、抹黑對手 +12</span></td><td>0</td></tr>
+          <tr><td>選舉專制</td><td class="num">1</td><td><span class="rk">執政黨黨員 → 地方議員 → 國會議員 → 部長 → 總統</span></td><td>結果早定的選舉</td><td><span class="dirty">幫忙做票、打壓反對派 +12</span></td><td>一半</td></tr>
+          <tr><td>一黨專政</td><td class="num">0</td><td><span class="rk">黨員 → 基層幹部 → 地方書記 → 中央委員 → 最高領導人</span></td><td>黨內考核</td><td><span class="dirty">站隊、送禮、拉關係 +10</span></td><td>全</td></tr>
+          <tr><td>君主專制</td><td class="num">0</td><td><span class="rk">公務員 → 王室顧問 → 大臣 → 首相 → 國王</span></td><td>王室信任；只有權貴出身才能當國王</td><td><span class="dirty">拍馬屁、獻禮、陷害同僚 +8</span></td><td>全</td></tr>
+          <tr><td>軍政府</td><td class="num">0</td><td><span class="rk">文員 → 局長 → 部長 → 傀儡總理</span></td><td>將軍賞識；真正權力要走軍旅路線發動政變</td><td><span class="dirty">替軍方粉飾鎮壓 +12</span></td><td>全</td></tr>
+          <tr><td>神權</td><td class="num">0–1</td><td><span class="rk">宗教學生 → 地方官員 → 省長 → 監護委員會成員 → 最高領袖</span></td><td>教士審查；非穆斯林最高只到省長</td><td><span class="dirty">帶頭打壓「不虔誠」的人 +12</span></td><td>全</td></tr>
+          <tr><td>特別行政區</td><td class="num">0</td><td><span class="rk">地區組織幹事 → 區議員 → 立法會議員 → 局長 → 行政長官</span></td><td>「愛國者」審查</td><td><span class="dirty">表忠、出席每一場飯局 +6</span></td><td>八成</td></tr>
+          <tr><td>其他封閉專制</td><td class="num">0</td><td><span class="rk">小官僚 → 局長 → 省長 → 總理 → 最高掌權者</span></td><td>掌權者恩寵</td><td><span class="dirty">獻媚、出賣同僚 +10</span></td><td>全</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="side">
+      <div><b>業力看抉擇，不看國籍</b>在哪個國家出生都不會加減業力；德與孽只來自你在那個制度裡怎麼選。</div>
+      <div><b>上級命令</b>非民主國家的官員會收到命令，例如強拆、取消反對派資格、抓人：照做 +10 孽，陽奉陰違 +3 孽（30% 降職），拒絕 +10 德但立刻丟官，可能坐牢。</div>
+      <div><b>清洗</b>靠山落馬：揭發他 +6 孽保住位子；不出聲就看你有沒有收過信封，收過的 60% 坐牢。君主國有王子酒駕要你掩蓋（+10 孽／+8 德但失寵）。</div>
+      <div><b>民主國家</b>醜聞爆發：認錯辭職 +4 德，推給下屬 +6 孽。</div>
+      <div><b>平民</b>鎮壓力度高的地方會有人請你喝茶當線民（+8 孽）；選舉專制有人發錢買票（+2 孽，不收 +1 德）。示威、揭發污染被捕的機會依鎮壓力度計算。</div>
+      <div><b>失勢</b>在非民主國家從政，每次升遷失敗都可能在權鬥中失勢；鎮壓力度越高越危險，一半會坐牢。</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>共濟會</h2>
+    <p class="sub">副線，可以與任何職業並行。共濟會以慈善與修身為宗旨，會員以身分為榮，但常被外界誤會。入會本身不加減業力；德與孽來自你在裡面怎麼選。</p>
+    <div class="ladders">
+      <article class="lad">
+        <header><h3>共濟會</h3><span class="tal">副線</span></header>
+        <ol class="ranks"><li><i>1</i>學徒</li><li><i>2</i>技工</li><li><i>3</i>導師<em>成就：導師</em></li><li><i>4</i>會所尊主</li><li class="top"><i>5</i>總會長<em>成就：總會長</em></li></ol>
+        <dl class="kv">
+          <dt>入會</dt><dd>21–60 歲，長輩邀請；須無刑事紀錄、德不少於孽，要信有至高存在（法國、比利時的會所例外）；女性加入女子會所</dd>
+          <dt>升級</dt><dd>學徒、技工每級至少 2 年；尊主須當導師 5 年、淨德 ≥ 10；總會長須 50 歲、淨德 ≥ 40、名聲 ≥ 25</dd>
+          <dt>開除</dt><dd>刑事定罪坐牢，或濫用兄弟關係被發現：永久開除，今生不能再加入。因政治、信仰或會員身分坐牢不算</dd>
+        </dl>
+      </article>
+    </div>
+    <div class="tablewrap" style="margin-top:16px">
+      <table>
+        <thead><tr><th>事件</th><th>抉擇與業力</th></tr></thead>
+        <tbody>
+          <tr><td>會所募款</td><td>捐人均收入 8%：<span class="clean">+5 德</span>；當志工：<span class="clean">+3 德</span>；不參加：0</td></tr>
+          <tr><td>每晚反省</td><td>認真做：<span class="clean">+1 德</span>，孽多於德時有機會向人道歉補過 <span class="clean">+4 德</span>；智慧與快樂上升</td></tr>
+          <tr><td>被誤會</td><td>親戚問你是不是控制世界、網上說你是光明會、另一半以為圍裙是外遇證據：耐心解釋、開玩笑或公開戴戒指，只影響快樂與名聲</td></tr>
+          <tr><td>兄弟關係</td><td>利用兄弟拿合約、在法庭打暗號、走後門：<span class="dirty">+8 孽</span>，30% 被開除；拒絕：<span class="clean">+3 德</span></td></tr>
+          <tr><td>受迫害</td><td>在禁止共濟會的國家：簽聲明退會、否認並繼續秘密聚會，或公開身分 <span class="clean">+3 德</span>；被捕機會依鎮壓力度計算</td></tr>
+          <tr><td>受監管（古巴）</td><td>合法，但選上尊主或總會長要司法部承認：寫信等待（一半機會被推翻）、帶會員集會 <span class="clean">+3 德</span>（40% 被扣留兼禁止出境）、跟官員談條件換承認 <span class="dirty">+4 孽</span>。國家安全部門約「喝咖啡」：供出名字 <span class="dirty">+8 孽</span>，拒絕回答 <span class="clean">+3 德</span></td></tr>
+          <tr><td>獄中盤問</td><td>寫下會員名單換減刑：<span class="dirty">+10 孽</span>；交白卷：<span class="clean">+5 德</span>，刑期加 2 年</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="side">
+      <div><b>受政府監管的地方</b>古巴：共濟會合法，但 2024 年起司法部插手會內選舉與開除，會領袖被國家安全部門扣留、限制出境。</div>
+      <div><b>禁止共濟會的地方（遊戲設定）</b>中國大陸、北韓、越南、寮國、伊朗、阿富汗、沙烏地阿拉伯、巴基斯坦、伊拉克、敘利亞、利比亞、葉門、埃及。在這些地方仍可秘密入會，但會被迫害。</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>信仰</h2>
+    <p class="sub">出生時依出生地真實宗教人口比例抽出（皮尤研究中心，2020 年）。遊戲設定是人人都會輪迴，信不信都一樣；每種信仰修到最高，都有自己離開輪迴的門。</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>信仰</th><th>神職五級</th><th>出口</th><th>信輪迴？</th><th>神職有薪</th><th>朝聖</th><th>說出前世記憶</th></tr></thead>
+        <tbody>
+          <tr><td>佛教</td><td><span class="rk">沙彌 → 比丘 → 住持 → 高僧 → 一代宗師</span></td><td>涅槃</td><td>信</td><td>無</td><td>菩提伽耶打坐</td><td>轉世靈童：前世是佛教神職，或 30% 機會</td></tr>
+          <tr><td>印度教</td><td><span class="rk">苦行僧 → 祭司 → 靈修導師 → 古魯 → 聖者</span></td><td>梵我合一（解脫）</td><td>信</td><td>無</td><td>恆河沐浴</td><td>家人帶你去找前世的家</td></tr>
+          <tr><td>民間信仰</td><td><span class="rk">廟祝 → 道士 → 法師 → 觀主 → 天師</span></td><td>羽化登仙</td><td>信</td><td>有</td><td>大甲媽祖遶境</td><td>去觀落陰</td></tr>
+          <tr><td>基督教</td><td><span class="rk">修士 → 神父 → 主教 → 總主教 → 樞機</span></td><td>入天國</td><td>不信</td><td>有</td><td>耶路撒冷走苦路</td><td>請神父驅魔</td></tr>
+          <tr><td>伊斯蘭教</td><td><span class="rk">經學生 → 伊瑪目 → 教法學家 → 大穆夫提 → 一代烏理瑪</span></td><td>入天園</td><td>不信</td><td>有</td><td>麥加朝覲</td><td>請伊瑪目驅鎮尼</td></tr>
+          <tr><td>猶太教</td><td><span class="rk">經學生 → 拉比 → 會堂首席拉比 → 宗教法庭法官 → 大拉比</span></td><td>來世</td><td>不信（卡巴拉例外）</td><td>有</td><td>哭牆祈禱</td><td>拉比教你卡巴拉</td></tr>
+          <tr><td>無宗教</td><td><span class="rk">無神職；學術做到院士也算</span></td><td>登出（拒絕再玩）</td><td>不信</td><td>—</td><td>—</td><td>去看兒童心理醫生</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="side">
+      <div><b>改信</b>傳教、移民後身邊人大多信另一個宗教、跨信仰婚姻、帕斯卡賭注，都可能讓你改信；也可能失去信仰。</div>
+      <div><b>叛教罪</b>在 10 個有叛教罪的國家放棄伊斯蘭教，35% 坐牢，否則與家人斷絕關係。名單屬遊戲設定。</div>
+      <div><b>受迫害</b>在威權國家，信徒少於 10% 的宗教會被打壓：地下聚會、簽悔過書，或公開堅持。</div>
+      <div><b>閻羅殿</b>不信輪迴的人死後會很驚訝。基督徒會聽到：「這裡是東區分部，你們總部爆滿，外包給我們了。」</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>金錢</h2>
+    <p class="sub">以美元計算。每個國家的人均收入是世界銀行的真實人均國民所得（臺灣與北韓為估算），所以同一份工作在不同國家薪水可以差幾十倍。</p>
+    <div class="formula">
+      <b>年收入 = 居住國人均收入 × 工作倍數</b>
+      <small>每年存下的錢大約 = 收入 × 儲蓄率；不過生活費最少是人均收入兩成，收入太低就要吃老本。儲蓄率依出身：赤貧 0%、貧苦 3%、基層 8%、中產 12%、富裕 25%、權貴 35%；讀過大學 +5%，結婚、生子會減少，外勞在富裕國家多存 25% 寄回家。</small>
+      <small>出生時家底：赤貧 0、貧苦 0.05、基層 0.3、中產 1.5、富裕 8、權貴 60 倍人均收入。65 歲退休：富裕國家有退休金（人均三成），其他國家只有人均 5%。</small>
+    </div>
+    <div class="tablewrap" style="margin-top:16px">
+      <table>
+        <thead><tr><th>非凡路</th><th class="num">第 1 級</th><th class="num">第 2 級</th><th class="num">第 3 級</th><th class="num">第 4 級</th><th class="num">第 5 級</th></tr></thead>
+        <tbody>
+          <tr><td>異見</td><td class="num">×0.05</td><td class="num">×0.1</td><td class="num">×0.3</td><td class="num">×0.8</td><td class="num">×1.5</td></tr>
+          <tr><td>江湖</td><td class="num">×0.8</td><td class="num">×1.5</td><td class="num">×3</td><td class="num">×6</td><td class="num">×15</td></tr>
+          <tr><td>音樂</td><td class="num">×0.3</td><td class="num">×0.8</td><td class="num">×3</td><td class="num">×10</td><td class="num">×40</td></tr>
+          <tr><td>經商</td><td class="num">×0.8</td><td class="num">×1.5</td><td class="num">×4</td><td class="num">×15</td><td class="num">×100</td></tr>
+          <tr><td>從政</td><td class="num">×0.5</td><td class="num">×1.5</td><td class="num">×2.5</td><td class="num">×4</td><td class="num">×6</td></tr>
+          <tr><td>神職・有薪</td><td class="num">×0.5</td><td class="num">×0.8</td><td class="num">×1.2</td><td class="num">×1.8</td><td class="num">×3</td></tr>
+          <tr><td>神職・僧侶／苦行僧</td><td class="num">×0.1</td><td class="num">×0.1</td><td class="num">×0.2</td><td class="num">×0.3</td><td class="num">×0.5</td></tr>
+          <tr><td>學術</td><td class="num">×0.5</td><td class="num">×1.3</td><td class="num">×2</td><td class="num">×3</td><td class="num">×5</td></tr>
+          <tr><td>軍旅</td><td class="num">×0.6</td><td class="num">×0.9</td><td class="num">×1.5</td><td class="num">×3</td><td class="num">×8</td></tr>
+          <tr><td>體育</td><td class="num">×0.3</td><td class="num">×1</td><td class="num">×4</td><td class="num">×15</td><td class="num">×40</td></tr>
+          <tr><td>網紅</td><td class="num">×0.05</td><td class="num">×0.5</td><td class="num">×2</td><td class="num">×8</td><td class="num">×30</td></tr>
+          <tr><td>玄學</td><td class="num">×0.5</td><td class="num">×1.5</td><td class="num">×4</td><td class="num">×10</td><td class="num">×30</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="side">
+      <div><b>百萬富翁</b>存款超過 US$100 萬有成就；超過 US$10 億是億萬富豪。</div>
+      <div><b>花錢的地方</b>旅行、留學、移民、永居與入籍申請費、朝聖、賭「全部身家」、捐款、末日教。</div>
+      <div><b>負債</b>可以借學貸或借錢給蛇頭，最多欠到人均收入 5 倍。</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>出國・永居・入籍</h2>
+    <p class="sub">簡化三級：簽證 → 永久居留 → 公民。出國後薪水依新國家計算。</p>
+    <div class="flow">
+      <div class="node"><b>出國</b><small>留學、外勞、專才、移民或偷渡</small></div>
+      <span class="arrow">→</span>
+      <div class="node"><b>簽證</b><small>學生、工作或退休簽證</small></div>
+      <span class="arrow">→</span>
+      <div class="node"><b>住滿 5 年</b><small>只計工作簽證；外勞簽證在沙烏地阿拉伯、阿聯酋、卡達、科威特、新加坡、馬來西亞、香港永遠不算</small></div>
+      <span class="arrow">→</span>
+      <div class="node"><b>永居 ILR／PR</b><small>申請費人均 8%；基本 80% 核准，有前科 −45%，孽越多越難</small></div>
+      <span class="arrow">→</span>
+      <div class="node"><b>再住 2 年</b><small>可以選擇當永居就好</small></div>
+      <span class="arrow">→</span>
+      <div class="node"><b>入籍</b><small>申請費人均 3%；多一本護照，成就：雙重國籍</small></div>
+    </div>
+    <div class="outcomes">
+      <div class="out good"><b>留學</b><small>17–24 歲、智慧 ≥ 55；三年學費 = 當地人均 1.8 倍，智慧 ≥ 85 全額獎學金，基層以上可借學貸。畢業後留下找工作，或回家當海歸</small></div>
+      <div class="out"><b>外勞</b><small>從中等收入或以下國家去波斯灣、新加坡、香港、臺灣等地當家庭幫傭、營建或工廠工人；仲介費是家鄉人均 0.6 倍，15% 被扣護照</small></div>
+      <div class="out good"><b>專才</b><small>大學畢業，23–45 歲獵頭來找；成功率 40% + 智慧加成，護照弱 −15%</small></div>
+      <div class="out"><b>移民</b><small>18–40 歲，從中等收入或以下國家申請工作簽證去富裕國家，費用是目的地人均 0.3 倍；學歷不被承認，從服務生做起</small></div>
+      <div class="out bad"><b>偷渡</b><small>付給蛇頭家鄉人均 1.5 倍（可以借），8% 途中遇難；沒有身分會被突擊搜查：60% 逃脫，自首申請庇護 30% 獲准</small></div>
+      <div class="out gold"><b>退休</b><small>58–80 歲在國外可以退休返鄉（成就：落葉歸根）；在富裕國家有 US$15 萬可以去泰國、馬來西亞、葡萄牙等地退休</small></div>
+    </div>
+    <div class="tablewrap" style="margin-top:16px">
+      <table>
+        <thead><tr><th>環遊世界</th><th class="num">費用</th><th class="num">去幾國</th><th>注意</th></tr></thead>
+        <tbody>
+          <tr><td>背包遊</td><td class="num">US$2,500</td><td class="num">3–5</td><td>18–85 歲，有錢才能選</td></tr>
+          <tr><td>環遊世界一年</td><td class="num">US$30,000</td><td class="num">15–25</td><td>弱護照 40% 簽證被拒，申請費不退</td></tr>
+          <tr><td>豪華郵輪</td><td class="num">US$80,000</td><td class="num">8–12</td><td>每次旅行都有意外：行李遺失、被騙、拉肚子，或在青年旅館認識另一半</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="side"><div><b>環遊世界成就</b>一生去過 30 個國家。朝聖、留學、外勞都算。</div></div>
+  </section>
+
+  <section>
+    <h2>平凡人生</h2>
+    <p class="sub">沒走非凡路的人，18 歲（讀大學則 22 歲）會依出身分配一份工作。金色數字是薪水倍數：年收入 = 居住國人均收入 × 倍數。大部分人都是這樣過一生。</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>出身</th><th>可能分配到的工作</th><th>怎麼進入</th></tr></thead>
+        <tbody>
+          <tr><td>貧窮國家・赤貧／貧苦</td><td><div class="jobs"><span class="job">小農<i>×0.35</i></span><span class="job">建築臨時工<i>×0.45</i></span><span class="job">人力車伕<i>×0.4</i></span><span class="job">街頭小販<i>×0.5</i></span><span class="job">成衣廠工人<i>×0.6</i></span><span class="job">漁民<i>×0.45</i></span><span class="job">家庭傭工<i>×0.4</i></span><span class="job">外送員<i>×0.6</i></span></div></td><td>沒讀書可能 14 歲就要出來工作</td></tr>
+          <tr><td>其他國家・赤貧／貧苦</td><td><div class="jobs"><span class="job">工廠工人<i>×0.7</i></span><span class="job">外送員<i>×0.6</i></span><span class="job">清潔工<i>×0.5</i></span><span class="job">建築工人<i>×0.8</i></span><span class="job">保安<i>×0.6</i></span></div></td><td>18 歲</td></tr>
+          <tr><td>基層／中產</td><td><div class="jobs"><span class="job">工廠工人<i>×0.7</i></span><span class="job">店員<i>×0.65</i></span><span class="job">司機<i>×0.8</i></span><span class="job">文員<i>×0.9</i></span><span class="job">廚師<i>×0.8</i></span><span class="job">外送員<i>×0.6</i></span><span class="job">保安<i>×0.6</i></span><span class="job">護理員<i>×0.75</i></span></div></td><td>18 歲</td></tr>
+          <tr><td>富裕／權貴</td><td><div class="jobs"><span class="job">家族企業經理<i>×4</i></span><span class="job">投資銀行家<i>×6</i></span><span class="job">律師<i>×3</i></span><span class="job">醫生<i>×3.5</i></span></div></td><td>18 歲</td></tr>
+          <tr><td>大學畢業</td><td><div class="jobs"><span class="job">工程師<i>×1.8</i></span><span class="job">會計師<i>×1.8</i></span><span class="job">律師<i>×3</i></span><span class="job">醫生<i>×3.5</i></span><span class="job">程式設計師<i>×2</i></span><span class="job">教師<i>×1.2</i></span><span class="job">公務員<i>×1.3</i></span></div></td><td>升學考試合格，再選擇讀大學；22 歲出來工作</td></tr>
+          <tr><td>合法移民</td><td><div class="jobs"><span class="job">餐廳服務生<i>×0.6</i></span><span class="job">超市理貨員<i>×0.55</i></span><span class="job">計程車司機<i>×0.7</i></span><span class="job">護理員<i>×0.75</i></span></div></td><td>18–40 歲，從中等收入或以下國家移居富裕國家</td></tr>
+          <tr><td>偷渡</td><td><div class="jobs"><span class="job">餐廳洗碗工<i>×0.45</i></span><span class="job">黑工<i>×0.35</i></span><span class="job">農場臨時工<i>×0.4</i></span><span class="job">建築臨時工<i>×0.45</i></span></div></td><td>8% 途中遇難；沒有身分</td></tr>
+          <tr><td>外勞</td><td><div class="jobs"><span class="job">外籍家庭幫傭<i>×0.13</i></span><span class="job">外籍營建工<i>×0.2</i></span><span class="job">外籍工廠工人<i>×0.25</i></span></div></td><td>依目的地人均收入計算，所以比家鄉高好幾倍</td></tr>
+          <tr><td>退休</td><td><div class="jobs"><span class="job">退休人士<i>×0</i></span></div></td><td>65 歲；富裕國家有退休金</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="side">
+      <div><b>當工賊</b>罷工時出賣工友，升為工頭，+6 孽。</div>
+      <div><b>被 AI 取代</b>富裕國家的上班族可能失業，讀夜校轉行當照護員、水電工、電工或社工。</div>
+      <div><b>金盆洗手</b>江湖中人 30 歲後可以退出，開茶餐廳。</div>
+      <div><b>退役／禁賽</b>運動員退役當教練；打假球事跡敗露就終身禁賽。</div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p><b>免責聲明</b>：本遊戲是虛構的娛樂作品。「人人都會輪迴」只是遊戲規則，不代表作者對任何宗教、信仰或無信仰的立場，也無意冒犯、貶低或宣揚任何宗教。宗教人口比例來自皮尤研究中心的統計，只用來決定角色出身；各宗教的神職、聖地、死後情節與對白都經過簡化和虛構，不代表任何教義或信眾。共濟會的職級、儀式與事件也經過簡化，不代表任何會所或會員；遊戲中外界對共濟會的陰謀論，是用來描寫會員面對的誤解，並非事實。國家政局、法律與各種事件機率亦屬遊戲設定，並非對任何國家、民族或群體的評價。如有冒犯，敬請見諒，歡迎<a href="https://github.com/wanleung/secondlife/issues" target="_blank" rel="noopener">在 GitHub 提出意見</a>。</p>
+    <p>資料：聯合國《世界人口展望》、聯合國兒童死亡率估算小組、世界銀行、皮尤研究中心《各國宗教組成 2010–2020》、V-Dem《世界政體分類》，經世界銀行及 Our World in Data 取得。</p>
+    <p>對應遊戲版本 <b>v1.8.0</b>（2026-10-21）・<a href="./">回去玩</a></p>
+  </footer>
+</div>
+</body>
+</html>

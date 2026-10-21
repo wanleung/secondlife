@@ -1,6 +1,15 @@
 <!doctype html>
-<html lang="zh-Hant">
+<html lang="zh-HK">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5TN9NNFY4Z"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-5TN9NNFY4Z');
+</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>輪迴人生圖譜</title>
@@ -80,6 +89,9 @@ td .rk{font-family:var(--font-brush);font-size:15px;color:var(--glow)}
 .formula{background:var(--paper);color:var(--ink);border-radius:2px;padding:14px 16px;display:grid;gap:6px;max-width:760px}
 .formula b{font-family:var(--font-brush);font-size:19px}
 .formula small{color:var(--ink-soft);font-size:12.5px}
+.langs{display:flex;gap:4px;font-size:12.5px;justify-content:flex-end;margin-bottom:8px}
+.langs a{color:var(--mist);text-decoration:none;padding:2px 8px;border:1px solid transparent;border-radius:999px}
+.langs a[aria-current]{color:var(--gold);border-color:var(--gold)}
 footer.foot{border-top:1px solid var(--line);padding-top:16px;display:grid;gap:8px;font-size:12px;color:var(--mist);max-width:80ch}
 footer.foot p{margin:0}
 footer.foot b{color:var(--glow);font-weight:500}
@@ -90,6 +102,7 @@ footer.foot a{color:var(--mist)}
 
 <div class="wrap">
   <header>
+    <nav class="langs" aria-label="語言"><a href="paths.html" aria-current="page">粵語</a><a href="zh/paths.html">中文</a><a href="en/paths.html">English</a><a href="ja/paths.html">日本語</a></nav>
     <h1>輪迴<span>人生</span>圖譜</h1>
     <p class="lede">遊戲入面所有可以行嘅路：一世由出世到奈何橋點樣行，十一條非凡職涯點樣升，共濟會副線，八種政體點樣從政，信仰同離開輪迴嘅門，錢點樣搵，點樣出國留學、打工、拎永居同入籍，同埋大部份人會做嘅平凡工作。</p>
   </header>
@@ -439,7 +452,7 @@ footer.foot a{color:var(--mist)}
   <footer class="foot">
     <p><b>免責聲明</b>：本遊戲係虛構嘅娛樂作品。「人人都會輪迴」只係遊戲規則，唔代表作者對任何宗教、信仰或者無信仰嘅立場，亦無意冒犯、貶低或者宣揚任何宗教。宗教人口比例來自皮尤研究中心嘅統計，只用嚟決定角色出身；各宗教嘅神職、聖地、死後情節同對白都經過簡化同虛構，唔代表任何教義或者信眾。共濟會嘅職級、儀式同事件亦經過簡化，唔代表任何會所或者會員；遊戲入面外界對共濟會嘅陰謀論，係用嚟描寫會員面對嘅誤解，唔係事實。國家政局、法律同各種事件機率亦屬遊戲設定，唔係對任何國家、民族或者群體嘅評價。如有冒犯，敬請見諒，歡迎<a href="https://github.com/wanleung/secondlife/issues" target="_blank" rel="noopener">喺 GitHub 提出意見</a>。</p>
     <p>數據：聯合國《世界人口展望》、聯合國兒童死亡率估算小組、世界銀行、皮尤研究中心《各國宗教組成 2010–2020》、V-Dem《世界政體分類》，經世界銀行及 Our World in Data 取得。</p>
-    <p>對應遊戲版本 <b>v1.7.1</b>（2026-10-21）・<a href="./">返去玩</a></p>
+    <p>對應遊戲版本 <b>v1.8.0</b>（2026-10-21）・<a href="./">返去玩</a></p>
   </footer>
 </div>
 </body>

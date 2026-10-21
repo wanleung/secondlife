@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5TN9NNFY4Z"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-5TN9NNFY4Z');
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Samsara Life Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* Layout: 同遊戲同一個幽冥世界；一生流程 → 十一條職涯梯級 → 政體 → 信仰 → 金錢 → 出國 → 平凡職業 */
+:root{
+  --night:#11151c; --night-2:#1a2130; --line:#2b3446;
+  --mist:#93a0b6; --glow:#e9e3d2;
+  --paper:#e9dcb6; --paper-2:#dccb9b; --ink:#251d13; --ink-soft:#5c4d36;
+  --gold:#c9a24c; --cinnabar:#b5352b; --jade:#3d8a72; --sin:#e2675b; --merit:#6cc3a5;
+  --font-brush:"LXGW WenKai TC","Kaiti TC","STKaiti","DFKai-SB","BiauKai",serif;
+  --font-ui:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--night);color:var(--glow);font-family:var(--font-ui);font-size:14px;line-height:1.6;
+  background-image:radial-gradient(1200px 600px at 50% -200px,#1f2a3d 0%,transparent 70%)}
+.wrap{max-width:1180px;margin:0 auto;padding-block:28px 56px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:44px}
+h1{font-family:var(--font-brush);font-size:clamp(34px,6vw,52px);margin:0;color:var(--paper);letter-spacing:.12em;line-height:1.1;text-wrap:balance}
+h1 span{color:var(--cinnabar)}
+.lede{margin:8px 0 0;color:var(--mist);max-width:62ch;font-size:15px}
+h2{font-family:var(--font-brush);font-size:28px;margin:0 0 4px;color:var(--paper);letter-spacing:.06em;text-wrap:balance}
+.sub{margin:0 0 18px;color:var(--mist);max-width:70ch}
+
+/* 一生流程 */
+.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:8px}
+.node{background:var(--paper);color:var(--ink);padding:10px 12px;border-radius:2px;min-width:0;flex:1 1 120px;display:grid;gap:2px;align-content:start}
+.node b{font-family:var(--font-brush);font-size:20px;line-height:1.2}
+.node small{font-size:12px;color:var(--ink-soft);line-height:1.45}
+.node.after{background:var(--night-2);color:var(--glow);border:1px solid var(--line)}
+.node.after small{color:var(--mist)}
+.arrow{align-self:center;color:var(--gold);font-size:18px;flex:0 0 auto}
+.outcomes{margin-top:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.out{border:1px solid var(--line);border-left:3px solid var(--mist);padding:10px 12px;border-radius:2px;display:grid;gap:2px}
+.out b{font-family:var(--font-brush);font-size:18px}
+.out small{color:var(--mist);font-size:12.5px}
+.out.good{border-left-color:var(--merit)}.out.bad{border-left-color:var(--sin)}.out.gold{border-left-color:var(--gold)}
+.out.good b{color:var(--merit)}.out.bad b{color:var(--sin)}.out.gold b{color:var(--gold)}
+
+/* 職涯梯級 */
+.ladders{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.lad{background:var(--night-2);border:1px solid var(--line);border-radius:4px;padding:16px;display:grid;gap:12px;align-content:start;min-width:0}
+.lad header{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.lad h3{margin:0;font-family:var(--font-brush);font-size:26px;color:var(--paper)}
+.tal{font-size:11.5px;color:var(--gold);border:1px solid var(--gold);border-radius:999px;padding:0 8px;white-space:nowrap}
+.ranks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column-reverse;gap:4px}
+.ranks li{display:grid;grid-template-columns:1.6em 1fr;gap:8px;align-items:center;padding:5px 9px;border-radius:2px;
+  background:var(--paper);color:var(--ink);font-family:var(--font-brush);font-size:16px}
+.ranks li i{font-style:normal;font-family:var(--font-ui);font-size:11px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.ranks li:nth-child(2){margin-right:7%}.ranks li:nth-child(3){margin-right:14%}.ranks li:nth-child(4){margin-right:21%}.ranks li:nth-child(5){margin-right:28%}
+.ranks li.top{background:var(--gold);color:#1a1408}
+.ranks li.top i{color:#4a3a14}
+.ranks li em{font-style:normal;font-family:var(--font-ui);font-size:11px;justify-self:end;grid-column:2;margin-top:-2px}
+dl.kv{margin:0;display:grid;grid-template-columns:3.6em 1fr;gap:5px 10px;font-size:13px}
+dl.kv dt{color:var(--mist)}
+dl.kv dd{margin:0;min-width:0}
+.clean{color:var(--merit)}.dirty{color:var(--sin)}
+
+/* 平凡職業 */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:4px}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:13.5px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--mist);font-weight:500;font-size:12px;letter-spacing:.06em;background:var(--night-2)}
+td:first-child{font-family:var(--font-brush);font-size:17px;color:var(--paper);white-space:nowrap}
+.jobs{display:flex;flex-wrap:wrap;gap:5px}
+.job{background:#202839;border:1px solid var(--line);border-radius:2px;padding:1px 8px;white-space:nowrap}
+.side{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:16px}
+.side div{border-top:1px solid var(--line);padding-top:8px;color:var(--mist);font-size:13px}
+.side b{display:block;color:var(--glow);font-family:var(--font-brush);font-size:17px}
+.job i{font-style:normal;color:var(--gold);font-size:11.5px;margin-left:5px;font-variant-numeric:tabular-nums}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td .rk{font-family:var(--font-brush);font-size:15px;color:var(--glow)}
+.formula{background:var(--paper);color:var(--ink);border-radius:2px;padding:14px 16px;display:grid;gap:6px;max-width:760px}
+.formula b{font-family:var(--font-brush);font-size:19px}
+.formula small{color:var(--ink-soft);font-size:12.5px}
+.langs{display:flex;gap:4px;font-size:12.5px;justify-content:flex-end;margin-bottom:8px}
+.langs a{color:var(--mist);text-decoration:none;padding:2px 8px;border:1px solid transparent;border-radius:999px}
+.langs a[aria-current]{color:var(--gold);border-color:var(--gold)}
+footer.foot{border-top:1px solid var(--line);padding-top:16px;display:grid;gap:8px;font-size:12px;color:var(--mist);max-width:80ch}
+footer.foot p{margin:0}
+footer.foot b{color:var(--glow);font-weight:500}
+footer.foot a{color:var(--mist)}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <nav class="langs" aria-label="Language"><a href="../paths.html">粵語</a><a href="../zh/paths.html">中文</a><a href="paths.html" aria-current="page">English</a><a href="../ja/paths.html">日本語</a></nav>
+    <h1>Samsara <span>Life</span> Map</h1>
+    <p class="lede">Every road in the game: how one life runs from birth to the Bridge of Helplessness, how the eleven extraordinary careers rise, the Freemasonry side path, how politics works under eight kinds of regime, faiths and their doors out of the cycle, how money is made, how to study, work, settle and naturalise abroad, and the ordinary jobs most people do.</p>
+  </header>
+
+  <section>
+    <h2>How a life runs</h2>
+    <p class="sub">Each stage of life draws events. After death, King Yama’s court tallies merit and sin into karma, and karma decides your next life.</p>
+    <div class="flow">
+      <div class="node"><b>Rebirth</b><small>Draw a country (218, weighted by the square root of UN births so small countries get a chance), then a class and a faith (Pew data); high karma lets you choose from 2–4, or spend karma to pick a country</small></div>
+      <span class="arrow">→</span>
+      <div class="node"><b>Childhood 1–12</b><small>Child labour, vaccines, bullying, discovering talents, past-life dreams, telling of past lives, meeting religious elders</small></div>
+      <span class="arrow">→</span>
+      <div class="node"><b>Teens 13–17</b><small>First cigarette, public exams, street recruiters, trials, dropping out</small></div>
+      <span class="arrow">→</span>
+      <div class="node"><b>Adulthood 18–64</b><small>Crossroads, study abroad, migrant work, emigration, permanent residence, citizenship, marriage, conversion, pilgrimage, world travel, career promotions</small></div>
+      <span class="arrow">→</span>
+      <div class="node"><b>Old age 65+</b><small>Retire at 65, retire home or somewhere cheaper, scams, wills, repentance</small></div>
+      <span class="arrow">→</span>
+      <div class="node after"><b>King Yama’s court</b><small>New karma = old karma × 0.6 + this life’s merit − sin; those who didn’t believe in rebirth get a surprise</small></div>
+      <span class="arrow">→</span>
+      <div class="node after"><b>Bridge of Helplessness</b><small>Drink Meng Po’s soup: karma +10, forget everything<br>Refuse: karma −15, keep talents and memories</small></div>
+    </div>
+    <div class="outcomes">
+      <div class="out good"><b>Human, with a choice</b><small>Karma ≥ 20 picks from 2, ≥ 50 from 3, ≥ 100 from 4, with better odds of a rich country</small></div>
+      <div class="out"><b>Human, by chance</b><small>Karma −40 to 20: purely by global birth odds</small></div>
+      <div class="out bad"><b>Animal realm</b><small>Possible below karma −40: stray dog, broiler chicken, plough ox, street cat, sewer rat, cockroach, giant panda, rich family’s corgi, goldfish</small></div>
+      <div class="out gold"><b>Another world</b><small>Killed by a dump truck: next time you can be reborn as a slime and face goblins, the Demon Lord’s army and the hero</small></div>
+      <div class="out bad"><b>Hell</b><small>Karma −200 or lower: suffer first, karma +100, then be reborn</small></div>
+      <div class="out gold"><b>Leaving the cycle</b><small>Reach clerical rank 4 (no religion: academician), with karma ≥ 150: choose your faith’s exit and the game ends</small></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Eleven extraordinary paths</h2>
+    <p class="sub">Ranks go from bottom to top. Each promotion can take the <span class="clean">clean</span> or the <span class="dirty">dirty</span> route: the dirty route is 25% more likely to succeed but always adds sin. The top rank earns an achievement.</p>
+    <div class="ladders">
+
+      <article class="lad">
+        <header><h3>Street</h3><span class="tal">Talent: Street</span></header>
+        <ol class="ranks"><li><i>1</i>Foot soldier</li><li><i>2</i>Enforcer</li><li><i>3</i>Crew boss</li><li><i>4</i>Lieutenant</li><li class="top"><i>5</i>Triad boss<em>Achievement: Kingpin</em></li></ol>
+        <dl class="kv">
+          <dt>Entry</dt><dd>Recruited by a street boss at 13–22; crossroads (street ≥ 10 or working class and below)</dd>
+          <dt>Promotion</dt><dd><span class="clean">Win it head-on</span> (10% death) / <span class="dirty">Murder a fellow member +15 sin</span></dd>
+          <dt>Events</dt><dd>Debt collecting, informing, gang wars, drug parties</dd>
+          <dt>Way out</dt><dd>Wash your hands of it → café owner</dd>
+        </dl>
+      </article>
+
+      <article class="lad">
+        <header><h3>Music</h3><span class="tal">Talent: Musical ear</span></header>
+        <ol class="ranks"><li><i>1</i>Busker</li><li><i>2</i>Underground band member</li><li><i>3</i>Signed singer</li><li><i>4</i>Hit singer</li><li class="top"><i>5</i>Superstar<em>Achievement: Superstar</em></li></ol>
+        <dl class="kv">
+          <dt>Entry</dt><dd>Musical talent awakens in childhood, start a band at 14–24; crossroads</dd>
+          <dt>Promotion</dt><dd><span class="clean">Practise day and night</span> / <span class="dirty">Buy chart places +8 sin</span></dd>
+          <dt>Events</dt><dd>Benefit concerts, drug parties</dd>
+        </dl>
+      </article>
+
+      <article class="lad">
+        <header><h3>Business</h3><span class="tal">Talent: Business sense</span></header>
+        <ol class="ranks"><li><i>1</i>Stallholder</li><li><i>2</i>Small business owner</li><li><i>3</i>Company owner</li><li><i>4</i>Chair of a listed company</li><li class="top"><i>5</i>Richer than nations<em>Achievement: Richer than nations</em></li></ol>
+        <dl class="kv">
+          <dt>Entry</dt><dd>Crossroads (wealth ≥ 15); coders can found a tech startup, 35% chance to jump straight to company owner</dd>
+          <dt>Promotion</dt><dd><span class="clean">Grow steadily</span> / <span class="dirty">Bribe officials +10 sin, 15% prison</span></dd>
+          <dt>Events</dt><dd>Sweatshops, demotion in a financial crisis</dd>
+        </dl>
+      </article>
+
+      <article class="lad">
+        <header><h3>Politics</h3><span class="tal">Talent: Scheming</span></header>
+        <ol class="ranks"><li><i>1</i>Activist</li><li><i>2</i>Local councillor</li><li><i>3</i>Member of parliament</li><li><i>4</i>Minister</li><li class="top"><i>5</i>National leader<em>Achievement: Ruler of a nation</em></li></ol>
+        <dl class="kv">
+          <dt>Entry</dt><dd>Crossroads (18+, citizens only)</dd>
+          <dt>Promotion</dt><dd>Shown above for democracies; ranks and how you rise depend on the regime, see “Regimes” below</dd>
+          <dt>Events</dt><dd>Developers’ envelopes, scandals, orders from above, anti-corruption purges; at rank 4, decide whether to crush protests (+30 sin / +20 merit)</dd>
+          <dt>Abroad</dt><dd>Moving to another country means starting over</dd>
+        </dl>
+      </article>
+
+      <article class="lad">
+        <header><h3>Dissent</h3><span class="tal">Talent: Backbone</span></header>
+        <ol class="ranks"><li><i>1</i>Rights defender</li><li><i>2</i>Dissident</li><li><i>3</i>Well-known dissident</li><li><i>4</i>Exiled leader</li><li class="top"><i>5</i>Symbol of democracy<em>Achievement: Prisoner of conscience</em></li></ol>
+        <dl class="kv">
+          <dt>Entry</dt><dd>Crossroads in non-democracies; highlighted if you protested at school</dd>
+          <dt>Promotion</dt><dd><span class="clean">Speak out under your real name +6 merit</span> / <span class="dirty">Crush rivals inside the movement +8 sin</span>; every attempt risks arrest</dd>
+          <dt>Events</dt><dd>Forced prison confessions (confess; betray comrades +12 sin; refuse +5 merit), exile, poisoning, the Nobel Peace Prize</dd>
+          <dt>Exile</dt><dd>Once exiled, you can’t retire back home</dd>
+        </dl>
+      </article>
+
+      <article class="lad">
+        <header><h3>Clergy</h3><span class="tal">Talent: Spirituality</span></header>
+        <ol class="ranks"><li><i>1</i>Novice</li><li><i>2</i>Monk</li><li><i>3</i>Abbot</li><li><i>4</i>Eminent monk</li><li class="top"><i>5</i>Grand master<em>Achievement: Grand master</em></li></ol>
+        <dl class="kv">
+          <dt>Entry</dt><dd>Crossroads, if you have a faith; highlighted if you learned from a religious elder as a child; a tulku starts straight at abbot</dd>
+          <dt>Promotion</dt><dd><span class="clean">Pure practice +6 merit</span> / <span class="dirty">Money-grubbing or courting the powerful +10 sin</span>; the higher your net merit, the easier it is</dd>
+          <dt>Events</dt><dd>Use donations for relief or pocket them, guide the lost, expose or cover up a colleague’s child abuse</dd>
+          <dt>Special</dt><dd>Titles change with the faith (Buddhist shown above; see “Faith” below); reaching rank 4 unlocks that faith’s exit</dd>
+        </dl>
+      </article>
+
+      <article class="lad">
+        <header><h3>Academia</h3><span class="tal">Talent: Sharp mind</span></header>
+        <ol class="ranks"><li><i>1</i>Grad student</li><li><i>2</i>Researcher</li><li><i>3</i>Professor</li><li><i>4</i>Academician</li><li class="top"><i>5</i>Nobel laureate<em>Achievement: Nobel</em></li></ol>
+        <dl class="kv">
+          <dt>Entry</dt><dd>Crossroads (wisdom ≥ 60, age 40 or under)</dd>
+          <dt>Promotion</dt><dd><span class="clean">Keep at the experiments</span> / <span class="dirty">Fake data +10 sin</span></dd>
+          <dt>Events</dt><dd>Life-saving drug: publish the formula +20 merit, or patent it and get rich</dd>
+        </dl>
+      </article>
+
+      <article class="lad">
+        <header><h3>Military</h3><span class="tal">Talent: Scheming</span></header>
+        <ol class="ranks"><li><i>1</i>Soldier</li><li><i>2</i>NCO</li><li><i>3</i>Officer</li><li><i>4</i>General</li><li class="top"><i>5</i>Junta leader<em>Achievement: Ruler of a nation</em></li></ol>
+        <dl class="kv">
+          <dt>Entry</dt><dd>Crossroads (age 30 or under); conscripted in countries at war</dd>
+          <dt>Promotion</dt><dd><span class="clean">Earn it at the front</span> (10% killed) / <span class="dirty">Betray comrades +12 sin</span></dd>
+          <dt>Events</dt><dd>Orders to massacre a village; generals can stage a coup, 55% chance of taking power</dd>
+        </dl>
+      </article>
+
+      <article class="lad">
+        <header><h3>Influencer</h3><span class="tal">Talent: Drama queen</span></header>
+        <ol class="ranks"><li><i>1</i>Nobody</li><li><i>2</i>Micro-influencer</li><li><i>3</i>KOL</li><li><i>4</i>Million subscribers</li><li class="top"><i>5</i>Top creator<em>Achievement: Top creator</em></li></ol>
+        <dl class="kv">
+          <dt>Entry</dt><dd>Go viral at 13–25; crossroads (age 50 or under)</dd>
+          <dt>Promotion</dt><dd><span class="clean">Make real content</span> / <span class="dirty">Fake it and hype it +6 sin</span></dd>
+          <dt>Failure</dt><dd>The video gets three views; two are your mum</dd>
+        </dl>
+      </article>
+
+      <article class="lad">
+        <header><h3>Mysticism</h3><span class="tal">Talent: Drama queen</span></header>
+        <ol class="ranks"><li><i>1</i>Street fortune teller</li><li><i>2</i>Feng shui master</li><li><i>3</i>Master</li><li><i>4</i>State guru</li><li class="top"><i>5</i>Cult leader<em>Achievement: Mass delusion</em></li></ol>
+        <dl class="kv">
+          <dt>Entry</dt><dd>Crossroads (age 25+), a folding table on Temple Street</dd>
+          <dt>Promotion</dt><dd><span class="clean">Urge people to do good +3 merit</span> / <span class="dirty">Sell $100,000 crystals +10 sin</span></dd>
+          <dt>Failure</dt><dd>You predict a big earthquake, nothing happens, reporters chase you</dd>
+        </dl>
+      </article>
+
+      <article class="lad">
+        <header><h3>Sport</h3><span class="tal">Talent: Physique</span></header>
+        <ol class="ranks"><li><i>1</i>Amateur athlete</li><li><i>2</i>Professional athlete</li><li><i>3</i>National team member</li><li><i>4</i>World champion</li><li class="top"><i>5</i>Sporting legend<em>Achievement: Sporting legend</em></li></ol>
+        <dl class="kv">
+          <dt>Entry</dt><dd>Discover sporting talent at 7–13, trial at 15–22; crossroads (age 26 or under)</dd>
+          <dt>Promotion</dt><dd><span class="clean">Train hard every day</span> / <span class="dirty">Doping +8 sin</span>; no more promotions after 36</dd>
+          <dt>Events</dt><dd>Match fixing (possible lifetime ban); retire to coaching from 33</dd>
+        </dl>
+      </article>
+
+    </div>
+    <div class="side">
+      <div><b>Crossroads</b>Appear at random between 17 and 45. Each time you’re offered 3 paths you qualify for, or you can stay put. A midlife crisis also comes once between 38 and 50.</div>
+      <div><b>Past-life memory</b>If you refused the soup and rose at least one rank last life, the memories return at 12–22 and you can restart that path at rank 2.</div>
+      <div><b>Talents</b>Only kept if you refuse the soup, up to level 3. Each level raises starting stats or the promotion odds of the matching career.</div>
+      <div><b>Pay</b>Each rank pays income per person in your country of residence × a multiplier; see “Money” below.</div>
+    </div>
+  </section>
+
+
+  <section>
+    <h2>Regimes</h2>
+    <p class="sub">Each country’s regime comes from V-Dem’s Regimes of the World, 2025: 0 closed autocracy, 1 electoral autocracy, 2 electoral democracy, 3 liberal democracy. Closed autocracies are further split into one-party, monarchy, junta, theocracy and so on as a game setting. Your political path follows the regime of the country you live in.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Regime</th><th class="num">V-Dem</th><th>Five political ranks</th><th>How you rise</th><th>Dirty route (sin)</th><th>Repression</th></tr></thead>
+        <tbody>
+          <tr><td>Liberal / electoral democracy</td><td class="num">2–3</td><td><span class="rk">Activist → Local councillor → Member of parliament → Minister → National leader</span></td><td>Elections</td><td><span class="dirty">Rig votes, smear opponents +12</span></td><td>0</td></tr>
+          <tr><td>Electoral autocracy</td><td class="num">1</td><td><span class="rk">Ruling party member → Local councillor → Member of parliament → Minister → President</span></td><td>Elections with a fixed result</td><td><span class="dirty">Rig votes, crush the opposition +12</span></td><td>Half</td></tr>
+          <tr><td>One-party state</td><td class="num">0</td><td><span class="rk">Party member → Grassroots cadre → Local party secretary → Central Committee member → Paramount leader</span></td><td>Party review</td><td><span class="dirty">Pick a faction, give gifts, pull strings +10</span></td><td>Full</td></tr>
+          <tr><td>Absolute monarchy</td><td class="num">0</td><td><span class="rk">Civil servant → Royal adviser → Minister → Prime minister → King</span></td><td>Royal favour; only the elite-born can become king</td><td><span class="dirty">Flatter, give gifts, frame colleagues +8</span></td><td>Full</td></tr>
+          <tr><td>Military junta</td><td class="num">0</td><td><span class="rk">Clerk → Bureau chief → Minister → Puppet premier</span></td><td>Generals’ approval; real power means a coup via the military path</td><td><span class="dirty">Whitewash the crackdown +12</span></td><td>Full</td></tr>
+          <tr><td>Theocracy</td><td class="num">0–1</td><td><span class="rk">Religious student → Local official → Governor → Guardian Council member → Supreme Leader</span></td><td>Clerical vetting; non-Muslims can only reach governor</td><td><span class="dirty">Lead the crackdown on the “impious” +12</span></td><td>Full</td></tr>
+          <tr><td>Special administrative region</td><td class="num">0</td><td><span class="rk">Community group organiser → District councillor → Legislative councillor → Bureau secretary → Chief Executive</span></td><td>“Patriot” vetting</td><td><span class="dirty">Pledge loyalty, attend every banquet +6</span></td><td>80%</td></tr>
+          <tr><td>Other closed autocracy</td><td class="num">0</td><td><span class="rk">Petty bureaucrat → Bureau chief → Governor → Premier → Strongman</span></td><td>The strongman’s favour</td><td><span class="dirty">Fawn and sell out colleagues +10</span></td><td>Full</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="side">
+      <div><b>Karma follows choices, not nationality</b>Being born anywhere adds or removes no karma; merit and sin come only from what you choose within that system.</div>
+      <div><b>Orders from above</b>Officials in non-democracies receive orders such as demolitions, disqualifying the opposition or arrests: comply +10 sin; comply on paper +3 sin (30% demotion); refuse +10 merit but you lose your post at once and may be jailed.</div>
+      <div><b>Purges</b>When your patron falls: denounce him +6 sin and keep your post; stay quiet and it depends on whether you took envelopes (if so, 60% prison). In monarchies, a prince’s drink-driving death needs covering up (+10 sin / +8 merit but you fall from favour).</div>
+      <div><b>Democracies</b>When a scandal breaks: admit it and resign +4 merit; blame your staff +6 sin.</div>
+      <div><b>Citizens</b>Where repression is high, someone may ask you to inform (+8 sin); in electoral autocracies, someone may pay for your vote (+2 sin; refusing +1 merit). Arrest odds for protesting or whistle-blowing scale with repression.</div>
+      <div><b>Losing out</b>In non-democracies, every failed promotion risks losing a power struggle; the harsher the regime, the greater the danger, and half end in prison.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Freemasonry</h2>
+    <p class="sub">A side path that runs alongside any career. Freemasonry is about charity and self-improvement; members are proud of it but often misunderstood. Joining adds or removes no karma; merit and sin come from what you choose inside it.</p>
+    <div class="ladders">
+      <article class="lad">
+        <header><h3>Freemasonry</h3><span class="tal">Side path</span></header>
+        <ol class="ranks"><li><i>1</i>Entered Apprentice</li><li><i>2</i>Fellow Craft</li><li><i>3</i>Master Mason<em>Achievement: Master Mason</em></li><li><i>4</i>Worshipful Master</li><li class="top"><i>5</i>Grand Master<em>Achievement: Grand Master</em></li></ol>
+        <dl class="kv">
+          <dt>Joining</dt><dd>Age 21–60, invited by an elder; needs no criminal record, merit at least equal to sin, and belief in a Supreme Being (French and Belgian lodges excepted); women join women’s lodges</dd>
+          <dt>Advancing</dt><dd>At least 2 years each as Apprentice and Fellow Craft; Worshipful Master needs 5 years as Master Mason and net merit ≥ 10; Grand Master needs age 50, net merit ≥ 40, fame ≥ 25</dd>
+          <dt>Expulsion</dt><dd>Jailed for a crime, or caught abusing brotherhood: expelled for good and barred for the rest of this life. Jail for politics, faith or membership itself doesn’t count</dd>
+        </dl>
+      </article>
+    </div>
+    <div class="tablewrap" style="margin-top:16px">
+      <table>
+        <thead><tr><th>Event</th><th>Choices and karma</th></tr></thead>
+        <tbody>
+          <tr><td>Lodge fundraising</td><td>Donate 8% of income per person: <span class="clean">+5 merit</span>; volunteer: <span class="clean">+3 merit</span>; sit out: 0</td></tr>
+          <tr><td>Nightly reflection</td><td>Do it properly: <span class="clean">+1 merit</span>, and if sin exceeds merit you may apologise to someone <span class="clean">+4 merit</span>; wisdom and happiness rise</td></tr>
+          <tr><td>Misunderstood</td><td>Relatives ask if you run the world, the internet calls you Illuminati, your partner thinks the apron proves an affair: explain patiently, joke, or wear your ring proudly; only happiness and fame are affected</td></tr>
+          <tr><td>Brotherhood</td><td>Use brothers for contracts, signal a judge, get a back-door job: <span class="dirty">+8 sin</span>, 30% expulsion; refuse: <span class="clean">+3 merit</span></td></tr>
+          <tr><td>Persecution</td><td>Where Freemasonry is banned: sign a statement and quit, deny it and keep meeting in secret, or go public <span class="clean">+3 merit</span>; arrest odds scale with repression</td></tr>
+          <tr><td>State-supervised (Cuba)</td><td>Legal, but being elected Worshipful Master or Grand Master needs Ministry of Justice recognition: write and wait (half are overturned), rally members <span class="clean">+3 merit</span> (40% detained and banned from leaving), or cut a deal <span class="dirty">+4 sin</span>. State Security “coffee”: name names <span class="dirty">+8 sin</span>, refuse to answer <span class="clean">+3 merit</span></td></tr>
+          <tr><td>Prison interrogation</td><td>Write down members’ names for a shorter sentence: <span class="dirty">+10 sin</span>; hand it back blank: <span class="clean">+5 merit</span>, sentence +2 years</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="side">
+      <div><b>Under state supervision</b>Cuba: Freemasonry is legal, but since 2024 the Ministry of Justice has interfered in lodge elections and expulsions, and lodge leaders have been detained by State Security and barred from travel.</div>
+      <div><b>Where Freemasonry is banned (game setting)</b>Mainland China, North Korea, Vietnam, Laos, Iran, Afghanistan, Saudi Arabia, Pakistan, Iraq, Syria, Libya, Yemen, Egypt. You can still join in secret there, but face persecution.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Faith</h2>
+    <p class="sub">Drawn at birth from the real religious make-up of your birthplace (Pew Research Center, 2020). In this game everyone is reborn, believer or not; every faith, taken to its height, has its own door out of the cycle.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Faith</th><th>Five clerical ranks</th><th>Exit</th><th>Believes in rebirth?</th><th>Paid clergy</th><th>Pilgrimage</th><th>Telling of a past life</th></tr></thead>
+        <tbody>
+          <tr><td>Buddhism</td><td><span class="rk">Novice → Monk → Abbot → Eminent monk → Grand master</span></td><td>Nirvana</td><td>Yes</td><td>No</td><td>Meditate at Bodh Gaya</td><td>Tulku: if your past life was Buddhist clergy, or a 30% chance</td></tr>
+          <tr><td>Hinduism</td><td><span class="rk">Sadhu → Priest → Spiritual teacher → Guru → Saint</span></td><td>Become one with Brahman (moksha)</td><td>Yes</td><td>No</td><td>Bathe in the Ganges</td><td>Family takes you to find your past-life home</td></tr>
+          <tr><td>Folk religion</td><td><span class="rk">Temple keeper → Taoist priest → Ritual master → Abbot → Celestial Master</span></td><td>Become an immortal</td><td>Yes</td><td>Yes</td><td>Dajia Mazu pilgrimage</td><td>Visit a spirit medium</td></tr>
+          <tr><td>Christianity</td><td><span class="rk">Seminarian → Priest → Bishop → Archbishop → Cardinal</span></td><td>Heaven</td><td>No</td><td>Yes</td><td>Walk the Via Dolorosa in Jerusalem</td><td>The priest performs an exorcism</td></tr>
+          <tr><td>Islam</td><td><span class="rk">Student → Imam → Jurist → Grand Mufti → Great scholar</span></td><td>Paradise</td><td>No</td><td>Yes</td><td>Hajj to Mecca</td><td>An imam drives out the jinn</td></tr>
+          <tr><td>Judaism</td><td><span class="rk">Student → Rabbi → Chief rabbi of the synagogue → Rabbinical court judge → Chief Rabbi</span></td><td>The World to Come</td><td>No (Kabbalah excepted)</td><td>Yes</td><td>Pray at the Western Wall</td><td>The rabbi teaches you Kabbalah</td></tr>
+          <tr><td>No religion</td><td><span class="rk">No clergy; reaching academician counts</span></td><td>Log out (refuse to play again)</td><td>No</td><td>—</td><td>—</td><td>Taken to a child psychologist</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="side">
+      <div><b>Conversion</b>Missionaries, living abroad among people of another faith, marrying across faiths and Pascal’s wager can all make you convert; you can also lose your faith.</div>
+      <div><b>Apostasy laws</b>Leaving Islam in one of 10 countries with apostasy laws: 35% prison, otherwise your family disowns you. The list is a game setting.</div>
+      <div><b>Persecution</b>In authoritarian countries, faiths with under 10% of believers are suppressed: meet underground, sign a confession, or stand firm in public.</div>
+      <div><b>King Yama’s court</b>Those who didn’t believe in rebirth are very surprised after death. Christians hear: “This is the Eastern branch. Your head office is full, so they outsourced you to us.”</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Money</h2>
+    <p class="sub">In US dollars. Each country’s income per person is the World Bank’s real GNI per capita (Taiwan and North Korea are estimates), so the same job can pay dozens of times more in one country than another.</p>
+    <div class="formula">
+      <b>Annual income = income per person in your country of residence × job multiplier</b>
+      <small>Savings each year ≈ income × savings rate, but living costs are at least 20% of income per person, so on very low pay you eat into savings. Savings rate by background: destitute 0%, poor 3%, working class 8%, middle class 12%, wealthy 25%, elite 35%; university +5%; marriage and children reduce it; migrant workers in rich countries save an extra 25% to send home.</small>
+      <small>Family wealth at birth: destitute 0, poor 0.05, working class 0.3, middle class 1.5, wealthy 8, elite 60 × income per person. Retire at 65: rich countries pay a pension (30% of income per person); elsewhere only 5%.</small>
+    </div>
+    <div class="tablewrap" style="margin-top:16px">
+      <table>
+        <thead><tr><th>Extraordinary path</th><th class="num">Rank 1</th><th class="num">Rank 2</th><th class="num">Rank 3</th><th class="num">Rank 4</th><th class="num">Rank 5</th></tr></thead>
+        <tbody>
+          <tr><td>Dissent</td><td class="num">×0.05</td><td class="num">×0.1</td><td class="num">×0.3</td><td class="num">×0.8</td><td class="num">×1.5</td></tr>
+          <tr><td>Street</td><td class="num">×0.8</td><td class="num">×1.5</td><td class="num">×3</td><td class="num">×6</td><td class="num">×15</td></tr>
+          <tr><td>Music</td><td class="num">×0.3</td><td class="num">×0.8</td><td class="num">×3</td><td class="num">×10</td><td class="num">×40</td></tr>
+          <tr><td>Business</td><td class="num">×0.8</td><td class="num">×1.5</td><td class="num">×4</td><td class="num">×15</td><td class="num">×100</td></tr>
+          <tr><td>Politics</td><td class="num">×0.5</td><td class="num">×1.5</td><td class="num">×2.5</td><td class="num">×4</td><td class="num">×6</td></tr>
+          <tr><td>Clergy, salaried</td><td class="num">×0.5</td><td class="num">×0.8</td><td class="num">×1.2</td><td class="num">×1.8</td><td class="num">×3</td></tr>
+          <tr><td>Clergy, monks and sadhus</td><td class="num">×0.1</td><td class="num">×0.1</td><td class="num">×0.2</td><td class="num">×0.3</td><td class="num">×0.5</td></tr>
+          <tr><td>Academia</td><td class="num">×0.5</td><td class="num">×1.3</td><td class="num">×2</td><td class="num">×3</td><td class="num">×5</td></tr>
+          <tr><td>Military</td><td class="num">×0.6</td><td class="num">×0.9</td><td class="num">×1.5</td><td class="num">×3</td><td class="num">×8</td></tr>
+          <tr><td>Sport</td><td class="num">×0.3</td><td class="num">×1</td><td class="num">×4</td><td class="num">×15</td><td class="num">×40</td></tr>
+          <tr><td>Influencer</td><td class="num">×0.05</td><td class="num">×0.5</td><td class="num">×2</td><td class="num">×8</td><td class="num">×30</td></tr>
+          <tr><td>Mysticism</td><td class="num">×0.5</td><td class="num">×1.5</td><td class="num">×4</td><td class="num">×10</td><td class="num">×30</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="side">
+      <div><b>Millionaire</b>An achievement for savings over US$1 million; over US$1 billion makes you a billionaire.</div>
+      <div><b>Ways to spend</b>Travel, study abroad, emigration, residence and citizenship fees, pilgrimages, betting “everything”, donations, doomsday cults.</div>
+      <div><b>Debt</b>You can borrow for student fees or a smuggler, down to 5 × income per person.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Abroad · residence · citizenship</h2>
+    <p class="sub">Simplified to three steps: visa → permanent residence → citizenship. Once abroad, pay is calculated for the new country.</p>
+    <div class="flow">
+      <div class="node"><b>Leave</b><small>Study, migrant work, skilled work, emigration or smuggling</small></div>
+      <span class="arrow">→</span>
+      <div class="node"><b>Visa</b><small>Student, work or retirement visa</small></div>
+      <span class="arrow">→</span>
+      <div class="node"><b>5 years</b><small>Only work visas count; migrant-worker visas in Saudi Arabia, the UAE, Qatar, Kuwait, Singapore, Malaysia and Hong Kong never count</small></div>
+      <span class="arrow">→</span>
+      <div class="node"><b>Permanent residence (ILR/PR)</b><small>Fee 8% of income per person; 80% approval, −45% with a criminal record, harder with more sin</small></div>
+      <span class="arrow">→</span>
+      <div class="node"><b>2 more years</b><small>You can choose to stay a permanent resident</small></div>
+      <span class="arrow">→</span>
+      <div class="node"><b>Citizenship</b><small>Fee 3% of income per person; one more passport, achievement: Dual citizen</small></div>
+    </div>
+    <div class="outcomes">
+      <div class="out good"><b>Study abroad</b><small>Age 17–24, wisdom ≥ 55; three years’ fees = 1.8 × local income per person, full scholarship at wisdom ≥ 85, working class and above can borrow. After graduating, stay and look for work, or go home as a returnee</small></div>
+      <div class="out"><b>Migrant work</b><small>From middle-income or poorer countries to the Gulf, Singapore, Hong Kong, Taiwan and elsewhere, as a domestic helper, on building sites or in factories; agency fee 0.6 × home income per person, 15% have their passport taken</small></div>
+      <div class="out good"><b>Skilled work</b><small>Graduates, headhunted at 23–45; 40% success plus a wisdom bonus, −15% with a weak passport</small></div>
+      <div class="out"><b>Emigration</b><small>Age 18–40, from middle-income or poorer countries to rich ones on a work visa, costing 0.3 × destination income per person; qualifications aren’t recognised, so you start as a waiter</small></div>
+      <div class="out bad"><b>Smuggling</b><small>Pay a smuggler 1.5 × home income per person (can be borrowed), 8% die on the way; undocumented workers face raids: 60% escape, asylum claims succeed 30% of the time</small></div>
+      <div class="out gold"><b>Retirement</b><small>Living abroad at 58–80, you can retire home (achievement: Back to the roots); with US$150,000 in a rich country you can retire to Thailand, Malaysia, Portugal and elsewhere</small></div>
+    </div>
+    <div class="tablewrap" style="margin-top:16px">
+      <table>
+        <thead><tr><th>World travel</th><th class="num">Cost</th><th class="num">Countries</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Backpacking</td><td class="num">US$2,500</td><td class="num">3–5</td><td>Age 18–85, only if you can afford it</td></tr>
+          <tr><td>A year round the world</td><td class="num">US$30,000</td><td class="num">15–25</td><td>Weak passports: 40% visa refusal, fees not refunded</td></tr>
+          <tr><td>Luxury cruise</td><td class="num">US$80,000</td><td class="num">8–12</td><td>Every trip has a twist: lost luggage, scams, an upset stomach, or meeting your partner at a youth hostel</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="side"><div><b>Globetrotter achievement</b>Visit 30 countries in one life. Pilgrimages, study and migrant work all count.</div></div>
+  </section>
+
+  <section>
+    <h2>Ordinary lives</h2>
+    <p class="sub">If you don’t take an extraordinary path, at 18 (22 after university) you’re given a job based on your background. The gold numbers are pay multipliers: annual income = income per person in your country of residence × multiplier. Most people live their whole lives like this.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Background</th><th>Possible jobs</th><th>How you get there</th></tr></thead>
+        <tbody>
+          <tr><td>Poor country · destitute / poor</td><td><div class="jobs"><span class="job">Smallholder farmer<i>×0.35</i></span><span class="job">Day labourer<i>×0.45</i></span><span class="job">Rickshaw puller<i>×0.4</i></span><span class="job">Street vendor<i>×0.5</i></span><span class="job">Garment worker<i>×0.6</i></span><span class="job">Fisher<i>×0.45</i></span><span class="job">Domestic worker<i>×0.4</i></span><span class="job">Delivery rider<i>×0.6</i></span></div></td><td>Without schooling, possibly at 14</td></tr>
+          <tr><td>Other countries · destitute / poor</td><td><div class="jobs"><span class="job">Factory worker<i>×0.7</i></span><span class="job">Delivery rider<i>×0.6</i></span><span class="job">Cleaner<i>×0.5</i></span><span class="job">Construction worker<i>×0.8</i></span><span class="job">Security guard<i>×0.6</i></span></div></td><td>Age 18</td></tr>
+          <tr><td>Working / middle class</td><td><div class="jobs"><span class="job">Factory worker<i>×0.7</i></span><span class="job">Shop assistant<i>×0.65</i></span><span class="job">Driver<i>×0.8</i></span><span class="job">Clerk<i>×0.9</i></span><span class="job">Cook<i>×0.8</i></span><span class="job">Delivery rider<i>×0.6</i></span><span class="job">Security guard<i>×0.6</i></span><span class="job">Care worker<i>×0.75</i></span></div></td><td>Age 18</td></tr>
+          <tr><td>Wealthy / elite</td><td><div class="jobs"><span class="job">Family business manager<i>×4</i></span><span class="job">Investment banker<i>×6</i></span><span class="job">Lawyer<i>×3</i></span><span class="job">Doctor<i>×3.5</i></span></div></td><td>Age 18</td></tr>
+          <tr><td>University graduate</td><td><div class="jobs"><span class="job">Engineer<i>×1.8</i></span><span class="job">Chartered accountant<i>×1.8</i></span><span class="job">Lawyer<i>×3</i></span><span class="job">Doctor<i>×3.5</i></span><span class="job">Programmer<i>×2</i></span><span class="job">Teacher<i>×1.2</i></span><span class="job">Civil servant<i>×1.3</i></span></div></td><td>Pass the public exams and choose university; start at 22</td></tr>
+          <tr><td>Legal emigrant</td><td><div class="jobs"><span class="job">Waiter<i>×0.6</i></span><span class="job">Supermarket stocker<i>×0.55</i></span><span class="job">Taxi driver<i>×0.7</i></span><span class="job">Care worker<i>×0.75</i></span></div></td><td>Age 18–40, from a middle-income or poorer country to a rich one</td></tr>
+          <tr><td>Smuggled</td><td><div class="jobs"><span class="job">Dishwasher<i>×0.45</i></span><span class="job">Undocumented worker<i>×0.35</i></span><span class="job">Farmhand<i>×0.4</i></span><span class="job">Day labourer<i>×0.45</i></span></div></td><td>8% die on the way; no papers</td></tr>
+          <tr><td>Migrant worker</td><td><div class="jobs"><span class="job">Foreign domestic helper<i>×0.13</i></span><span class="job">Migrant construction worker<i>×0.2</i></span><span class="job">Migrant factory worker<i>×0.25</i></span></div></td><td>Paid by the destination’s income per person, so several times more than at home</td></tr>
+          <tr><td>Retired</td><td><div class="jobs"><span class="job">Retiree<i>×0</i></span></div></td><td>Age 65; rich countries pay a pension</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="side">
+      <div><b>Scab</b>Sell out co-workers during a strike to become foreman, +6 sin.</div>
+      <div><b>Replaced by AI</b>Workers in rich countries may lose their jobs and retrain at night school as care workers, plumbers, electricians or social workers.</div>
+      <div><b>Washing your hands of it</b>Gang members can quit after 30 and open a café.</div>
+      <div><b>Retired / banned</b>Athletes retire to coaching; get caught fixing a match and you’re banned for life.</div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p><b>Disclaimer</b>: This game is a work of fiction made for entertainment. “Everyone is reborn” is only a rule of the game. It does not express the author’s position on any religion, belief or lack of belief, and it is not meant to offend, belittle or promote any religion. Shares of religious population come from Pew Research Center statistics and are used only to decide a character’s background; the clergy, holy places, afterlife scenes and dialogue of each religion are simplified and fictional and do not represent any doctrine or believers. Freemasonry’s degrees, rituals and events are also simplified and do not represent any lodge or member; the conspiracy theories about Freemasons in the game depict the misunderstandings members face, not facts. Countries’ politics, laws and all event odds are game settings, not judgements of any country, people or group. If anything offends, we apologise; please <a href="https://github.com/wanleung/secondlife/issues" target="_blank" rel="noopener">raise it on GitHub</a>.</p>
+    <p>Data: UN World Population Prospects, UN Inter-agency Group for Child Mortality Estimation, World Bank, Pew Research Center Religious Composition by Country 2010–2020, V-Dem Regimes of the World, via the World Bank and Our World in Data.</p>
+    <p>Matches game version <b>v1.8.0</b> (2026-10-21) · <a href="./">Back to the game</a></p>
+  </footer>
+</div>
+</body>
+</html>

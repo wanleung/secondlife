@@ -1,0 +1,2476 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5TN9NNFY4Z"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-5TN9NNFY4Z');
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>輪廻</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* Layout: 幽冥夜色作底，人生記錄寫喺一頁黃紙「生死簿」上；左邊係此生狀態欄 */
+:root{
+  --night:#11151c;      /* 幽冥底色 */
+  --night-2:#1a2130;    /* 浮起嘅面板 */
+  --line:#2b3446;
+  --mist:#93a0b6;       /* 夜色上嘅次要文字 */
+  --glow:#e9e3d2;       /* 夜色上嘅主文字 */
+  --paper:#e9dcb6;      /* 黃紙 */
+  --paper-2:#dccb9b;
+  --ink:#251d13;        /* 墨 */
+  --ink-soft:#5c4d36;
+  --gold:#c9a24c;       /* 金箔 */
+  --cinnabar:#b5352b;   /* 朱砂：孽 */
+  --jade:#3d8a72;       /* 玉：德 */
+  --font-brush:"LXGW WenKai TC","Kaiti TC","STKaiti","DFKai-SB","BiauKai",serif;
+  --font-ui:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{
+  margin:0;background:var(--night);color:var(--glow);
+  font-family:var(--font-ui);font-size:15px;line-height:1.6;
+  background-image:radial-gradient(1200px 600px at 50% -200px,#1f2a3d 0%,transparent 70%);
+  background-attachment:fixed;
+}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.wrap{max-width:1080px;margin:0 auto;padding-block:20px 48px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.brand{font-family:var(--font-brush);font-size:28px;letter-spacing:.2em;color:var(--gold);margin:0;font-weight:700}
+.brand small{font-size:13px;color:var(--mist);letter-spacing:.08em;margin-left:10px;font-weight:400;font-family:var(--font-ui)}
+.soulbar{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--mist);align-items:center}
+.soulbar b{color:var(--glow);font-weight:500;font-variant-numeric:tabular-nums}
+.linkbtn{background:none;border:1px solid var(--line);border-radius:4px;padding:3px 10px;color:var(--mist);font-size:13px}
+.linkbtn:hover{color:var(--glow);border-color:var(--mist)}
+
+/* buttons */
+.btn{background:var(--gold);color:#1a1408;border:0;border-radius:3px;padding:10px 22px;font-weight:700;letter-spacing:.1em;font-family:var(--font-brush);font-size:18px}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:none;color:var(--glow);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--gold);color:var(--gold)}
+.btn.red{background:var(--cinnabar);color:#f8eee0}
+
+/* title */
+.hero{padding:48px 0 24px;display:grid;gap:22px;max-width:680px}
+.hero h2{font-family:var(--font-brush);font-size:clamp(56px,12vw,110px);line-height:1;margin:0;color:var(--paper);letter-spacing:.15em;font-weight:700;text-wrap:balance}
+.hero h2 span{color:var(--cinnabar)}
+.hero p{margin:0;color:var(--mist);font-size:16px;max-width:60ch}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:6px}
+.rule{border-top:1px solid var(--line);padding-top:10px;font-size:14px;color:var(--mist)}
+.rule b{display:block;color:var(--glow);font-family:var(--font-brush);font-size:18px;font-weight:700;margin-bottom:2px}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+
+/* birth cards */
+.sect-h{font-family:var(--font-brush);font-size:30px;color:var(--paper);margin:8px 0 4px;letter-spacing:.06em}
+.sub{color:var(--mist);margin:0 0 18px;max-width:70ch}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.card{background:var(--paper);color:var(--ink);border-radius:2px;padding:18px 18px 16px;display:grid;gap:10px;align-content:start;
+  box-shadow:0 1px 0 var(--paper-2),0 12px 30px rgba(0,0,0,.35);position:relative}
+.card h3{margin:0;font-family:var(--font-brush);font-size:28px;line-height:1.1}
+.card .cls{font-family:var(--font-brush);font-size:18px;color:var(--cinnabar)}
+.card dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:2px 12px;font-size:13px}
+.card dt{color:var(--ink-soft)}
+.card dd{margin:0;font-variant-numeric:tabular-nums;text-align:right}
+.card .odds{font-size:12px;color:var(--ink-soft);border-top:1px dashed var(--paper-2);padding-top:8px}
+.card .btn{justify-self:start;background:var(--ink);color:var(--paper)}
+.card.beast{background:#3a2a22;color:#f0e2c8}
+.card.beast dt,.card.beast .odds{color:#c9b597}
+
+/* life layout */
+.life{display:grid;grid-template-columns:270px minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:760px){.life{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--night-2);border:1px solid var(--line);border-radius:4px;padding:16px;display:grid;gap:12px;position:sticky;top:max(12px,env(safe-area-inset-top,0px))}
+@media (max-width:760px){.panel{position:static}}
+.who{font-family:var(--font-brush);font-size:24px;line-height:1.2;color:var(--paper)}
+.who small{display:block;font-family:var(--font-ui);font-size:13px;color:var(--mist)}
+.age{font-variant-numeric:tabular-nums;font-size:13px;color:var(--mist)}
+.age b{font-size:30px;color:var(--glow);font-family:var(--font-brush);margin-right:4px}
+.stats{display:grid;gap:7px}
+.stat{display:grid;grid-template-columns:3.2em 1fr 2.2em;gap:8px;align-items:center;font-size:13px}
+.stat .bar{height:6px;background:#0c1016;border-radius:3px;overflow:hidden}
+.stat .bar i{display:block;height:100%;background:var(--mist);transition:width .4s}
+.stat.hp .bar i{background:#c76a5a}.stat.int .bar i{background:#6f8fd0}.stat.hap .bar i{background:var(--gold)}
+.stat.wealth .bar i{background:#a5b85a}.stat.fame .bar i{background:#c58ad0}.stat.jiang .bar i{background:#8b8f99}
+.stat span:last-child{text-align:right;font-variant-numeric:tabular-nums;color:var(--mist)}
+.money{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.money div{display:grid;gap:0}
+.money small{font-size:12px;color:var(--mist)}
+.money b{font-variant-numeric:tabular-nums;font-weight:500;font-size:15px;color:#c9d98a}
+.karma{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.karma div{border:1px solid var(--line);border-radius:3px;padding:6px 8px;text-align:center}
+.karma b{display:block;font-family:var(--font-brush);font-size:24px;font-variant-numeric:tabular-nums;line-height:1.1}
+.karma .m b{color:#6cc3a5}.karma .s b{color:#e2675b}
+.karma small{font-size:12px;color:var(--mist)}
+.meta{font-size:13px;color:var(--mist);display:grid;gap:3px}
+.meta b{color:var(--glow);font-weight:500}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:12px;border:1px solid var(--gold);color:var(--gold);border-radius:999px;padding:1px 9px}
+.chip.mem{border-color:var(--mist);color:var(--mist)}
+
+/* 生死簿 */
+.book{background:var(--paper);color:var(--ink);border-radius:2px;box-shadow:0 18px 50px rgba(0,0,0,.45);min-width:0;
+  background-image:repeating-linear-gradient(90deg,transparent 0 46px,rgba(181,53,43,.10) 46px 47px);
+  padding:22px 22px 18px}
+.book h4{margin:0 0 10px;font-family:var(--font-brush);font-size:15px;color:var(--cinnabar);letter-spacing:.3em;font-weight:700}
+.log{display:grid;gap:10px;max-height:62vh;overflow-y:auto;padding-right:6px;font-family:var(--font-brush);font-size:17px;line-height:1.7}
+@media (max-width:760px){.log{max-height:none}}
+.entry{display:grid;grid-template-columns:3.4em minmax(0,1fr);gap:10px;animation:ink .5s ease-out}
+.entry .y{color:var(--cinnabar);font-variant-numeric:tabular-nums;text-align:right;font-size:14px;padding-top:3px}
+.entry.choice{color:var(--ink-soft);font-size:15px}
+.entry .k{font-family:var(--font-ui);font-size:12px;border-radius:2px;padding:0 5px;margin-left:6px;white-space:nowrap;vertical-align:2px}
+.k.plus{background:var(--jade);color:#f2fbf6}.k.minus{background:var(--cinnabar);color:#fbeeea}
+.entry.death{color:var(--cinnabar);font-weight:700}
+@keyframes ink{from{opacity:.3;filter:blur(1.5px)}to{opacity:1;filter:none}}
+@media (prefers-reduced-motion:reduce){.entry{animation:none}.stat .bar i{transition:none}}
+.act{margin-top:16px;border-top:2px solid var(--ink);padding-top:14px;display:grid;gap:10px}
+.prompt{font-family:var(--font-brush);font-size:19px;line-height:1.6;margin:0}
+.choices{display:grid;gap:8px}
+.choice{text-align:left;background:transparent;border:1px solid var(--ink);color:var(--ink);padding:9px 14px;border-radius:2px;font-family:var(--font-brush);font-size:17px}
+.choice:hover{background:var(--ink);color:var(--paper)}
+.choice.special{border-color:var(--cinnabar);color:var(--cinnabar)}
+.choice.special:hover{background:var(--cinnabar);color:var(--paper)}
+.book .btn{background:var(--ink);color:var(--paper);justify-self:start}
+
+/* judgement */
+.court{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:760px){.court{grid-template-columns:minmax(0,1fr)}}
+.verdict{font-family:var(--font-brush);font-size:clamp(40px,8vw,64px);line-height:1;margin:4px 0 8px;letter-spacing:.1em}
+.ledger{list-style:none;margin:0;padding:0;display:grid;gap:4px;font-size:14px}
+.ledger li{display:flex;justify-content:space-between;gap:12px;border-bottom:1px dotted var(--paper-2);padding:2px 0}
+.ledger .v{font-variant-numeric:tabular-nums;font-weight:700}
+.ledger .v.p{color:var(--jade)}.ledger .v.n{color:var(--cinnabar)}
+.epitaph{font-size:15px;line-height:1.8}
+.soup{display:grid;gap:14px}
+.option{background:var(--night-2);border:1px solid var(--line);border-radius:4px;padding:16px;display:grid;gap:8px}
+.option h3{margin:0;font-family:var(--font-brush);font-size:24px;color:var(--paper)}
+.option p{margin:0;color:var(--mist);font-size:14px}
+.option.nirvana{border-color:var(--gold)}
+.option.nirvana h3{color:var(--gold)}
+.newach{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+
+/* codex */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:4px}
+table{border-collapse:collapse;width:100%;font-size:13px;min-width:620px}
+th,td{padding:7px 10px;text-align:left;border-bottom:1px solid var(--line)}
+th{color:var(--mist);font-weight:500;font-size:12px;letter-spacing:.06em}
+td.num{font-variant-numeric:tabular-nums;text-align:right}
+.achgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
+.ach{border:1px solid var(--line);border-radius:4px;padding:10px;font-size:13px;color:var(--mist)}
+.ach b{display:block;font-family:var(--font-brush);font-size:18px;color:var(--glow)}
+.ach.on{border-color:var(--gold)}
+.ach.on b{color:var(--gold)}
+.ach.off{opacity:.45}
+.confirm{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:14px;color:var(--mist)}
+.remake{margin-top:26px;border-top:1px solid var(--line);padding-top:18px;display:grid;gap:10px;max-width:720px}
+.remake h3{margin:0;font-family:var(--font-brush);font-size:22px;color:var(--paper)}
+.remake p{margin:0;color:var(--mist);font-size:14px}
+.remake select{background:var(--night-2);color:var(--glow);border:1px solid var(--line);border-radius:3px;padding:9px 10px;font:inherit;max-width:100%;min-width:0;flex:1 1 220px}
+.toggle{font-size:13px;color:var(--mist);display:flex;gap:8px;align-items:center}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.source{font-size:12px;color:var(--mist);max-width:70ch;margin:0;opacity:.85}
+.langs{display:flex;gap:4px;font-size:12.5px;flex-basis:100%;justify-content:flex-end}
+.langs a{color:var(--mist);text-decoration:none;padding:2px 8px;border:1px solid transparent;border-radius:999px}
+.langs a:hover{color:var(--glow)}
+.langs a[aria-current]{color:var(--gold);border-color:var(--gold)}
+.foot{margin-top:48px;border-top:1px solid var(--line);padding-top:16px;display:grid;gap:8px;font-size:12px;color:var(--mist);max-width:80ch}
+.foot p{margin:0}
+.foot b{color:var(--glow);font-weight:500}
+.foot a{color:var(--mist)}
+.end{max-width:640px;padding:60px 0;display:grid;gap:18px}
+.end h2{font-family:var(--font-brush);font-size:clamp(48px,10vw,88px);margin:0;color:var(--gold);letter-spacing:.2em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1 class="brand">輪廻<small>徳も業も、来世へ</small></h1>
+    <div class="soulbar" id="soulbar"></div>
+    <nav class="langs" aria-label="言語"><a href="../">粵語</a><a href="../zh/">中文</a><a href="../en/">English</a><a href="./" aria-current="page">日本語</a></nav>
+  </header>
+  <main id="stage"></main>
+  <footer class="foot">
+    <p><b>免責事項</b>：本ゲームは娯楽のためのフィクションです。「誰もが輪廻する」というのはゲーム上のルールにすぎず、作者のいかなる宗教・信仰・無信仰に対する立場を示すものではなく、いかなる宗教を侮辱・軽視・宣伝する意図もありません。宗教人口の比率はピュー・リサーチ・センターの統計に基づき、キャラクターの出自を決めるためだけに使っています。各宗教の聖職、聖地、死後の場面や台詞は簡略化・創作されたもので、いかなる教義や信者を代表するものでもありません。フリーメイソンの位階・儀式・イベントも簡略化されており、いかなるロッジや会員を代表するものでもありません。ゲーム内で外部の人々が語るフリーメイソンの陰謀論は、会員が直面する誤解を描いたもので、事実ではありません。各国の政治・法律・イベントの確率もゲーム上の設定であり、いかなる国・民族・集団への評価でもありません。不快に感じられる点がありましたらご容赦ください。ご意見は<a href="https://github.com/wanleung/secondlife/issues" target="_blank" rel="noopener">GitHub</a>までお寄せください。</p>
+    <p><a href="paths.html">人生図鑑：すべての職業・信仰・お金・海外ルート</a></p>
+    <p>バージョン <b>v1.8.0</b>（2026-10-21）・<a href="https://github.com/wanleung/secondlife" target="_blank" rel="noopener">ソースコード</a></p>
+  </footer>
+</div>
+
+<script>
+'use strict';
+/* ============ 工具 ============ */
+const $ = q => document.querySelector(q);
+const R = Math.random;
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const pick = a => a[Math.floor(R() * a.length)];
+const ri = (a, b) => a + Math.floor(R() * (b - a + 1));
+const esc = t => String(t).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function shuffle(a){ for(let i=a.length-1;i>0;i--){const j=Math.floor(R()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+function wpick(arr, wf){
+  let t = 0; const ws = arr.map(x => { const w = Math.max(0, wf(x)); t += w; return w; });
+  let r = R() * t;
+  for (let i = 0; i < arr.length; i++) { r -= ws[i]; if (r <= 0) return arr[i]; }
+  return arr[arr.length - 1];
+}
+
+/* ============ 世界數據 ============ */
+/* COUNTRIES:BEGIN — generated by tools/build_countries.py, do not edit by hand */
+// w: 每年出生人數（千）, p: 人口（百萬）, g: 人均國民所得 US$（gest:1 = 估算）, u5: 五歲前死亡率 ‰（est:1 = 由預期壽命估算）, le: 預期壽命
+// rel: 宗教人口比例 %（無宗教、基督教、伊斯蘭教、印度教、佛教、猶太教、其他／民間信仰；rest:1 = 借用鄰近地區）
+// rg: V-Dem 政體 0 封閉專制、1 選舉專制、2 選舉民主、3 自由民主（rgest:1 = 按宗主國或估算）
+// t: 經濟層級 1–5（世界銀行收入組別；高收入按人均國民所得再分兩級）, war: 遊戲設定
+const DATA_SOURCE = '国連「世界人口推計」（出生・人口・寿命）、国連児童死亡率推計グループ（5歳未満死亡率）、世界銀行（1人当たり国民所得）、世界銀行および Our World in Data 経由；宗教人口比率はピュー・リサーチ・センター「国別宗教構成 2010–2020」（2020年）；政治体制は V-Dem「世界の政治体制分類」（2025年）；人口 2025年、出生・寿命 2024年（台湾は 2023年）。';
+const COUNTRIES = [
+  {n:'インド',iso:'IND',w:23394.0,p:1463.87,t:2,g:2760,u5:26.6,le:72.2,reg:'sa',rel:[0,2.2,15.2,79.4,0.7,0,2.5],rg:1},
+  {n:'中国',iso:'CHN',w:9522.6,p:1406.59,t:3,g:14230,u5:5.7,le:78.0,reg:'cn',rel:[89.6,1.8,1.8,0,3.7,0,3],rg:0},
+  {n:'ナイジェリア',iso:'NGA',w:7718.0,p:237.53,t:2,g:1360,u5:115.6,le:54.6,reg:'af',rel:[0.4,43.4,56.1,0,0,0,0.2],rg:2},
+  {n:'パキスタン',iso:'PAK',w:6996.1,p:255.22,t:2,g:1500,u5:56,le:67.8,reg:'sa',rel:[0,1.3,96.5,2.1,0,0,0],rg:1},
+  {n:'コンゴ民主共和国',iso:'COD',w:4613.2,p:112.83,t:1,g:720,u5:89.7,le:62.1,reg:'af',rel:[1.2,96.3,1.3,0,0,0,1.3],rg:1,war:1},
+  {n:'インドネシア',iso:'IDN',w:4503.5,p:285.72,t:3,g:5120,u5:17.7,le:71.3,reg:'sea',rel:[0.1,10.3,87,1.6,0.7,0,0.4],rg:1},
+  {n:'エチオピア',iso:'ETH',w:4263.2,p:135.47,t:1,g:1110,u5:44.5,le:67.6,reg:'af',rel:[0.1,61.6,36.2,0,0,0,2.1],rg:1},
+  {n:'アメリカ',iso:'USA',w:3622.9,p:341.78,t:5,g:88810,u5:6.5,le:78.9,reg:'west',rel:[29.7,64,1.2,0.9,1.3,1.7,1.2],rg:2},
+  {n:'バングラデシュ',iso:'BGD',w:3511.6,p:175.69,t:2,g:2840,u5:30.5,le:74.9,reg:'sa',rel:[0,0.3,91.1,7.9,0.6,0,0.1],rg:0},
+  {n:'ブラジル',iso:'BRA',w:2582.1,p:212.81,t:3,g:10550,u5:14.2,le:76.0,reg:'la',rel:[13.5,80.7,0,0,0.1,0,5.7],rg:2},
+  {n:'エジプト',iso:'EGY',w:2475.6,p:118.37,t:2,g:3260,u5:22.4,le:71.8,reg:'me',rel:[0,4.8,95.2,0,0,0,0],rg:1},
+  {n:'タンザニア',iso:'TZA',w:2455.1,p:70.55,t:2,g:1270,u5:37,le:67.2,reg:'af',rel:[3.5,64.7,29.9,0,0,0,2],rg:1},
+  {n:'メキシコ',iso:'MEX',w:2040.4,p:131.95,t:3,g:13730,u5:13.1,le:75.3,reg:'la',rel:[10.6,89.2,0,0,0,0,0.1],rg:1},
+  {n:'フィリピン',iso:'PHL',w:1856.2,p:116.79,t:3,g:4850,u5:26.5,le:69.9,reg:'sea',rel:[0,91.5,6.5,0,0,0,2],rg:1},
+  {n:'ウガンダ',iso:'UGA',w:1769.5,p:51.38,t:1,g:1120,u5:48.7,le:68.5,reg:'af',rel:[0.1,87.7,11.4,0,0,0,0.7],rg:1},
+  {n:'スーダン',iso:'SDN',w:1704.6,p:51.66,t:1,g:900,u5:61.6,le:66.5,reg:'af',rel:[0.6,0.5,98.9,0,0,0,0.1],rg:0,war:1},
+  {n:'ケニア',iso:'KEN',w:1551.5,p:57.53,t:2,g:2200,u5:38.8,le:63.8,reg:'af',rel:[1.6,85.7,10.9,0.1,0,0,1.7],rg:2},
+  {n:'アフガニスタン',iso:'AFG',w:1534.9,p:43.84,t:1,g:390,u5:53,le:66.3,reg:'me',rel:[0,0,99.9,0,0,0,0.1],rg:0},
+  {n:'アンゴラ',iso:'AGO',w:1450.6,p:39.04,t:2,g:2860,u5:49,le:64.8,reg:'af',rel:[6.1,93,0.3,0,0,0,0.6],rg:1},
+  {n:'イエメン',iso:'YEM',w:1435.3,p:41.77,t:1,g:740,u5:38.1,le:69.4,reg:'me',rel:[0.1,0.1,99.9,0,0,0,0],rg:0,war:1},
+  {n:'ベトナム',iso:'VNM',w:1363.8,p:101.6,t:3,g:4970,u5:17.3,le:74.7,reg:'sea',rel:[67.7,8.3,0.1,0,23,0,0.9],rg:0},
+  {n:'モザンビーク',iso:'MOZ',w:1319.4,p:35.63,t:1,g:570,u5:59.4,le:63.8,reg:'af',rel:[14.3,61.3,19.4,0,0,0,4.9],rg:1},
+  {n:'ロシア',iso:'RUS',w:1205.5,p:143.51,t:4,g:15960,u5:5.2,le:73.4,reg:'ru',rel:[20.2,69.9,8.2,0.1,0.4,0.1,1.2],rg:1},
+  {n:'イラク',iso:'IRQ',w:1202.8,p:47.02,t:3,g:5690,u5:21.8,le:72.4,reg:'me',rel:[0,0.4,99.5,0,0,0,0.1],rg:1},
+  {n:'南アフリカ',iso:'ZAF',w:1196.5,p:64.75,t:3,g:6270,u5:35.1,le:66.3,reg:'af',rel:[3.1,85.3,1.6,1.1,0,0.1,8.9],rg:2},
+  {n:'イラン',iso:'IRN',w:1161.8,p:92.42,t:3,g:4650,u5:11.3,le:77.9,reg:'me',rel:[0,0.1,99.8,0,0,0,0.1],rg:1},
+  {n:'ニジェール',iso:'NER',w:1156.4,p:27.92,t:1,g:750,u5:110.7,le:61.4,reg:'af',rel:[1.2,0.6,98.1,0,0,0,0.1],rg:0},
+  {n:'マダガスカル',iso:'MDG',w:1038.3,p:32.74,t:1,g:560,u5:62.4,le:63.8,reg:'af',rel:[22.3,74.2,1.2,0.1,0,0,2.2],rg:0},
+  {n:'コートジボワール',iso:'CIV',w:1032.5,p:32.71,t:2,g:2780,u5:64.5,le:62.1,reg:'af',rel:[5.6,44.9,46.3,0,0,0,3.2],rg:1},
+  {n:'カメルーン',iso:'CMR',w:996.3,p:29.88,t:2,g:1860,u5:64.8,le:64.0,reg:'af',rel:[2.1,69.8,25.2,0,0,0,2.9],rg:1},
+  {n:'マリ',iso:'MLI',w:996.2,p:25.2,t:1,g:1120,u5:73,le:60.7,reg:'af',rel:[2.5,2.6,94.1,0,0,0,0.8],rg:0,war:1},
+  {n:'ウズベキスタン',iso:'UZB',w:947.0,p:37.05,t:2,g:3670,u5:13.4,le:72.5,reg:'ru',rel:[0.6,2.8,95.6,0,0,0,1],rg:1},
+  {n:'トルコ',iso:'TUR',w:944.7,p:85.88,t:3,g:16300,u5:9.6,le:77.4,reg:'me',rel:[2.5,0.1,97.1,0,0.1,0,0.1],rg:1},
+  {n:'ガーナ',iso:'GHA',w:908.9,p:35.06,t:2,g:2630,u5:35.9,le:65.7,reg:'af',rel:[1.1,71.3,19.9,0,0,0,7.8],rg:2},
+  {n:'チャド',iso:'TCD',w:908.7,p:21.0,t:1,g:970,u5:97.3,le:55.2,reg:'af',rel:[3.1,38.9,56.4,0,0,0,1.6],rg:1},
+  {n:'ミャンマー',iso:'MMR',w:903.1,p:54.85,t:2,g:1320,u5:36.9,le:67.1,reg:'sea',rel:[0.1,6.1,3.3,0.4,89.1,0,1],rg:0,war:1},
+  {n:'アルジェリア',iso:'DZA',w:893.5,p:47.44,t:3,g:5850,u5:21.6,le:76.5,reg:'me',rel:[1.3,0.3,98.4,0,0,0,0],rg:1},
+  {n:'ソマリア',iso:'SOM',w:832.3,p:19.65,t:1,g:640,u5:101.1,le:59.0,reg:'af',rel:[0,0,99.8,0,0,0,0.1],rg:0,war:1},
+  {n:'ブルキナファソ',iso:'BFA',w:754.4,p:24.07,t:1,g:980,u5:74.9,le:61.3,reg:'af',rel:[0.6,28,67.4,0,0,0,4],rg:0,war:1},
+  {n:'ザンビア',iso:'ZMB',w:717.1,p:21.91,t:2,g:1200,u5:48.4,le:66.5,reg:'af',rel:[0.1,98.3,0.5,0,0,0,1.1],rg:1},
+  {n:'コロンビア',iso:'COL',w:707.9,p:53.43,t:3,g:7900,u5:11.5,le:77.9,reg:'la',rel:[9.9,86.2,0,0,0,0,3.8],rg:2},
+  {n:'日本',iso:'JPN',w:703.2,p:123.37,t:5,g:38340,u5:2.4,le:84.0,reg:'jp',rel:[57.5,2.2,0.2,0,37.2,0,2.9],rg:3},
+  {n:'マラウイ',iso:'MWI',w:691.9,p:22.22,t:1,g:600,u5:48.8,le:67.6,reg:'af',rel:[0.9,87.4,11.6,0.1,0,0,0.1],rg:2},
+  {n:'イギリス',iso:'GBR',w:687.4,p:69.49,t:5,g:54550,u5:4.7,le:81.4,reg:'west',rel:[40.2,49.4,6.4,1.7,0.5,0.4,1.4],rg:2},
+  {n:'ドイツ',iso:'DEU',w:676.3,p:83.49,t:5,g:60200,u5:3.7,le:80.8,reg:'west',rel:[36.1,56.2,6.5,0.2,0.3,0.1,0.4],rg:3},
+  {n:'フランス',iso:'FRA',w:666.6,p:68.72,t:5,g:48630,u5:4.3,le:83.0,reg:'west',rel:[42.6,46.5,9.1,0.1,0.7,0.7,0.3],rg:3},
+  {n:'モロッコ',iso:'MAR',w:630.3,p:38.43,t:2,g:4360,u5:15.7,le:75.5,reg:'me',rel:[0.1,0.1,99.7,0,0,0,0.1],rg:0},
+  {n:'サウジアラビア',iso:'SAU',w:609.9,p:36.97,t:5,g:36070,u5:6,le:79.0,reg:'me',rel:[0.1,4.4,92.7,2.6,0.1,0,0.1],rg:0},
+  {n:'シリア',iso:'SYR',w:593.4,p:25.62,t:1,g:720,u5:18.4,le:72.6,reg:'me',rel:[2,3.8,94.2,0,0,0,0],rg:0,war:1},
+  {n:'タイ',iso:'THA',w:581.3,p:71.62,t:3,g:7690,u5:9,le:76.6,reg:'sea',rel:[0,1,4.5,0,94.4,0,0],rg:1},
+  {n:'ネパール',iso:'NPL',w:561.6,p:29.62,t:2,g:1570,u5:25.1,le:70.6,reg:'sa',rel:[0,1.8,5.1,81.2,8.2,0,3.8],rg:2},
+  {n:'セネガル',iso:'SEN',w:552.5,p:18.93,t:2,g:1780,u5:36.5,le:68.9,reg:'af',rel:[0,2.4,97.6,0,0,0,0],rg:2},
+  {n:'ペルー',iso:'PER',w:544.6,p:34.58,t:3,g:8430,u5:12.9,le:77.9,reg:'la',rel:[5.1,94.5,0,0,0,0,0.3],rg:2},
+  {n:'アルゼンチン',iso:'ARG',w:508.3,p:45.85,t:3,g:14650,u5:9.5,le:77.5,reg:'la',rel:[9.2,88.5,0.9,0,0,0.4,1],rg:2},
+  {n:'ジンバブエ',iso:'ZWE',w:506.7,p:16.95,t:2,g:2660,u5:64.7,le:63.1,reg:'af',rel:[10.5,87.2,0.5,0,0,0,1.7],rg:1},
+  {n:'ギニア',iso:'GIN',w:503.2,p:15.1,t:2,g:1730,u5:92.1,le:60.9,reg:'af',rel:[1.3,11.7,86.8,0,0.1,0,0.1],rg:0},
+  {n:'ベナン',iso:'BEN',w:495.1,p:14.81,t:2,g:1600,u5:74.7,le:61.0,reg:'af',rel:[4.9,53.2,31.4,0,0,0,10.5],rg:1},
+  {n:'ブルンジ',iso:'BDI',w:477.9,p:14.39,t:1,g:240,u5:47.1,le:63.8,reg:'af',rel:[1.3,95,3,0,0,0,0.8],rg:1},
+  {n:'マレーシア',iso:'MYS',w:444.8,p:35.98,t:3,g:12380,u5:8.3,le:76.8,reg:'sea',rel:[0.8,9.2,64.1,6.1,18.9,0,0.9],rg:2},
+  {n:'ベネズエラ',iso:'VEN',w:434.3,p:28.52,t:2,g:3860,u5:24.2,le:72.7,reg:'la',rel:[9.7,88.1,0,0,0,0,2.1],rg:1},
+  {n:'ルワンダ',iso:'RWA',w:408.8,p:14.57,t:1,g:1150,u5:37.7,le:68.0,reg:'af',rel:[1,97,1.8,0,0,0,0.1],rg:1},
+  {n:'カザフスタン',iso:'KAZ',w:406.9,p:20.84,t:3,g:13740,u5:9.4,le:74.5,reg:'ru',rel:[2.5,19.3,77.9,0,0.1,0,0.1],rg:1},
+  {n:'グアテマラ',iso:'GTM',w:385.3,p:18.69,t:3,g:6360,u5:20.5,le:72.7,reg:'la',rel:[6,92,0,0,0,0,2],rg:2},
+  {n:'イタリア',iso:'ITA',w:371.2,p:58.92,t:5,g:42080,u5:2.7,le:84.0,reg:'west',rel:[13.3,80.5,4.4,0.4,0.6,0.1,0.7],rg:3},
+  {n:'カナダ',iso:'CAN',w:370.7,p:41.65,t:5,g:56420,u5:5.4,le:82.1,reg:'west',rel:[34.6,53.3,4.9,1.5,1.7,0.9,3],rg:2},
+  {n:'カンボジア',iso:'KHM',w:362.5,p:17.85,t:2,g:2750,u5:18.4,le:70.8,reg:'sea',rel:[0.1,0.3,2,0,97.1,0,0.5],rg:1},
+  {n:'南スーダン',iso:'SSD',w:356.2,p:12.19,t:1,g:1050,u5:96.7,le:57.7,reg:'af',rel:[0.4,60.5,6.2,0,0,0,32.8],rg:0,war:1},
+  {n:'北朝鮮',iso:'PRK',w:341.7,p:26.57,t:1,g:1200,u5:16.7,le:73.7,reg:'kr',rel:[72.9,0.4,0,0,1.5,0,25.2],rg:0,gest:1},
+  {n:'スペイン',iso:'ESP',w:320.8,p:49.36,t:5,g:37120,u5:3.2,le:83.9,reg:'west',rel:[26.4,69.5,3.6,0.1,0,0,0.4],rg:3},
+  {n:'オーストラリア',iso:'AUS',w:295.5,p:27.61,t:5,g:64120,u5:3.6,le:83.1,reg:'west',rel:[42.3,46.8,3.5,3,2.6,0.4,1.4],rg:3},
+  {n:'トーゴ',iso:'TGO',w:275.5,p:8.59,t:2,g:1350,u5:56.1,le:62.9,reg:'af',rel:[8,56.9,16.1,0,0,0,19],rg:1},
+  {n:'タジキスタン',iso:'TJK',w:273.3,p:10.79,t:2,g:2080,u5:28.1,le:71.9,reg:'ru',rel:[0.1,1,98.9,0,0,0,0],rg:1},
+  {n:'エクアドル',iso:'ECU',w:271.1,p:18.29,t:3,g:6890,u5:12.9,le:77.6,reg:'la',rel:[8.4,88.5,0,0,0,0,3],rg:2},
+  {n:'シエラレオネ',iso:'SLE',w:265.5,p:8.82,t:1,g:830,u5:90.5,le:62.0,reg:'af',rel:[0,19.8,80.1,0,0,0,0],rg:1},
+  {n:'ボリビア',iso:'BOL',w:264.5,p:12.58,t:2,g:4420,u5:15.7,le:68.7,reg:'la',rel:[9.5,88.9,0,0,0,0,1.5],rg:2},
+  {n:'パプアニューギニア',iso:'PNG',w:261.4,p:10.76,t:2,g:2890,u5:39.4,le:66.3,reg:'sea',rel:[0.3,99.1,0.1,0,0,0,0.5],rg:1},
+  {n:'ハイチ',iso:'HTI',w:261.3,p:11.91,t:2,g:2010,u5:52.8,le:65.1,reg:'la',rel:[9.4,88.7,0,0,0,0,1.8],rg:0,war:1},
+  {n:'中央アフリカ共和国',iso:'CAF',w:254.7,p:5.51,t:1,g:560,u5:89.7,le:57.7,reg:'af',rel:[0.5,90.7,6.2,0,0,0,2.6],rg:1,war:1},
+  {n:'ポーランド',iso:'POL',w:251.4,p:36.44,t:4,g:25520,u5:4.2,le:78.4,reg:'west',rel:[8.6,91.2,0,0,0,0,0.1],rg:2},
+  {n:'韓国',iso:'KOR',w:242.9,p:51.68,t:5,g:37880,u5:2.8,le:83.6,reg:'kr',rel:[48.3,32,0.3,0.1,19,0,0.3],rg:3},
+  {n:'ホンジュラス',iso:'HND',w:238.3,p:11.01,t:2,g:3270,u5:15,le:73.0,reg:'la',rel:[9.7,88.5,0,0,0,0,1.8],rg:2},
+  {n:'ヨルダン',iso:'JOR',w:235.6,p:11.52,t:3,g:5260,u5:12.9,le:78.0,reg:'me',rel:[0,2.8,97.1,0,0,0,0],rg:0},
+  {n:'スリランカ',iso:'LKA',w:219.7,p:21.76,t:3,g:4670,u5:5.9,le:77.7,reg:'sa',rel:[0.1,5.6,10.2,14.5,69.6,0,0],rg:2},
+  {n:'ウクライナ',iso:'UKR',w:213.1,p:38.98,t:3,g:5510,u5:7.9,le:74.7,reg:'ru',rel:[15.1,83.4,0.6,0,0.3,0.1,0.4],rg:1,war:1},
+  {n:'ドミニカ共和国',iso:'DOM',w:203.0,p:11.52,t:3,g:10620,u5:30.6,le:73.9,reg:'la',rel:[19.6,77.6,0,0,0,0,2.7],rg:2},
+  {n:'コンゴ共和国',iso:'COG',w:197.3,p:6.48,t:2,g:2280,u5:39.1,le:66.0,reg:'af',rel:[5.2,92.2,1.5,0,0,0,1.1],rg:1},
+  {n:'イスラエル',iso:'ISR',w:188.3,p:10.12,t:5,g:56180,u5:3.3,le:83.2,reg:'west',rel:[4.4,1.9,14.7,0.2,0,77,1.8],rg:2},
+  {n:'モーリタニア',iso:'MRT',w:180.9,p:5.32,t:2,g:2210,u5:36.9,le:68.7,reg:'af',rel:[0.1,0.2,99.2,0,0,0,0.5],rg:1},
+  {n:'リベリア',iso:'LBR',w:175.2,p:5.73,t:1,g:830,u5:86.4,le:62.3,reg:'af',rel:[1.1,85.2,12.7,0,0,0,1],rg:2},
+  {n:'チリ',iso:'CHL',w:173.2,p:19.86,t:4,g:16960,u5:6.8,le:81.4,reg:'la',rel:[30.3,68.3,0.1,0,0,0.1,1.2],rg:3},
+  {n:'オランダ',iso:'NLD',w:166.4,p:18.09,t:5,g:68530,u5:3.9,le:82.0,reg:'west',rel:[54.1,35.1,5.5,0.6,0.3,0.2,4.2],rg:3},
+  {n:'チュニジア',iso:'TUN',w:165.1,p:12.35,t:2,g:4300,u5:12.1,le:76.7,reg:'me',rel:[0.4,0.2,99.3,0,0,0,0],rg:1},
+  {n:'ラオス',iso:'LAO',w:164.8,p:7.87,t:2,g:2150,u5:29.4,le:69.2,reg:'sea',rel:[0.1,1.5,0,0,64.2,0,34.2],rg:0},
+  {n:'トルクメニスタン',iso:'TKM',w:159.3,p:7.62,t:3,g:6340,u5:39,le:70.2,reg:'ru',rel:[0.1,5.6,94.3,0,0,0,0],rg:1},
+  {n:'パレスチナ',iso:'PSE',w:143.3,p:5.41,t:2,g:3250,u5:37.9,le:69.2,reg:'me',rel:[0,1,99,0,0,0,0],rg:1,war:1},
+  {n:'ルーマニア',iso:'ROU',w:142.7,p:19.02,t:4,g:20190,u5:7.3,le:76.5,reg:'west',rel:[0.9,98.5,0.4,0,0,0,0.1],rg:2},
+  {n:'キルギス',iso:'KGZ',w:142.5,p:7.34,t:2,g:2800,u5:16.8,le:72.4,reg:'ru',rel:[1.2,5.8,91.7,0,0,0,1.3],rg:1},
+  {n:'パラグアイ',iso:'PRY',w:138.4,p:7.01,t:3,g:6750,u5:16.3,le:74.0,reg:'la',rel:[4.2,93.5,0,0,0,0,2.2],rg:2},
+  {n:'ニカラグア',iso:'NIC',w:134.1,p:7.01,t:2,g:2850,u5:11.2,le:75.1,reg:'la',rel:[13.3,84.8,0,0,0,0,1.9],rg:1},
+  {n:'台湾',iso:'TWN',w:132.4,p:23.32,t:5,g:34000,u5:5.3,le:80.6,reg:'tw',rel:[23.1,5.5,0.5,0,19.2,0,51.7],rg:3,est:1,gest:1},
+  {n:'リビア',iso:'LBY',w:123.0,p:7.46,t:3,g:7250,u5:9.8,le:71.1,reg:'me',rel:[0,0.5,99,0.1,0.3,0,0.1],rg:0,war:1},
+  {n:'アラブ首長国連邦',iso:'ARE',w:113.0,p:11.51,t:5,g:51550,u5:4.8,le:83.1,reg:'me',rel:[0.3,14.3,72.9,11.8,0.2,0,0.5],rg:0},
+  {n:'ベルギー',iso:'BEL',w:109.9,p:11.94,t:5,g:59500,u5:3.7,le:82.3,reg:'west',rel:[39,51,6.8,0.2,0.2,0.3,2.6],rg:3},
+  {n:'エリトリア',iso:'ERI',w:103.6,p:3.61,t:1,g:650,u5:34.3,le:68.9,reg:'af',rel:[1.1,46.7,51.7,0,0,0,0.6],rg:0},
+  {n:'アゼルバイジャン',iso:'AZE',w:102.5,p:10.25,t:3,g:7360,u5:17.9,le:74.6,reg:'me',rel:[4.8,0.4,94.7,0,0,0.1,0],rg:1},
+  {n:'エルサルバドル',iso:'SLV',w:99.3,p:6.37,t:3,g:5410,u5:10,le:72.3,reg:'la',rel:[11.9,87.1,0,0,0,0,1],rg:1},
+  {n:'スウェーデン',iso:'SWE',w:98.5,p:10.6,t:5,g:63010,u5:2.4,le:84.1,reg:'west',rel:[28.9,60.8,8.1,0.5,0.8,0.2,0.8],rg:3},
+  {n:'キューバ',iso:'CUB',w:94.3,p:10.94,t:3,g:9010,u5:8.6,le:78.3,reg:'la',rel:[21.6,60.7,0.1,0.2,0,0,17.4],rg:0},
+  {n:'レバノン',iso:'LBN',w:93.3,p:5.85,t:2,g:3560,u5:17.6,le:77.9,reg:'me',rel:[0,27.9,67.8,0,0,0,4.3],rg:1},
+  {n:'オマーン',iso:'OMN',w:92.2,p:5.49,t:4,g:19520,u5:10.3,le:80.2,reg:'me',rel:[0.1,8.1,81.8,9.5,0.1,0,0.4],rg:0},
+  {n:'ポルトガル',iso:'PRT',w:85.4,p:10.8,t:4,g:29930,u5:3.2,le:82.4,reg:'west',rel:[13.8,85.1,0.4,0.2,0.2,0,0.3],rg:2},
+  {n:'ガンビア',iso:'GMB',w:84.3,p:2.82,t:1,g:930,u5:42.4,le:66.1,reg:'af',rel:[0,2.9,97,0.1,0,0,0],rg:2},
+  {n:'チェコ',iso:'CZE',w:83.8,p:10.89,t:5,g:32960,u5:2.6,le:80.0,reg:'west',rel:[72.8,26.4,0.3,0,0.1,0,0.3],rg:3},
+  {n:'ナミビア',iso:'NAM',w:80.1,p:3.09,t:2,g:4340,u5:39.5,le:67.5,reg:'af',rel:[5.6,90.5,0.1,0.1,0,0,3.6],rg:2},
+  {n:'スイス',iso:'CHE',w:79.1,p:9.09,t:5,g:110330,u5:3.9,le:84.4,reg:'west',rel:[30.8,61.6,6.1,0.5,0.6,0.2,0.2],rg:3},
+  {n:'ハンガリー',iso:'HUN',w:78.0,p:9.51,t:4,g:23850,u5:3.7,le:76.7,reg:'west',rel:[27,72.4,0.1,0.1,0.2,0.1,0.1],rg:1},
+  {n:'オーストリア',iso:'AUT',w:77.3,p:9.21,t:5,g:60360,u5:3.3,le:82.0,reg:'west',rel:[22.4,68.2,8.3,0.1,0.3,0.1,0.6],rg:3},
+  {n:'パナマ',iso:'PAN',w:72.5,p:4.57,t:4,g:19140,u5:15.3,le:79.8,reg:'la',rel:[6.2,91.2,0.1,0.1,0.2,0.2,2.1],rg:2},
+  {n:'ガボン',iso:'GAB',w:70.3,p:2.59,t:3,g:8090,u5:32.6,le:68.5,reg:'af',rel:[5.8,83.7,8.6,0,0,0,1.9],rg:1},
+  {n:'ギリシャ',iso:'GRC',w:68.7,p:10.41,t:4,g:25360,u5:3.8,le:81.8,reg:'west',rel:[4.7,89.5,5.1,0.1,0,0,0.5],rg:2},
+  {n:'ギニアビサウ',iso:'GNB',w:66.5,p:2.25,t:1,g:1090,u5:67.3,le:64.3,reg:'af',rel:[11.6,21.7,56,0,0,0,10.7],rg:0},
+  {n:'ベラルーシ',iso:'BLR',w:63.9,p:9.09,t:3,g:9160,u5:2.3,le:74.4,reg:'ru',rel:[13.8,85.1,0.3,0,0,0.1,0.7],rg:0},
+  {n:'ボツワナ',iso:'BWA',w:62.4,p:2.56,t:3,g:7390,u5:33.3,le:69.3,reg:'af',rel:[14.7,82.3,0.3,0.1,0.2,0,2.3],rg:2},
+  {n:'モンゴル',iso:'MNG',w:60.3,p:3.57,t:3,g:6210,u5:13.4,le:72.4,reg:'cn',rel:[40.8,1.3,3.5,0,51.1,0,3.2],rg:2},
+  {n:'セルビア',iso:'SRB',w:60.3,p:6.55,t:3,g:13480,u5:5.4,le:76.0,reg:'west',rel:[4,91.5,4.4,0,0,0,0],rg:1},
+  {n:'ニュージーランド',iso:'NZL',w:58.7,p:5.32,t:5,g:46630,u5:4.7,le:82.0,reg:'west',rel:[51.4,40.3,1.4,2.8,1.2,0.1,2.9],rg:3},
+  {n:'赤道ギニア',iso:'GNQ',w:58.1,p:1.94,t:3,g:5890,u5:68,le:63.9,reg:'af',rel:[5,88.7,4,0,0,0.1,2.1],rg:1},
+  {n:'デンマーク',iso:'DNK',w:57.1,p:6.01,t:5,g:77190,u5:4,le:82.3,reg:'west',rel:[16.6,76.9,4.2,0.4,0.7,0.1,1],rg:3},
+  {n:'レソト',iso:'LSO',w:56.2,p:2.36,t:2,g:1280,u5:60,le:57.8,reg:'af',rel:[1.7,97.3,0.2,0,0,0,0.7],rg:2},
+  {n:'アイルランド',iso:'IRL',w:54.8,p:5.48,t:5,g:87360,u5:3.9,le:83.0,reg:'west',rel:[15.6,81.2,1.7,0.7,0.2,0.1,0.5],rg:3},
+  {n:'ノルウェー',iso:'NOR',w:54.4,p:5.61,t:5,g:97310,u5:2.5,le:83.2,reg:'west',rel:[22.5,71.4,4.1,0.2,0.7,0.1,1],rg:3},
+  {n:'ブルガリア',iso:'BGR',w:53.4,p:6.43,t:4,g:17780,u5:5.7,le:75.8,reg:'west',rel:[10,79.5,10.3,0,0,0,0.1],rg:2},
+  {n:'コスタリカ',iso:'CRI',w:51.5,p:5.15,t:4,g:17930,u5:10.4,le:81.0,reg:'la',rel:[10.1,87.9,0,0,0,0.1,1.9],rg:3},
+  {n:'クウェート',iso:'KWT',w:48.8,p:4.87,t:5,g:41110,u5:8.1,le:84.6,reg:'me',rel:[0.2,10.5,80.2,8.5,0.1,0,0.3],rg:0},
+  {n:'スロバキア',iso:'SVK',w:46.0,p:5.41,t:4,g:26410,u5:6.3,le:78.4,reg:'west',rel:[25.3,73.7,0.1,0,0.1,0,0.7],rg:2},
+  {n:'シンガポール',iso:'SGP',w:45.2,p:6.11,t:5,g:81760,u5:2.7,le:83.3,reg:'sea',rel:[19.9,18.8,16.1,5.3,30.8,0,9.1],rg:1},
+  {n:'ジョージア',iso:'GEO',w:44.4,p:3.94,t:3,g:8990,u5:8.6,le:74.7,reg:'ru',rel:[1,88.2,10.5,0,0,0,0.3],rg:1},
+  {n:'フィンランド',iso:'FIN',w:44.0,p:5.65,t:5,g:55250,u5:2.4,le:82.3,reg:'west',rel:[25,72.3,1.6,0.1,0.3,0.1,0.5],rg:3},
+  {n:'香港',iso:'HKG',w:36.7,p:7.5,t:5,g:62500,u5:2.7,le:85.4,reg:'hk',rel:[71.4,18.7,0.3,0.3,8.4,0,0.9],rg:0,est:1},
+  {n:'アルメニア',iso:'ARM',w:34.3,p:3.09,t:3,g:9020,u5:9.6,le:78.3,reg:'ru',rel:[1.2,97.3,0.3,0,0,0,1.2],rg:2},
+  {n:'ウルグアイ',iso:'URY',w:33.2,p:3.38,t:4,g:24020,u5:7.4,le:78.3,reg:'la',rel:[52.4,44.5,0.1,0,0,0.5,2.5],rg:3},
+  {n:'ジャマイカ',iso:'JAM',w:32.5,p:2.84,t:3,g:7790,u5:17.8,le:71.6,reg:'la',rel:[23.7,68.6,0,0,0,0,7.6],rg:2},
+  {n:'クロアチア',iso:'HRV',w:32.2,p:3.88,t:4,g:25360,u5:5.6,le:78.9,reg:'west',rel:[6.7,90.9,1.4,0,0,0,1.1],rg:2},
+  {n:'東ティモール',iso:'TLS',w:30.9,p:1.42,t:2,g:1510,u5:47.6,le:67.9,reg:'sea',rel:[0.1,99.5,0.3,0,0,0,0.1],rg:2},
+  {n:'エスワティニ',iso:'SWZ',w:29.7,p:1.26,t:2,g:3730,u5:45.1,le:64.3,reg:'af',rel:[6.2,93.2,0.1,0.1,0,0,0.3],rg:0},
+  {n:'カタール',iso:'QAT',w:28.3,p:2.97,t:5,g:74330,u5:5.9,le:82.5,reg:'me',rel:[0.3,12.5,75.9,10.6,0.2,0,0.4],rg:0},
+  {n:'モルドバ',iso:'MDA',w:25.0,p:2.36,t:3,g:8050,u5:16.5,le:71.3,reg:'ru',rel:[0.2,99.5,0.2,0,0,0,0],rg:2},
+  {n:'コモロ',iso:'COM',w:24.9,p:0.88,t:2,g:1950,u5:39,le:67.0,reg:'af',rel:[0.1,0.5,98.3,0,0,0,1.1],rg:1},
+  {n:'ジブチ',iso:'DJI',w:24.8,p:1.18,t:2,g:3960,u5:48.9,le:66.2,reg:'me',rel:[1.1,1.1,97.7,0,0,0,0.1],rg:1},
+  {n:'ボスニア・ヘルツェゴビナ',iso:'BIH',w:24.2,p:3.14,t:3,g:9940,u5:6.9,le:78.0,reg:'west',rel:[1,44.7,53.6,0,0,0,0.6],rg:1},
+  {n:'アルバニア',iso:'ALB',w:23.8,p:2.35,t:3,g:12060,u5:9.2,le:79.8,reg:'west',rel:[7.7,17.8,74.5,0,0,0,0],rg:1},
+  {n:'ソロモン諸島',iso:'SLB',w:22.4,p:0.84,t:2,g:2020,u5:20,le:70.7,reg:'sea',rel:[0.3,95,0.3,0,0.3,0,4],rg:2},
+  {n:'バーレーン',iso:'BHR',w:19.3,p:1.6,t:4,g:28790,u5:8.8,le:81.4,reg:'me',rel:[0.3,13.7,74,11.2,0.2,0,0.6],rg:0},
+  {n:'リトアニア',iso:'LTU',w:19.1,p:2.89,t:5,g:30500,u5:3.4,le:77.2,reg:'west',rel:[7.1,92.2,0.1,0,0,0,0.6],rg:3},
+  {n:'コソボ',iso:'XKX',w:18.7,p:1.58,t:3,g:7760,u5:8.7,le:78.2,reg:'west',rel:[0.1,5.6,94.3,0,0,0,0],rg:2},
+  {n:'プエルトリコ',iso:'PRI',w:18.2,p:3.18,t:4,g:27320,u5:4.4,le:81.9,reg:'la',rel:[10.4,88.8,0.1,0.1,0.2,0,0.3],rg:2,rgest:1,est:1},
+  {n:'スロベニア',iso:'SVN',w:16.8,p:2.13,t:5,g:35520,u5:2.3,le:82.3,reg:'west',rel:[32.3,65.4,1.6,0,0,0,0.6],rg:2},
+  {n:'フィジー',iso:'FJI',w:16.7,p:0.93,t:3,g:6230,u5:29.1,le:67.5,reg:'sea',rel:[0.3,69.5,5.8,24.1,0.1,0,0.3],rg:2},
+  {n:'ガイアナ',iso:'GUY',w:16.6,p:0.84,t:4,g:28470,u5:25.2,le:70.3,reg:'la',rel:[2.9,65.9,6.5,23.4,0,0,1.2],rg:2},
+  {n:'北マケドニア',iso:'MKD',w:16.0,p:1.82,t:3,g:9490,u5:2.8,le:76.6,reg:'west',rel:[0.5,64.7,34.7,0,0,0,0.1],rg:2},
+  {n:'トリニダード・トバゴ',iso:'TTO',w:14.4,p:1.37,t:4,g:18550,u5:18.8,le:73.6,reg:'la',rel:[2.4,70,5.5,20.6,0,0,1.4],rg:3},
+  {n:'キプロス',iso:'CYP',w:14.4,p:1.37,t:5,g:36110,u5:5,le:81.8,reg:'west',rel:[6.6,67.7,24.4,0.3,0.6,0,0.5],rg:3},
+  {n:'モーリシャス',iso:'MUS',w:12.8,p:1.24,t:3,g:14040,u5:15.4,le:73.8,reg:'af',rel:[0.8,32.9,17.5,48.3,0.4,0,0.2],rg:2},
+  {n:'ラトビア',iso:'LVA',w:12.7,p:1.85,t:4,g:24980,u5:2.5,le:76.4,reg:'west',rel:[17,77.3,0.7,0,0.1,0.2,4.7],rg:3},
+  {n:'スリナム',iso:'SUR',w:11.0,p:0.64,t:3,g:6140,u5:15.8,le:73.8,reg:'la',rel:[8.1,52.8,13.1,22.5,0.4,0,3.1],rg:2},
+  {n:'ブータン',iso:'BTN',w:10.0,p:0.8,t:2,g:4310,u5:17.2,le:73.3,reg:'sa',rel:[0,0.6,0.2,22.5,74.7,0,1.9],rg:2},
+  {n:'エストニア',iso:'EST',w:9.7,p:1.37,t:5,g:32310,u5:2,le:79.3,reg:'west',rel:[43.6,52.6,0.6,0.1,0.2,0.1,2.8],rg:3},
+  {n:'バヌアツ',iso:'VUT',w:9.3,p:0.34,t:2,g:4410,u5:17.1,le:71.7,reg:'sea',rel:[1.4,83.5,0,0,0,0,15.1],rg:2},
+  {n:'ベリーズ',iso:'BLZ',w:7.6,p:0.42,t:3,g:7530,u5:12.7,le:73.7,reg:'la',rel:[15.6,74.4,0.2,0.2,0.3,0.2,9.2],rg:2,rgest:1},
+  {n:'モンテネグロ',iso:'MNE',w:7.0,p:0.62,t:3,g:14150,u5:2.4,le:77.9,reg:'west',rel:[1.1,76,21.3,0,0,0,1.5],rg:2},
+  {n:'サントメ・プリンシペ',iso:'STP',w:6.7,p:0.24,t:2,g:3800,u5:13.6,le:69.9,reg:'af',rel:[9.7,84.4,0.1,0,0,0,5.8],rg:2},
+  {n:'ルクセンブルク',iso:'LUX',w:6.5,p:0.69,t:5,g:95720,u5:2.2,le:83.2,reg:'west',rel:[25.3,65.9,1.8,0.4,0.5,0.5,5.7],rg:3},
+  {n:'カーボベルデ',iso:'CPV',w:6.4,p:0.53,t:3,g:5590,u5:11.1,le:76.2,reg:'af',rel:[20.6,78.3,0.3,0,0,0,0.8],rg:2},
+  {n:'ブルネイ',iso:'BRN',w:6.2,p:0.47,t:5,g:34790,u5:9.9,le:75.5,reg:'sea',rel:[0.2,6.7,82.2,1.3,6.3,0,3.4],rg:0,rgest:1},
+  {n:'モルディブ',iso:'MDV',w:5.6,p:0.53,t:3,g:12950,u5:5.4,le:81.3,reg:'sa',rel:[0.1,1.6,94.1,2.5,1.3,0,0.3],rg:2},
+  {n:'サモア',iso:'WSM',w:5.5,p:0.22,t:3,g:5640,u5:14.9,le:71.8,reg:'sea',rel:[0.1,97.6,0,0,0,0,2.2],rg:2,rgest:1},
+  {n:'マルタ',iso:'MLT',w:4.5,p:0.58,t:5,g:41440,u5:5.3,le:83.0,reg:'west',rel:[5.2,88.6,3.6,1.4,0.6,0.3,0.2],rg:2},
+  {n:'アイスランド',iso:'ISL',w:4.4,p:0.39,t:5,g:89220,u5:2.8,le:82.8,reg:'west',rel:[19.8,74.9,1.2,0.2,1.3,0.2,2.4],rg:3},
+  {n:'バハマ',iso:'BHS',w:4.4,p:0.4,t:5,g:37020,u5:12.4,le:74.7,reg:'la',rel:[1.9,97.6,0.1,0.1,0,0,0.3],rg:3,rgest:1},
+  {n:'ニューカレドニア',iso:'NCL',w:4.1,p:0.3,t:5,g:30070,u5:6.6,le:78.9,reg:'sea',rel:[10.5,85.1,2.8,0,0.6,0,1],rg:3,rgest:1,est:1},
+  {n:'マカオ',iso:'MAC',w:3.6,p:0.69,t:5,g:69920,u5:3.6,le:83.3,reg:'hk',rel:[67.6,10.1,0.5,0,19.6,0,2.2],rg:0,rgest:1,est:1},
+  {n:'キリバス',iso:'KIR',w:3.5,p:0.14,t:2,g:3930,u5:53.1,le:66.6,reg:'sea',rel:[0.1,97.6,0.1,0,0,0,2.2],rg:2,rgest:1},
+  {n:'バルバドス',iso:'BRB',w:3.1,p:0.28,t:4,g:27080,u5:9.8,le:76.3,reg:'la',rel:[20.1,77.3,0.7,0.5,0.1,0,1.2],rg:3},
+  {n:'フランス領ポリネシア',iso:'PYF',w:3.0,p:0.28,t:4,g:24100,u5:3.2,le:84.2,reg:'sea',rel:[5,93.4,0.3,0.1,0.1,0.1,1],rg:3,rgest:1,est:1},
+  {n:'グアム',iso:'GUM',w:2.9,p:0.17,t:5,g:41830,u5:8.2,le:77.4,reg:'sea',rel:[1.8,94,0,0,1.1,0,3.1],rg:2,rgest:1,est:1},
+  {n:'ミクロネシア',iso:'FSM',w:2.5,p:0.11,t:3,g:4760,u5:22.4,le:67.4,reg:'sea',rel:[0.7,98.8,0,0,0.1,0,0.4],rg:2,rgest:1},
+  {n:'トンガ',iso:'TON',w:2.4,p:0.1,t:3,g:6840,u5:9.5,le:73.1,reg:'sea',rel:[0.6,97.8,0.1,0.1,0.1,0,1.5],rg:2,rgest:1},
+  {n:'セントルシア',iso:'LCA',w:2.0,p:0.18,t:3,g:13410,u5:17.2,le:72.8,reg:'la',rel:[5.9,91.7,0.1,0.3,0,0,2],rg:3,rgest:1},
+  {n:'チャンネル諸島',iso:'CHI',w:1.4,p:0.17,t:5,g:74590,u5:4.8,le:81.2,reg:'west',rel:[14.2,85.2,0.1,0.1,0,0.1,0.3],rg:2,rgest:1,est:1},
+  {n:'セーシェル',iso:'SYC',w:1.4,p:0.12,t:4,g:19200,u5:14,le:76.3,reg:'af',rel:[2.4,94,0.9,1.4,0.8,0,0.6],rg:3},
+  {n:'グレナダ',iso:'GRD',w:1.3,p:0.12,t:3,g:11660,u5:18,le:75.4,reg:'la',rel:[5.8,87.5,0.4,0.2,0,0,6.2],rg:3,rgest:1},
+  {n:'セントビンセント・グレナディーン',iso:'VCT',w:1.2,p:0.1,t:3,g:12000,u5:11.3,le:71.4,reg:'la',rel:[7.9,86.3,0.1,0.1,0,0,5.6],rg:3,rgest:1},
+  {n:'アメリカ領ヴァージン諸島',iso:'VIR',w:1.2,p:0.1,t:5,g:44320,u5:5.1,le:80.8,reg:'la',rel:[4,94.5,0.1,0.4,0,0.3,0.6],rg:2,rgest:1,est:1},
+  {n:'キュラソー',iso:'CUW',w:1.1,p:0.16,t:4,g:22570,u5:8.7,le:77.0,reg:'la',rel:[5.9,90.6,0.5,2,0.3,0.2,0.4],rg:3,rgest:1,est:1},
+  {n:'アンティグア・バーブーダ',iso:'ATG',w:1.1,p:0.09,t:4,g:23790,u5:9.1,le:77.8,reg:'la',rel:[20.1,77.3,0.7,0.5,0.1,0,1.2],rest:1,rg:3,rgest:1},
+  {n:'ケイマン諸島',iso:'CYM',w:0.9,p:0.08,t:5,g:81920,u5:5.3,le:80.5,reg:'la',rel:[23.7,68.6,0,0,0,0,7.6],rest:1,rg:2,rgest:1,est:1},
+  {n:'アルバ',iso:'ABW',w:0.8,p:0.11,t:5,g:35200,u5:9.3,le:76.5,reg:'la',rel:[5.9,81.4,0.3,0.3,0.5,0.4,11.2],rg:3,rgest:1,est:1},
+  {n:'マーシャル諸島',iso:'MHL',w:0.7,p:0.04,t:3,g:9710,u5:26.7,le:67.1,reg:'sea',rel:[0.7,98.8,0,0,0.1,0,0.4],rest:1,rg:2,rgest:1},
+  {n:'ドミニカ国',iso:'DMA',w:0.7,p:0.07,t:3,g:10690,u5:35.7,le:71.3,reg:'la',rel:[5.9,91.7,0.1,0.3,0,0,2],rest:1,rg:3,rgest:1},
+  {n:'マン島',iso:'IMN',w:0.7,p:0.08,t:5,g:87030,u5:4.9,le:81.1,reg:'west',rel:[40.2,49.4,6.4,1.7,0.5,0.4,1.4],rest:1,rg:2,rgest:1,est:1},
+  {n:'アメリカ領サモア',iso:'ASM',w:0.7,p:0.05,t:5,g:18020,u5:15.1,le:73.0,reg:'sea',rel:[0.1,97.6,0,0,0,0,2.2],rest:1,rg:2,rgest:1,est:1},
+  {n:'グリーンランド',iso:'GRL',w:0.7,p:0.06,t:5,g:34800,u5:22.0,le:70.3,reg:'west',rel:[16.6,76.9,4.2,0.4,0.7,0.1,1],rest:1,rg:3,rgest:1,est:1},
+  {n:'フェロー諸島',iso:'FRO',w:0.6,p:0.05,t:5,g:73120,u5:3.7,le:83.1,reg:'west',rel:[16.6,76.9,4.2,0.4,0.7,0.1,1],rest:1,rg:3,rgest:1,est:1},
+  {n:'アンドラ',iso:'AND',w:0.6,p:0.08,t:5,g:53230,u5:2.5,le:84.2,reg:'west',rel:[26.4,69.5,3.6,0.1,0,0,0.4],rest:1,rg:3,rgest:1},
+  {n:'セントクリストファー・ネイビス',iso:'KNA',w:0.6,p:0.05,t:4,g:24530,u5:15.9,le:72.3,reg:'la',rel:[20.1,77.3,0.7,0.5,0.1,0,1.2],rest:1,rg:3,rgest:1},
+  {n:'北マリアナ諸島',iso:'MNP',w:0.5,p:0.04,t:5,g:23790,u5:6.6,le:78.9,reg:'sea',rel:[1.8,94,0,0,1.1,0,3.1],rest:1,rg:2,rgest:1,est:1},
+  {n:'バミューダ',iso:'BMU',w:0.5,p:0.06,t:5,g:139370,u5:4.1,le:82.5,reg:'west',rel:[1.9,97.6,0.1,0.1,0,0,0.3],rest:1,rg:2,rgest:1,est:1},
+  {n:'タークス・カイコス諸島',iso:'TCA',w:0.5,p:0.05,t:5,g:36760,u5:4.7,le:78.2,reg:'la',rel:[1.9,97.6,0.1,0.1,0,0,0.3],rest:1,rg:2,rgest:1},
+  {n:'ジブラルタル',iso:'GIB',w:0.5,p:0.04,t:5,g:37120,u5:3.5,le:83.6,reg:'west',rel:[40.2,49.4,6.4,1.7,0.5,0.4,1.4],rest:1,rg:2,rgest:1,est:1,gest:1},
+  {n:'シント・マールテン',iso:'SXM',w:0.4,p:0.04,t:5,g:38950,u5:9.3,le:76.5,reg:'la',rel:[5.9,90.6,0.5,2,0.3,0.2,0.4],rest:1,rg:3,rgest:1,est:1},
+  {n:'サン・マルタン',iso:'MAF',w:0.4,p:0.02,t:5,g:21670,u5:5.4,le:80.4,reg:'la',rel:[5.9,90.6,0.5,2,0.3,0.2,0.4],rest:1,rg:3,rgest:1,est:1},
+  {n:'モナコ',iso:'MCO',w:0.4,p:0.04,t:5,g:288000,u5:2.7,le:86.5,reg:'west',rel:[42.6,46.5,9.1,0.1,0.7,0.7,0.3],rest:1,rg:2,rgest:1},
+  {n:'リヒテンシュタイン',iso:'LIE',w:0.3,p:0.04,t:5,g:116380,u5:3.2,le:84.2,reg:'west',rel:[30.8,61.6,6.1,0.5,0.6,0.2,0.2],rest:1,rg:3,rgest:1,est:1},
+  {n:'イギリス領ヴァージン諸島',iso:'VGB',w:0.3,p:0.04,t:5,g:37120,u5:12.4,le:77.4,reg:'la',rel:[4,94.5,0.1,0.4,0,0.3,0.6],rest:1,rg:2,rgest:1,gest:1},
+  {n:'ナウル',iso:'NRU',w:0.3,p:0.01,t:4,g:20690,u5:8.3,le:62.3,reg:'sea',rel:[0.1,97.6,0.1,0,0,0,2.2],rest:1,rg:2,rgest:1},
+  {n:'ツバル',iso:'TUV',w:0.2,p:0.01,t:3,g:9780,u5:19.2,le:67.3,reg:'sea',rel:[0.1,97.6,0.1,0,0,0,2.2],rest:1,rg:2,rgest:1},
+  {n:'パラオ',iso:'PLW',w:0.2,p:0.02,t:4,g:19890,u5:21.4,le:69.4,reg:'sea',rel:[0.7,98.8,0,0,0.1,0,0.4],rest:1,rg:3,rgest:1},
+  {n:'サンマリノ',iso:'SMR',w:0.1,p:0.03,t:5,g:53910,u5:1.3,le:85.8,reg:'west',rel:[13.3,80.5,4.4,0.4,0.6,0.1,0.7],rest:1,rg:3,rgest:1},
+];
+/* COUNTRIES:END */
+// 投胎用遊戲化權重：真實出生人數開平方，細國都有機會，大國唔會壟斷
+const GW = c => Math.sqrt(c.w);
+const W_TOTAL = COUNTRIES.reduce((a, c) => a + GW(c), 0);
+// v1 存檔用舊表嘅索引；載入時按國名轉去新表
+const V1_ORDER = ["インド", "中国", "アメリカ", "インドネシア", "パキスタン", "ナイジェリア", "ブラジル", "バングラデシュ", "ロシア", "エチオピア", "メキシコ", "日本", "エジプト", "フィリピン", "コンゴ民主共和国", "ベトナム", "イラン", "トルコ", "ドイツ", "タイ", "タンザニア", "イギリス", "フランス", "南アフリカ", "イタリア", "ケニア", "ミャンマー", "コロンビア", "韓国", "スーダン", "ウガンダ", "スペイン", "アルジェリア", "イラク", "アルゼンチン", "アフガニスタン", "カナダ", "アンゴラ", "ポーランド", "モロッコ", "ウクライナ", "ウズベキスタン", "ガーナ", "マレーシア", "イエメン", "ペルー", "モザンビーク", "サウジアラビア", "ネパール", "マダガスカル", "カメルーン", "ベネズエラ", "ニジェール", "オーストラリア", "北朝鮮", "台湾", "シリア", "マリ", "スリランカ", "ハイチ", "スイス", "香港", "シンガポール"];
+const CLASSES = ['赤貧','貧困','労働者','中流','富裕','特権'];
+const CLASS_P = { // 各經濟層級嘅出身分佈
+  1:[.45,.35,.15,.04,.009,.001],
+  2:[.22,.40,.27,.09,.018,.002],
+  3:[.06,.25,.40,.23,.055,.005],
+  4:[.01,.10,.35,.42,.11,.01],
+  5:[.005,.06,.25,.50,.17,.015],
+};
+const NAMES = {
+  sa:{m:['ラフル','アミット','ムハンマド','サンジャイ','アリフ','ヴィジャイ'],f:['プリヤ','アニタ','ファティマ','スニタ','ラニ','ディヴィヤ']},
+  cn:{m:['志強','建国','浩然','子軒','俊偉'],f:['秀英','欣怡','雨萱','麗娟','思琪']},
+  tw:{m:['冠宇','承恩','家豪','志明'],f:['怡君','雅婷','淑芬','詠晴']},
+  hk:{m:['家朗','俊傑','子健','偉明'],f:['嘉欣','詠琳','美玲','凱婷']},
+  jp:{m:['大翔','健太','拓也','翔太'],f:['陽菜','美咲','結衣','花子']},
+  kr:{m:['ミンジュン','ジフン','ヒョヌ','チョルス'],f:['ジウン','ソヨン','スビン','ヨンヒ']},
+  sea:{m:['アグン','ヴァン・フン','アディ','レ・ミン','ソムチャイ'],f:['アヤ','ミー・リエン','シティ','トゥー・トゥイ','マリサ']},
+  af:{m:['チネドゥ','アマドゥ','コフィ','ムベキ','エマニュエル'],f:['ンゴジ','アマ','ファトゥマ','ズラ','グレース']},
+  me:{m:['アリ','オマル','ムスタファ','ハサン'],f:['ファティマ','ライラ','ザイナブ','マルヤム']},
+  la:{m:['フアン','カルロス','ルイス','サンティアゴ'],f:['マリア','カミラ','ルシア','バレンティナ']},
+  ru:{m:['イワン','ドミトリー','セルゲイ','アレクセイ'],f:['アンナ','ナターシャ','オリガ','エレーナ']},
+  west:{m:['ジョン','ルーカス','ジェームズ','マイク','トーマス'],f:['エマ','ソフィー','オリビア','ハンナ','クロエ']},
+};
+
+/* ============ 職涯 ============ */
+const CAREERS = {
+  gang:{name:'任侠',ranks:['下っ端','用心棒','幹部','若頭','組長'],stat:'jiang',tal:'任侠',base:.3,
+    promo:'組に空席ができ、数人の兄弟分が争っている。親分があなたの肩を叩く。「お前次第だ。」',
+    clean:'仲間を連れて正面から名を上げる',dirty:'ひそかにライバルを消す',dirtySin:15,dirtyWhy:'兄弟分の暗殺',
+    risk:.1,riskCause:'抗争で殺害',riskText:'相手は待ち構えていた。あなたは路地裏で血の海に倒れた。',
+    win:'一戦で名を上げ、裏社会で知らぬ者はいなくなった。',fail:'負けた。斬られて入院し、面子も丸つぶれだ。',failFx:{hp:-30,jiang:-10},failJail:.3,
+    upFx:{jiang:12,fame:3},upSin:[5,'裏社会暮らし'],inc:[1,2,3,5,7],ach:'dragon'},
+  music:{name:'音楽',ranks:['ストリートミュージシャン','インディーズバンドのメンバー','契約歌手','売れっ子歌手','スーパースター'],stat:'fame',tal:'音感',base:.22,
+    promo:'あなたのデモを聴いたプロデューサーが、会って話したいと言っている。',
+    clean:'昼も夜も練習し、一つずつステージをこなす',dirty:'投資家と裏取引してランキングを買う',dirtySin:8,dirtyWhy:'自分を売り、聴衆を欺く',
+    win:'あなたの曲が突然バズり、街中で流れている。',fail:'誰も聴かない。楽屋でカップ麺をすすりながら、来月の家賃をどうするか考える。',failFx:{hap:-10,wealth:-5},
+    upFx:{fame:15,hap:8},inc:[0,1,3,5,8],ach:'star'},
+  biz:{name:'商売',ranks:['露店主','小さな店のオーナー','会社社長','上場企業の会長','国をも凌ぐ富豪'],stat:'wealth',tal:'商才',base:.28,
+    promo:'事業拡大のチャンスが目の前にあるが、賭けになる。',
+    clean:'着実に事業を広げる',dirty:'役人に賄賂を渡して政府契約を取る',dirtySin:10,dirtyWhy:'贈賄',dirtyJail:.15,
+    win:'商売はどんどん大きくなる。',fail:'投資に失敗し、大損した。',failFx:{wealth:-20,hap:-10},
+    upFx:{wealth:15,fame:4},inc:[1,2,4,6,9],ach:'tycoon'},
+  pol:{name:'政治',ranks:['社会運動家','地方議員','国会議員','大臣','国家指導者'],stat:'fame',tal:'権謀',base:.25,
+    promo:'次の選挙か党内昇進が近い。狙える席がひとつある。',
+    clean:'地元の声を聞き、民意で上がる',dirty:'票を操作し、対立候補を中傷する',dirtySin:12,dirtyWhy:'選挙操作',
+    win:'圧勝した。',fail:'敗れて、相手に公然と辱められた。',failFx:{fame:-10,hap:-10},
+    upFx:{fame:12},inc:[0,1,2,3,5],ach:'leader'},
+  dis:{name:'反体制',ranks:['人権活動家','反体制派','著名な反体制派','亡命リーダー','民主の象徴'],stat:'fame',tal:'気骨',base:.25,
+    promo:'運動には、前に立つ人が必要だ。',
+    clean:'実名で署名し、公に声を上げる',cleanMerit:6,cleanWhy:'正義のために声を上げた',dirty:'個人崇拝を築き、運動内の異論を潰す',dirtySin:8,dirtyWhy:'異論の排除',
+    win:'あなたの名前が海外メディアに広まる。',fail:'自宅軟禁され、ネットを切断された。',failFx:{hap:-10},authJail:.35,
+    upFx:{fame:12},inc:[0,0,1,1,2],ach:'conscience'},
+  monk:{name:'修行',ranks:['沙弥','比丘','住職','高僧','一代の宗師'],stat:'int',tal:'霊性',base:.3,
+    promo:'寺の長老は長いことあなたを見ていた。「お前は何のために修行する？」',
+    clean:'籠もって苦行する',cleanMerit:6,cleanWhy:'精進修行',dirty:'大口の施主に取り入って地位を得る',dirtySin:10,dirtyWhy:'仏を利用した金儲け',
+    win:'修行が実り、皆に敬われる。',fail:'心が落ち着かず、心魔に取りつかれる。',failFx:{hap:-8},
+    upFx:{int:6,hap:6,fame:4},inc:[-1,-1,0,0,0],ach:'master'},
+  sci:{name:'学術',ranks:['大学院生','研究員','教授','アカデミー会員','ノーベル賞受賞者'],stat:'int',tal:'慧根',base:.22,
+    promo:'研究が山場を迎えたが、なかなか結果が出ない。',
+    clean:'地道に実験を続ける',dirty:'データを捏造して先に発表する',dirtySin:10,dirtyWhy:'研究不正',
+    win:'研究が大きく前進した。',fail:'実験は失敗し、研究費を削られた。',failFx:{hap:-8,wealth:-5},
+    upFx:{int:5,fame:8},inc:[0,1,2,3,4],ach:'nobel'},
+  kol:{name:'インフルエンサー',ranks:['一般人','駆け出し配信者','KOL','登録者100万人','トップ配信者'],stat:'fame',tal:'目立ちたがり',base:.22,
+    promo:'前の動画の再生数が急に伸びた。アルゴリズムに見られている気がする。',
+    clean:'中身のある動画を丁寧に作る',dirty:'炎上狙い：やらせ、煽り、弱者いじり',dirtySin:6,dirtyWhy:'再生数のためのやらせ',
+    win:'動画がバズり、コメント欄が埋め尽くされた。',fail:'再生数は3回。うち2回はお母さんだ。',failFx:{hap:-8},
+    upFx:{fame:15,hap:5},inc:[0,1,2,4,7],ach:'viral'},
+  fortune:{name:'占い',ranks:['街の占い師','風水師','大先生','国師','教祖'],stat:'fame',tal:'目立ちたがり',base:.28,
+    promo:'ある富豪が風水を見てほしいと言ってきた。',
+    clean:'本心から善行を勧める',cleanMerit:3,cleanWhy:'人に善を勧めた',dirty:'血を見る災いが来るから十万の水晶で祓えと言う',dirtySin:10,dirtyWhy:'インチキ占いで金を巻き上げた',
+    win:'あなたの予言が「的中」し、名声が一気に高まった。',fail:'来月大地震が来ると予言したが、来なかった。記者に追いかけ回される。',failFx:{fame:-10,hap:-6},
+    upFx:{fame:12,wealth:8},inc:[0,1,3,5,8],ach:'guru'},
+  sport:{name:'スポーツ',ranks:['アマチュア選手','プロ選手','代表選手','世界王者','スポーツ界の伝説'],stat:'hp',tal:'体格',base:.25,
+    promo:'大きな大会が近い。コーチは選ばれるかもしれないと言う。',
+    clean:'毎日猛練習する',dirty:'こっそり禁止薬物を使う',dirtySin:8,dirtyWhy:'ドーピング',
+    win:'試合で奇跡を起こした。',fail:'怪我をして、一年近く療養した。',failFx:{hp:-15,hap:-8},
+    upFx:{fame:12,hap:6},inc:[0,1,3,5,7],ach:'champion'},
+  mil:{name:'軍人',ranks:['兵士','下士官','将校','将軍','軍事政権の首班'],stat:'hp',tal:'権謀',base:.28,
+    promo:'上官が昇進させる者を選んでいる。',
+    clean:'前線で手柄を立てる',dirty:'戦友を売って手柄を横取りする',dirtySin:12,dirtyWhy:'戦友への裏切り',
+    risk:.1,riskCause:'戦死',riskText:'銃弾が胸を貫いた。あなたは泥の中に倒れた。',
+    win:'昇進した。',fail:'戦場で重傷を負った。',failFx:{hp:-25},
+    upFx:{fame:5},inc:[1,1,2,3,6],ach:'leader'},
+};
+const TALENTS = {
+  '慧根':'生まれつき聡明','体格':'生まれつき丈夫','音感':'生まれつき音楽がわかる','商才':'お金に敏感',
+  '任侠':'生まれつき裏社会の掟を知る','目立ちたがり':'生まれつき目立ちたがり','仁の心':'生まれつき明るく心優しい','権謀':'権力ゲームに長ける','気骨':'圧力に屈しにくい','霊性':'修行の効果が倍に（どの信仰でも）',
+};
+const ACH = {
+  infant:['満一歳を待たず','一歳になる前に亡くなった'],
+  jackpot:['初ガチャ大当たり','香港・マカオ・台湾に生まれた'],
+  royal:['金のスプーン','特権階級に生まれた'],
+  poorest:['赤貧の子','赤貧の家に生まれた'],
+  centenarian:['百寿者','100歳を超えて生きた'],
+  dragon:['大親分','組の組長になった'],
+  star:['スーパースター','スーパースターになった'],
+  tycoon:['国をも凌ぐ富豪','国をも凌ぐ富を築いた'],
+  leader:['一国の主','国家指導者・最高指導者・国王・軍事政権の首班になった'],
+  conscience:['良心の囚人','反体制派から民主の象徴になった'],
+  peace:['平和賞','反体制派としてノーベル平和賞を受賞'],
+  informer:['密告者','当局のために隣人を監視した'],
+  mason:['マスター・メイソン','フリーメイソンの第三位階に昇った'],
+  grandmaster:['グランド・マスター','フリーメイソンのグランド・マスターになった'],
+  master:['一代の宗師','聖職の最高位に就いた'],
+  nobel:['ノーベル賞','ノーベル賞を受賞した'],
+  migrant:['異郷','他国へ移住した'],
+  jail:['牢獄の災い','服役した'],
+  saint:['大善人','一生で徳が60を超えた'],
+  villain:['極悪非道','一生で業が60を超えた'],
+  beast:['畜生道','動物に生まれ変わった'],
+  hell:['地獄めぐり','地獄に落ちた'],
+  memory:['孟婆湯を拒む','記憶を持って転生'],
+  ten:['十度の輪廻','十回の人生を生きた'],
+  champion:['スポーツ界の伝説','スポーツ界の伝説になった'],
+  viral:['トップ配信者','トップ配信者になった'],
+  guru:['集団盲信','インチキ占い師から教祖になった'],
+  ufo:['未知との遭遇','宇宙人に誘拐された'],
+  millionaire:['ミリオネア','貯金が100万ドルを超えた'],
+  billionaire:['ビリオネア','貯金が10億ドルを超えた'],
+  citizen:['二重国籍','外国に帰化した'],
+  retirehome:['故郷に帰る','海外生活の後、故郷で引退した'],
+  globetrotter:['世界一周','一生で30か国を訪れた'],
+  isekai:['異世界転生','トラックに轢かれて異世界に転生した'],
+  remake:['運命に逆らう','業力で生まれる場所を指定した'],
+  convert:['改宗','宗教を変えた'],
+  apostate:['背教者','背教が罪になる国で改宗し、逮捕された'],
+  tulku:['転生活仏','前世の高僧の生まれ変わりと認定された'],
+  exorcised:['悪魔祓いされた','前世の記憶を話して、悪霊憑きと思われた'],
+  pilgrim:['巡礼','自分の信仰の聖地を訪れた'],
+  wrongafterlife:['来るとこ間違えた','輪廻を信じていなかったのに、死後閻魔大王に会った'],
+  nirvana:['涅槃','仏教：輪廻から解脱した'],
+  moksha:['解脱','ヒンドゥー教：梵我一如、輪廻から解脱した'],
+  heaven:['天国へ','キリスト教：輪廻から抜け出した'],
+  jannah:['楽園へ','イスラム教：輪廻から抜け出した'],
+  olamhaba:['来世','ユダヤ教：輪廻から抜け出した'],
+  xian:['羽化登仙','民間信仰：輪廻から抜け出した'],
+  logout:['ログアウト','無宗教：もう遊ばないと決めた'],
+};
+
+/* ============ 信仰（各國比例：皮尤研究中心 2020）============ */
+// rel 陣列次序，同 tools/build_countries.py 一致
+const REL_KEYS = ['none','chr','mus','hin','bud','jew','oth'];
+// 遊戲設定：人人都會輪迴，信唔信都一樣。每種信仰修到最高，都係一道離開輪迴嘅門。
+const FAITHS = {
+  bud:{n:'仏教',reinc:1,ascetic:1,place:'古寺',elder:'老僧',learn:'座禅を教わる',learnTxt:'毎週お寺に座りに行くようになった。',
+    name:'修行',join:'俗世を捨てて出家する',joinTxt:'剃髪して出家した。',ranks:['沙弥','比丘','住職','高僧','一代の宗師'],
+    promo:'寺の長老は長いことあなたを見ていた。「お前は何のために修行する？」',
+    clean:'籠もって苦行する',cleanWhy:'精進修行',dirty:'大口の施主に取り入って地位を得る',dirtyWhy:'仏を利用した金儲け',
+    win:'修行が実り、皆に敬われる。',fail:'心が落ち着かず、心魔に取りつかれる。',
+    exit:'nirvana',exitH:'手放す',exitBtn:'涅槃',exitWho:'高僧',
+    exitTxt:'{n} 回の人生を経て、ついに手放した。来世も、閻魔の庁も、孟婆湯もない。'},
+  hin:{n:'ヒンドゥー教',reinc:1,ascetic:1,place:'寺院',elder:'苦行者',learn:'ヨガと瞑想を教わる',learnTxt:'毎朝夜明け前に起きて瞑想するようになった。',
+    name:'苦行',join:'すべてを捨てて遊行の苦行者になる',joinTxt:'服を脱ぎ捨て、全身に灰を塗り、山へ入っていった。',ranks:['苦行者','祭司','霊的指導者','グル','聖者'],
+    promo:'老いたグルが尋ねる。「お前が求めるのは解脱か、それとも信者の供物か？」',
+    clean:'ガンジス河畔で十年瞑想する',cleanWhy:'苦行の修練',dirty:'外国人観光客から法外な受講料を取る瞑想合宿を開く',dirtyWhy:'霊性の切り売り',
+    win:'名声が国中に広まり、わざわざ足に触れに来る人まで現れた。',fail:'瞑想中に居眠りし、信者に撮られてネットに上げられた。',
+    exit:'moksha',exitH:'解脱',exitBtn:'梵我一如',exitWho:'グル',
+    exitTxt:'{n} 回の人生を経て、あなたのアートマンはついにブラフマンに還った。輪は止まり、もう降りてくる必要はない。'},
+  chr:{n:'キリスト教',reinc:0,place:'教会',elder:'年老いた神父',learn:'一緒に聖書を読む',learnTxt:'毎週日曜学校に通うようになった。',
+    name:'聖職',join:'神学校に入り、教会に身を捧げる',joinTxt:'神学校に入った。',ranks:['神学生','司祭','司教','大司教','枢機卿'],
+    promo:'司教は長いことあなたを見ていた。「お前が仕えているのは神か、それとも自分か？」',
+    clean:'最も貧しい教区で奉仕する',cleanWhy:'貧しい人々への奉仕',dirty:'高額献金者に取り入って昇進する',dirtyWhy:'教会を利用した金儲け',
+    win:'あなたの説教は多くの人の心を動かした。',fail:'祈っても何も感じない。信仰が揺らぐ。',
+    exit:'heaven',exitH:'狭き門',exitBtn:'天国へ',exitWho:'司教',
+    exitTxt:'閻魔の庁の奥に狭き門がある。鍵を持った男が立っている。「{n} 回の人生を経て、ようやく正しい出口を見つけたな。」'},
+  mus:{n:'イスラム教',reinc:0,place:'モスク',elder:'年老いたイマーム',learn:'コーランの暗唱を教わる',learnTxt:'毎日放課後、モスクに通って学ぶようになった。',
+    name:'宗教職',join:'マドラサに入り、コーランと法学を学ぶ',joinTxt:'マドラサに入った。',ranks:['神学生','イマーム','法学者','大ムフティー','大ウラマー'],
+    promo:'マドラサの学長が尋ねる。「お前が法を学ぶのは神のためか、それとも権力のためか？」',
+    clean:'辺境の村で子供たちに教える',cleanWhy:'教えを伝えた',dirty:'権力者の行いを正当化する教令を出す',dirtyWhy:'権力者のための法の歪曲',
+    win:'あなたの教令は各地の学者に引用されている。',fail:'論争に敗れ、多くの弟子が去った。',
+    exit:'jannah',exitH:'楽園',exitBtn:'楽園へ',exitWho:'法学者',
+    exitTxt:'{n} 回の人生を経て、髪の毛より細い橋を渡る。その先には川の流れる庭園がある。'},
+  jew:{n:'ユダヤ教',reinc:0,place:'シナゴーグ',elder:'年老いたラビ',learn:'一緒にトーラーを読む',learnTxt:'成人式に向けてヘブライ語を学び始めた。',
+    name:'ラビ',join:'イェシーバーに入り、タルムードを学ぶ',joinTxt:'イェシーバーに入り、毎日議論を戦わせる。',ranks:['神学生','ラビ','シナゴーグの首席ラビ','ラビ法廷の裁判官','大ラビ'],
+    promo:'二人のラビがひとつの聖句で三日間議論し、あなたに裁定を求めてきた。',
+    clean:'聖典と良心に従って裁く',cleanWhy:'公正な裁定',dirty:'金持ちの方を勝たせる',dirtyWhy:'えこひいきの裁定',
+    win:'あなたの裁定は注解書に記された。',fail:'二人のラビとも、あなたが間違っていると言う。',
+    exit:'olamhaba',exitH:'来世',exitBtn:'来世へ',exitWho:'首席ラビ',
+    exitTxt:'{n} 回の人生を経て、あなたの魂は世界の修復（ティクーン）を終えた。カバラの説く転生（ギルグル）はここで終わる。'},
+  oth:{n:'民間信仰',reinc:1,place:'廟',elder:'年老いた廟守',learn:'おみくじの読み方を教わる',learnTxt:'いつも廟で紙銭を折る手伝いをしている。',
+    name:'修道',join:'廟に入って道を学ぶ',joinTxt:'師匠に弟子入りし、お札書きと祭祀を学び始めた。',ranks:['廟守','道士','法師','観主','天師'],
+    promo:'師匠が尋ねる。「お前が道を学ぶのは長生きのためか、それとも賽銭のためか？」',
+    clean:'籠もって内丹を練る',cleanWhy:'清修',dirty:'富豪のために開運の祈祷をして大金の祝儀を受け取る',dirtyWhy:'祈祷で金儲け',
+    win:'雨乞いの儀式をしたら、翌日本当に雨が降った。',fail:'書いたお札が風に飛ばされた。',
+    exit:'xian',exitH:'仙人となる',exitBtn:'羽化登仙',exitWho:'観主',
+    exitTxt:'{n} 回の人生を経て、鶴に乗って天へ昇る。閻魔大王が下から手を振る。「もう降りてくるなよ。」'},
+  none:{n:'無宗教',reinc:0,
+    exit:'logout',exitH:'ログアウト',exitBtn:'もう遊ばない',exitWho:'アカデミー会員',
+    exitTxt:'一生こんな話は信じなかった。{n} 回の人生を経ても、まだ信じていない。空中にダイアログが現れる。「ログアウトしますか？」あなたはOKを押した。'},
+};
+const F = (k) => FAITHS[k || (S && S.faith) || 'none'];
+const relOf = (c, k) => c.rel ? c.rel[REL_KEYS.indexOf(k)] : 0;
+function pickFaith(c){ return wpick(REL_KEYS, k => relOf(c, k) + .01); }
+// 一個國家最大嘅宗教（唔計無宗教）
+function mainFaith(c){ let b = 'bud', v = -1; REL_KEYS.forEach((k,i) => { if(k!=='none' && c.rel[i] > v){ v = c.rel[i]; b = k; } }); return b; }
+function relSummary(c){
+  return REL_KEYS.map((k,i) => [k, c.rel[i]]).filter(([,v]) => v >= 5).sort((a,b) => b[1]-a[1]).slice(0,3)
+    .map(([k,v]) => `${FAITHS[k].n} ${Math.round(v)}%`).join('・');
+}
+// 神職跟住入行時嘅信仰轉名
+function clergyFaith(){
+  if(S && S.career && S.career.path==='monk' && S.career.faith) return S.career.faith;
+  return S && S.faith && S.faith!=='none' ? S.faith : 'bud';
+}
+for(const k of ['name','ranks','promo','clean','dirty','cleanWhy','dirtyWhy','win','fail'])
+  Object.defineProperty(CAREERS.monk, k, {get:() => FAITHS[clergyFaith()][k], enumerable:true, configurable:true});
+function rankName(path, rank, pk){
+  if(path==='monk') return FAITHS[pk && pk.faith || 'bud'].ranks[rank];
+  if(path==='pol') return POLITY[pk && pk.pt || 'dem'].ranks[rank];
+  return CAREERS[path].ranks[rank];
+}
+/* ============ 政體（V-Dem《世界政體分類》；封閉專制嘅細分屬遊戲設定）============ */
+const POL_SUB = {
+  party:'CHN VNM LAO CUB PRK ERI', mon:'SAU ARE QAT OMN KWT BHR BRN SWZ JOR MAR',
+  junta:'MMR MLI BFA NER GIN SDN GNB MDG', theo:'AFG IRN', sar:'HKG MAC',
+};
+const POL_OF = {}; for(const k in POL_SUB) POL_SUB[k].split(' ').forEach(i => POL_OF[i] = k);
+// 政體決定從政點升：民主靠選票，一黨靠黨內考核，君主靠王室信任
+const POLITY = {
+  dem:{n:'民主制',ranks:['社会運動家','地方議員','国会議員','大臣','国家指導者'],
+    promo:'次の選挙が近い。狙える席がひとつある。',clean:'地元の声を聞き、民意で上がる',dirty:'票を操作し、対立候補を中傷する',dirtySin:12,dirtyWhy:'選挙操作',
+    win:'圧勝した。',fail:'敗れて、相手に公然と辱められた。'},
+  elec:{n:'選挙権威主義',ranks:['与党党員','地方議員','国会議員','大臣','大統領'],
+    promo:'選挙が近いが、結果はもう決まっている。党はあなたに忠誠を示せと言う。',clean:'実務に励み、不正には加わらない',dirty:'票の水増しと野党弾圧に手を貸す',dirtySin:12,dirtyWhy:'選挙操作',
+    win:'あなたは得票率87%で「当選」した。',fail:'党はあなたの忠誠が足りないと判断し、名簿から名前が消えた。'},
+  party:{n:'一党独裁',ranks:['党員','末端幹部','地方党書記','中央委員','最高指導者'],
+    promo:'党内の人事考課が近い。上が人選をしている。',clean:'着実に実績を上げる',dirty:'派閥に付き、贈り物をし、コネを使う',dirtySin:10,dirtyWhy:'徒党を組んで私利を図る',
+    win:'組織部があなたの昇進を発表した。',fail:'付く相手を間違え、会議で名指しで批判された。'},
+  mon:{n:'君主専制',ranks:['公務員','王室顧問','大臣','首相','国王'],cap:p => S.cls>=5 ? 4 : 3,
+    promo:'皇太子があなたに目を留めた。',clean:'忠実に職務を果たす',dirty:'へつらい、献上し、同僚を陥れる',dirtySin:8,dirtyWhy:'同僚を陥れた',
+    win:'国王から勲章を賜った。',fail:'晩餐会で失言し、寵愛を失った。'},
+  junta:{n:'軍事政権',ranks:['事務員','局長','大臣','傀儡首相','軍事政権の首班'],cap:() => 3,
+    promo:'将軍たちは表看板となる文民を探している。',clean:'できる限り市民を守る',dirty:'軍の弾圧を取り繕う',dirtySin:12,dirtyWhy:'軍事政権の擁護',
+    win:'将軍たちはあなたに満足している。',fail:'将軍たちはあなたを扱いにくいと見て、別の者に替えた。'},
+  theo:{n:'神権政治',ranks:['神学生','地方官吏','州知事','監督者評議会メンバー','最高指導者'],cap:() => S.faith==='mus' ? 4 : 2,
+    promo:'聖職者評議会があなたの信仰心を審査する。',clean:'良心に従って統治する',dirty:'「不信心者」の弾圧を率いる',dirtySin:12,dirtyWhy:'異論の迫害',
+    win:'評議会はあなたを認めた。',fail:'陰で酒を飲んでいると噂され、異動させられた。'},
+  sar:{n:'特別行政区',ranks:['地域団体の幹事','区議会議員','立法会議員','局長','行政長官'],
+    promo:'選挙委員会がまもなく開かれる。まずは「愛国者」審査を通らなければならない。',clean:'実務で市民の支持を得る',dirty:'忠誠を誓い、あらゆる宴席に顔を出す',dirtySin:6,dirtyWhy:'追従',
+    win:'あなたは無事に「当選」した。',fail:'中央政府駐香港連絡弁公室は、あなたが誰だかよく覚えていない。'},
+  strong:{n:'閉鎖的専制',ranks:['下級官僚','局長','州知事','首相','最高権力者'],
+    promo:'権力者のそばに空席ができた。',clean:'自分の職務をきちんと果たす',dirty:'権力者に媚び、同僚を売る',dirtySin:10,dirtyWhy:'同僚を売った',
+    win:'権力者がテレビであなたと握手した。',fail:'権力闘争に敗れ、辺境に飛ばされた。'},
+};
+function polType(c){ c = c || C(); return c.rg >= 2 ? 'dem' : POL_OF[c.iso] || (c.rg === 1 ? 'elec' : 'strong'); }
+// 鎮壓力度：唔同政體坐監機會唔同
+const HARSH = {dem:0, elec:.5, sar:.8, party:1, mon:1, junta:1, theo:1, strong:1};
+const harsh = (c) => HARSH[polType(c)];
+function polityLabel(c){ const t = polType(c); return t==='dem' ? (c.rg===3 ? '自由民主制' : '選挙民主制') : POLITY[t].n; }
+const polOf = () => S && S.career && S.career.path==='pol' && S.career.pt || (S && S.ci >= 0 ? polType() : 'dem');
+for(const k of ['ranks','promo','clean','dirty','dirtySin','dirtyWhy','win','fail'])
+  Object.defineProperty(CAREERS.pol, k, {get:() => POLITY[polOf()][k], enumerable:true, configurable:true});
+const polCap = () => (POLITY[polOf()].cap || (() => 4))();
+
+/* ============ 共濟會（副線，可以同任何職業並行）============ */
+const MASON_RANKS = ['徒弟','職人','マスター・メイソン','ロッジのマスター','グランド・マスター'];
+// 共濟會唔合法或者唔容許公開活動嘅地方（遊戲設定）
+const MASON_BAN = 'CHN PRK VNM LAO IRN AFG SAU PAK IRQ SYR LBY YEM EGY'.split(' ');
+const masonOK = () => !MASON_BAN.includes(C().iso);
+// 合法但受政府監管：選舉同開除要司法部承認先生效（古巴，2024 年起）
+const MASON_WATCH = ['CUB'];
+const masonWatched = () => MASON_WATCH.includes(C().iso);
+const masonRank = () => MASON_RANKS[S.mason.r];
+function masonBump(){ S.mason.r++; S.mason.since = S.age; if(S.mason.r===2) ach('mason'); if(S.mason.r===4) ach('grandmaster'); }
+
+// 叛教可被判刑嘅國家（遊戲設定，參考各國法律）
+const APOSTASY = ['AFG','IRN','SAU','YEM','QAT','MRT','MDV','BRN','SOM','SDN'];
+function templeFaith(){ return S.faith!=='none' ? S.faith : mainFaith(C()); }
+const PILGRIM = { // [目的地, 做乜, US$]
+  mus:['SAU','メッカへ巡礼（ハッジ）する',7000], hin:['IND','ヴァラナシへ行きガンジス川で沐浴する',800], chr:['ISR','エルサレムで悲しみの道を歩く',4000],
+  jew:['ISR','エルサレムの嘆きの壁で祈る',3500], bud:['IND','ブッダガヤへ行き菩提樹の下で瞑想する',1500], oth:['TWN','大甲媽祖の巡行に九日間ついて歩く',600],
+};
+const pilgrimCost = () => { const P = PILGRIM[S.faith]; return C().iso===P[0] ? Math.round(P[2]/4) : P[2]; };
+function memReaction(){
+  const m = SOUL.mem;
+  switch(S.faith){
+    case 'bud':
+      if((m.path==='monk' && m.faith==='bud') || R() < .3){
+        ach('tulku'); fx({fame:15}); S.flags.zen = 1;
+        startCareer('monk',''); S.career.rank = 2; S.job = CAREERS.monk.ranks[2]; S.peak = {path:'monk',rank:2,faith:'bud'};
+        return '寺院から数人のラマが古い品々を持ってやって来て、選ぶように言った。あなたは迷わず前世で使っていた数珠を手に取った。彼らはひれ伏した。あなたは転生活仏と認定され、寺院で即位した。';
+      }
+      return 'ラマたちが古い品々を並べて選ばせた。あなたは飴玉を選んだ。彼らはにこにこして帰っていった。';
+    case 'hin':
+      fx({fame:5});
+      if(m.country === COUNTRIES[S.home].n){ fx({hap:8}); return `家族が前世の村を探しに連れて行ってくれた。本当に${m.name}という人がいて、死因は${m.cause}だった。残された連れ合いはあなたを見て泣き出した。`; }
+      return `前世の家は${m.country}で、遠すぎて探せない。地元紙に記事が載った。「前世は外国人と話す子供」。`;
+    case 'oth':
+      return '家族はあなたを霊媒師のもとへ連れて行った。霊媒師は「記憶を持って生まれてきた」と言い、前世のあなたのために紙銭をもっと焼くよう母親に言った。';
+    case 'chr':
+      ach('exorcised'); fx({hap:-10});
+      return `母親が神父を呼んだ。神父はあなたに聖水を浴びせ、悪魔よ去れと命じた。あなたは悪魔じゃない、${m.name}だと言った。神父は量を倍にした。`;
+    case 'mus':
+      ach('exorcised'); fx({hap:-8});
+      return '家族がイマームを呼び、取り憑いたジンを追い出すため、イマームは一晩中あなたに向かって経を唱えた。';
+    case 'jew':
+      S.flags.zen = 1; fx({int:4});
+      return 'ラビは話を聞き、ひげをなでた。「カバラにそういう話がある。ギルグルというのだ。」そして密かにゾーハルを教え始めた。';
+    default:
+      fx({fame:3,hap:-4});
+      return '児童精神科に連れて行かれた。医師は「想像力が豊か」と診断し、論文にあなたのことを書いた。';
+  }
+}
+function convertTo(f){
+  const old = S.faith; S.faith = f; S.flags.converted = 1; ach('convert');
+  let t = f==='none' ? 'あなたは信仰を手放した。' : `あなたは${FAITHS[f].n}に改宗した。`;
+  if(S.career && S.career.path==='monk'){ S.career = null; S.job = ''; t += '聖職を離れた。'; }
+  if(old==='mus' && APOSTASY.includes(C().iso)){
+    if(R() < .35){ jail(ri(3,10), 1); ach('apostate'); return t + '背教を密告され、法廷はあなたに禁錮刑を言い渡した。'; }
+    fx({hap:-12}); return t + '家族に縁を切られ、外の人には打ち明けられない。';
+  }
+  return t;
+}
+
+/* ============ 狀態 ============ */
+// 每種語言獨立存檔：職業、天賦等文字同時用作 key
+const LANG = document.documentElement.lang;
+const SAVE_KEY = LANG === 'zh-HK' ? 'samsara-v1' : 'samsara-v1-' + LANG;
+let SOUL, S, UI = {screen:'title'};
+function freshSoul(){ return {life:1,K:0,talents:{},mem:null,ach:{},hist:[],exit:null,births:null}; }
+function save(){ try{ localStorage.setItem(SAVE_KEY, JSON.stringify({v:6,SOUL,S,UI})); }catch(e){} }
+// v5 → v6：分開刑事同政治坐監；舊紀錄當刑事
+function migrateV5(){ if(S && S.flags && S.flags.excon) S.flags.crime = 1; }
+// v4 → v5：政體
+function migrateV4(){
+  if(!S || S.beast) return;
+  if(S.career && S.career.path==='pol') S.career.pt = polType();
+  if(S.peak && S.peak.path==='pol') S.peak.pt = polType(COUNTRIES[S.home]);
+}
+// v3 → v4：加入信仰
+function migrateV3(){
+  if(SOUL.buddha) SOUL.exit = 'bud';
+  delete SOUL.buddha;
+  if(SOUL.talents['仏縁（旧データ）']){ SOUL.talents['霊性'] = SOUL.talents['仏縁（旧データ）']; delete SOUL.talents['仏縁（旧データ）']; }
+  if(S && !S.beast && !S.faith) S.faith = S.career && S.career.path==='monk' ? 'bud' : pickFaith(COUNTRIES[S.home]);
+  if(S && S.career && S.career.path==='monk') S.career.faith = 'bud';
+  if(S && S.peak && S.peak.path==='monk') S.peak.faith = 'bud';
+}
+// v2 → v3：加入金錢同身份
+function migrateV2(){
+  if(!S || S.beast || S.money != null) return;
+  const g = COUNTRIES[S.ci].g;
+  S.money = Math.round(g * (Math.exp((S.wealth||0)/20) - 1) / 2);
+  S.home = S.ci; S.cit = [S.ci]; S.status = 'citizen'; S.visa = null; S.yearsHere = 0; S.visited = {[COUNTRIES[S.ci].iso]:1};
+}
+function migrateV1(){
+  const remap = i => { const j = COUNTRIES.findIndex(c => c.n === V1_ORDER[i]); return j < 0 ? 0 : j; };
+  if(S && S.ci >= 0) S.ci = remap(S.ci);
+  if(SOUL.births) SOUL.births.forEach(b => { if(b.ci != null) b.ci = remap(b.ci); });
+  if(UI.birthPick != null) UI.birthPick = remap(UI.birthPick);
+}
+function load(){
+  try{
+    const d = JSON.parse(localStorage.getItem(SAVE_KEY));
+    if(d && d.SOUL){
+      SOUL=d.SOUL; S=d.S; UI=d.UI||{screen:'title'};
+      if(!d.v || d.v < 2) migrateV1();
+      if(!d.v || d.v < 3) migrateV2();
+      if(!d.v || d.v < 4) migrateV3();
+      if(!d.v || d.v < 5) migrateV4();
+      if(!d.v || d.v < 6) migrateV5();
+      return true;
+    }
+  }catch(e){}
+  SOUL = freshSoul(); S = null; return false;
+}
+const C = () => COUNTRIES[S.ci];
+const tl = k => SOUL.talents[k] || 0;
+function fx(o){
+  for(const k in o){
+    if(k==='wealth' && S.money!=null && !S.beast){ S.money += o[k] * .2 * G(); syncWealth(); }
+    else S[k] = clamp((S[k]||0) + o[k], 0, 100);
+  }
+}
+function good(n, why){ S.merit += n; S.ledger.push([why, n]); S.lastK = (S.lastK||0) + n; }
+function bad(n, why){ S.sin += n; S.ledger.push([why, -n]); S.lastK = (S.lastK||0) - n; }
+function die(cause){ S.alive = false; S.cause = cause; }
+function ach(id){ if(!SOUL.ach[id]){ SOUL.ach[id] = SOUL.life; S.newAch.push(id); } }
+// pol：因政治、信仰或者良知坐監，唔當刑事罪行；共濟會只會開除真正犯罪嘅會員
+function jail(y, pol){ S.jail = y; ach('jail'); fx({wealth:-15,hap:-15}); S.flags.excon = 1;
+  if(pol) return;
+  S.flags.crime = 1;
+  if(S.mason){ S.mason = null; S.flags.masonBan = 1; S.flags.masonExpelled = 1; } }
+function karmaWord(k){ return k>=100?'大善':k>=40?'善':k>-40?'平':k>-100?'悪':'大悪'; }
+
+/* ============ 投胎 ============ */
+function classProbs(t, bias){
+  return CLASS_P[t].map((p,i) => p * Math.exp(bias * .45 * (i - 2.5)));
+}
+function rollCandidate(K, fixed){
+  const bias = clamp(K/100, -2, 2);
+  const c = fixed!=null ? COUNTRIES[fixed] : wpick(COUNTRIES, x => GW(x) * Math.exp(bias * .35 * (x.t - 3)));
+  const ci = COUNTRIES.indexOf(c);
+  const ps = classProbs(c.t, bias);
+  const cls = wpick([0,1,2,3,4,5], i => ps[i]);
+  const real = (GW(c) / W_TOTAL) * CLASS_P[c.t][cls];
+  return {ci, cls, oneIn: Math.max(1, Math.round(1 / real))};
+}
+// 指定投胎地點嘅代價：越富裕越貴；做緊畜生道要加倍
+function remakeCost(ci){
+  if(SOUL.free) return 0;
+  const base = [0,5,15,30,45,60][COUNTRIES[ci].t];
+  return SOUL.births && SOUL.births[0] && SOUL.births[0].beast ? base*2 + 20 : base;
+}
+function remake(){
+  const ci = +(UI.birthPick ?? 0), cost = remakeCost(ci);
+  SOUL.K -= cost;
+  const fresh = !SOUL.free && !SOUL.ach.remake;
+  if(!SOUL.free) SOUL.ach.remake = SOUL.ach.remake || SOUL.life;
+  startLife(rollCandidate(SOUL.K, ci));
+  if(fresh) S.newAch.push('remake');
+  if(cost){ S.log.unshift({y:'', t:`業力を ${cost} 点使って運命に逆らい、${COUNTRIES[ci].n}に生まれることにした。`, k:'choice', d:0}); save(); render(); }
+}
+function nChoices(K){ return K>=100?4:K>=50?3:K>=20?2:1; }
+function beastChance(K){ return K > -40 ? 0 : clamp((-K - 40) / 150, 0, .75); }
+const BEASTS = {
+  dog:{n:'野良犬',life:[3,6],cause:'高架下で餓死した'},
+  chicken:{n:'ブロイラー',life:[1,1],cause:'42日目に屠畜場へ送られた'},
+  cow:{n:'役牛',life:[3,5],cause:'年老いて犂を引けなくなり、屠畜場に売られた'},
+  cat:{n:'野良猫',life:[3,5],cause:'車の下で寝ていたら轢かれた'},
+  rat:{n:'ドブネズミ',life:[2,3],cause:'殺鼠剤を食べた'},
+  roach:{n:'ゴキブリ',life:[1,2],cause:'スリッパで叩かれた'},
+  panda:{n:'動物園のジャイアントパンダ',life:[3,4],cause:'竹を食べながら眠ってしまい、二度と目覚めなかった'},
+  corgi:{n:'富豪の家のコーギー',life:[3,5],cause:'和牛を食べすぎてコレステロール過多になった'},
+  goldfish:{n:'金魚',life:[2,3],cause:'飼い主が水替えのとき水を入れ忘れた'},
+  isekai:{n:'異世界スライム',life:[4,5],cause:'勇者に一刀両断された',realm:'異世界',special:1},
+};
+function prepareBirths(){
+  if(SOUL.births) return SOUL.births;
+  const K = SOUL.K;
+  let list;
+  if(R() < beastChance(K)){
+    const b = pick(Object.keys(BEASTS).filter(k => !BEASTS[k].special));
+    list = [{beast:b}];
+  } else {
+    list = []; const n = nChoices(K);
+    for(let i=0;i<n;i++) list.push(rollCandidate(K));
+  }
+  if(SOUL.isekai) list.push({beast:'isekai'});
+  SOUL.births = list; save();
+  return list;
+}
+
+function startLife(cand){
+  SOUL.births = null; SOUL.isekai = false;
+  const base = {age:0,alive:true,cause:'',merit:0,sin:0,ledger:[],log:[],flags:{},seen:{},last:{},newAch:[],
+    career:null,peak:null,job:'',jail:0,married:0,kids:0,lastK:0,pending:null};
+  if(cand.beast){
+    const B = BEASTS[cand.beast];
+    S = Object.assign(base,{beast:cand.beast,name:B.n,ci:-1,cls:-1,hp:60,int:10,hap:40,wealth:0,fame:0,jiang:0,
+      bturns:0,blife:ri(B.life[0],B.life[1])});
+    if(B.special){ ach('isekai'); logE('目を覚ますと、あなたは青いゼリーの塊になっていて、見たこともない森の中にいた。空には月が二つある。'); }
+    else { ach('beast'); logE(`業が深すぎた。あなたは${B.n}に生まれ変わった。`); }
+    UI.screen = 'life'; save(); advance(); return;
+  }
+  const c = COUNTRIES[cand.ci];
+  const male = R() < .51;
+  const nm = NAMES[c.reg] || NAMES.west;
+  Object.assign(base,{ci:cand.ci,cls:cand.cls,oneIn:cand.oneIn,male,name:pick(male?nm.m:nm.f)});
+  S = base;
+  S.hp = clamp(68 + S.cls*4 + tl('体格')*8 - (c.t===1?10:0) + ri(-10,10), 5, 100);
+  S.int = clamp(32 + ri(0,30) + tl('慧根')*8 + (S.cls>=4?6:0), 5, 100);
+  S.hap = clamp(48 + ri(-10,10) + tl('仁の心')*5, 0, 100);
+  S.home = cand.ci; S.cit = [cand.ci]; S.status = 'citizen'; S.visa = null; S.yearsHere = 0;
+  S.visited = {[c.iso]:1};
+  S.faith = pickFaith(c);
+  S.money = Math.round(c.g * FAMILY_MONEY[S.cls]); syncWealth();
+  S.fame = S.cls===5 ? 10 : 0;
+  S.jiang = tl('任侠')*10 + (S.cls<=1?5:0);
+  S.fame += tl('目立ちたがり')*5;
+  if(SOUL.mem) S.flags.mem = 1;
+  if(tl('音感')) S.flags.music = 1;
+  if(c.reg==='hk'||c.reg==='tw') ach('jackpot');
+  if(S.cls===5) ach('royal');
+  if(S.cls===0) ach('poorest');
+  const intro = {
+    0:'家にはきれいな飲み水すらないかもしれない。',1:'家はとても貧しく、両親は毎日の食事のために駆け回っている。',2:'両親は肉体労働をしていて、暮らしは楽ではない。',
+    3:'普通の中流家庭。雨露をしのぐ家があり、学校にも通える。',4:'家は裕福で、生まれた時から自分の部屋がある。',5:'特権階級に生まれた。生まれる前から将来は決められていた。'}[S.cls];
+  logE(`あなたは${c.n}で生まれた。${S.male?'男':'女'}の子で、名前は${S.name}。${intro}${S.faith==='none'?'家は無宗教だ。':`家の信仰は${F().n}だ。`}`);
+  logE(`転生の推計：あなたと同じ生まれを引くのは、およそ ${S.oneIn.toLocaleString()} 人に1人。`, 'choice');
+  if(SOUL.K >= 50) logE('産婆が言った。「この子は福相をしている。」', 'choice');
+  if(SOUL.K <= -50) logE('あなたが生まれた夜、外の犬が一晩中吠えていた。', 'choice');
+  UI.screen = 'life'; save(); advance();
+}
+
+/* ============ 金錢（US$，按居住國人均國民所得計）============ */
+const JOB_PAY = { // 人工 = 居住國人均國民所得 × 倍數
+  '小農':.35,'日雇い建設作業員':.45,'人力車夫':.4,'露天商':.5,'縫製工場の工員':.6,'漁師':.45,'家政婦':.4,'配達員':.6,
+  '工場労働者':.7,'清掃員':.5,'建設作業員':.8,'警備員':.6,'店員':.65,'運転手':.8,'事務員':.9,'料理人':.8,'介護士':.75,
+  '家業の経営者':4,'投資銀行家':6,'弁護士':3,'医者':3.5,'エンジニア':1.8,'公認会計士':1.8,'経理':1.3,'プログラマー':2,'教師':1.2,'公務員':1.3,
+  '現場監督':1,'食堂の店主':1.2,'コーチ':1,'ウェイター':.6,'スーパーの品出し':.55,'タクシー運転手':.7,'皿洗い':.45,'不法就労者':.35,'農場の臨時雇い':.4,
+  '配管工':1.1,'電気工':1.1,'ソーシャルワーカー':1,'永久追放':.3,'外国人家事労働者':.13,'外国人建設作業員':.2,'外国人工場労働者':.25,'留学生':0,'退職者':0,
+};
+const CAREER_PAY = {
+  dis:[.05,.1,.3,.8,1.5],
+  gang:[.8,1.5,3,6,15],music:[.3,.8,3,10,40],biz:[.8,1.5,4,15,100],pol:[.5,1.5,2.5,4,6],monk:[.1,.1,.2,.3,.5],
+  sci:[.5,1.3,2,3,5],mil:[.6,.9,1.5,3,8],sport:[.3,1,4,15,40],kol:[.05,.5,2,8,30],fortune:[.5,1.5,4,10,30],
+};
+const CLERGY_PAY = [.5,.8,1.2,1.8,3]; // 有薪神職（神父、伊瑪目、拉比、道士）；僧侶同苦行僧照 CAREER_PAY.monk
+const SAVE_RATE = [0,.03,.08,.12,.25,.35];
+const FAMILY_MONEY = [0,.05,.3,1.5,8,60]; // 出世時屋企底子（倍數 × 人均所得）
+const G = () => C().g;
+function fmt$(n){
+  const a = Math.abs(n), s = n < 0 ? '−' : '';
+  if(a >= 1e8) return `${s}US$${(a/1e8).toFixed(a>=1e9?0:1)}億`;
+  if(a >= 1e4) return `${s}US$${(a/1e4).toFixed(a>=1e5?0:1)}万`;
+  return `${s}US$${Math.round(a).toLocaleString()}`;
+}
+function income(){
+  if(S.jail || S.beast) return 0;
+  if(S.career) return G() * (S.career.path==='monk' && !F(S.career.faith).ascetic ? CLERGY_PAY : CAREER_PAY[S.career.path])[S.career.rank];
+  if(S.job==='退職者') return G() * (C().t>=4 ? .3 : .05);
+  if(S.job) return G() * (JOB_PAY[S.job] ?? .7);
+  return 0;
+}
+function spending(inc){
+  if(S.jail) return 0;
+  if(S.flags.studying) return G() * .5;
+  if(!S.job && !S.career) return 0; // 未出身，屋企養
+  let rate = SAVE_RATE[S.cls] + (S.flags.uni ? .05 : 0) - (S.kids && S.age < 55 ? .03*S.kids : 0) - (S.married ? .02 : 0);
+  if(S.status==='visa' && S.visa==='work' && C().t>=4 && COUNTRIES[S.home].t<=3) rate += .25; // 外勞慳錢寄返屋企
+  return Math.max(G() * .2, inc * (1 - clamp(rate, -.2, .6)));
+}
+function syncWealth(){
+  S.money = Math.max(S.money, -5 * G());
+  S.wealth = clamp(Math.round(20 * Math.log(1 + 2 * Math.max(0, S.money) / G())), 0, 100);
+  if(S.money >= 1e6) ach('millionaire');
+  if(S.money >= 1e9) ach('billionaire');
+  S.peakMoney = Math.max(S.peakMoney || 0, S.money);
+}
+function pay(usd){ S.money -= usd; syncWealth(); }
+
+/* ============ 身份：簽證 → 永居 → 入籍 ============ */
+const ISO = Object.fromEntries(COUNTRIES.map((c,i) => [c.iso, i]));
+const byIso = k => COUNTRIES[ISO[k]];
+const isCitizen = () => S.cit.includes(S.ci);
+function statusLabel(){
+  if(isCitizen()) return '市民';
+  return {visa:{study:'学生ビザ',work:'就労ビザ',retire:'リタイアメントビザ'}[S.visa]||'ビザ', pr:'永住者', illegal:'在留資格なし'}[S.status] || 'ビザ';
+}
+function moveTo(ci, status, visa){
+  const from = C().n;
+  S.ci = ci; S.status = status; S.visa = visa || null; S.yearsHere = 0;
+  if(S.career && (S.career.path==='pol' || (S.career.path==='dis' && !S.flags.exiled))){ S.career = null; S.job = ''; }
+  if(S.cit.includes(ci)){ S.status = 'citizen'; S.visa = null; }
+  else { S.flags.migrated = 1; ach('migrant'); }
+  S.visited[COUNTRIES[ci].iso] = 1;
+  syncWealth();
+  return from;
+}
+function passportTier(){ return Math.max(...S.cit.map(i => COUNTRIES[i].t)); }
+function destChoices(isos, n){
+  return shuffle(isos.filter(k => ISO[k]!=null && ISO[k]!==S.ci && !S.cit.includes(ISO[k]))).slice(0, n).map(k => ISO[k]);
+}
+const STUDY_DEST = ['USA','GBR','AUS','CAN','DEU','JPN','NLD','FRA','KOR','SGP','HKG','NZL','IRL','CHE','TWN'];
+const SKILLED_DEST = ['USA','GBR','CAN','AUS','DEU','NLD','SGP','JPN','IRL','NZL','CHE','SWE','HKG','ARE'];
+const GUEST_DEST = ['SAU','ARE','QAT','KWT','SGP','HKG','MYS','TWN','KOR','JPN','ISR','ITA'];
+const NO_PR = ['SAU','ARE','QAT','KWT','SGP','MYS','HKG']; // 外勞簽證唔計入永居年期
+const RETIRE_DEST = ['THA','MYS','PRT','PHL','VNM','MEX','IDN','ESP','PAN'];
+
+/* ============ 年度推進 ============ */
+function hazard(){
+  const c = C();
+  const mod = [1.6,1.25,1,.6,.35,.25][S.cls];
+  let h;
+  if(S.age < 5) h = c.u5/1000 * .3/4 * mod;
+  else if(S.age < 15) h = .0005 * (c.u5/20) * mod;
+  else h = Math.exp(-10.4 + .088*S.age) * Math.exp((76 - c.le)*.05) * (S.cls>=4?.75:S.cls===0?1.3:1) + .0005;
+  if(S.hp < 40) h *= 2; if(S.hp < 20) h *= 4; if(S.hp <= 3) h += .35;
+  if(S.flags.smoker) h *= 1.4;
+  if(S.flags.careful) h *= .85;
+  if(S.career && S.career.path==='gang') h += .004*(S.career.rank+1);
+  if(c.war) h += .003;
+  if(SOUL.K < -60) h *= 1.15;
+  return h;
+}
+function deathCause(){
+  const c = C();
+  if(S.age < 5) return pick(c.t<=2?['肺炎','下痢','マラリア','栄養失調','早産の合併症']:['先天性疾患','肺炎','事故']);
+  if(c.war && R()<.3) return '戦火';
+  if(S.age >= 15 && R() < .03) return pick(['お笑い動画で笑いすぎて窒息','白玉団子を喉に詰まらせた','麻雀で和了って興奮しすぎた','落ちてきたココナッツの直撃','自撮り中に後ずさりして崖から転落']);
+  if(S.age < 45) return pick(c.t<=2?['マラリア','結核','交通事故','労働災害','急病','暴力事件']:['交通事故','労働災害','急病','自殺','がん']);
+  if(S.flags.smoker && R()<.5) return '肺がん';
+  return pick(['心臓病','脳卒中','がん','肺炎','腎不全', S.age>85?'老衰':'糖尿病の合併症']);
+}
+function assignJob(){
+  const t = C().t, c = S.cls;
+  let pool;
+  if(S.flags.uni) pool = t>=4 ? ['エンジニア','公認会計士','弁護士','医者','プログラマー','教師'] : ['エンジニア','教師','公務員','経理','医者'];
+  else if(c <= 1) pool = t<=2 ? ['小農','日雇い建設作業員','人力車夫','露天商','縫製工場の工員','漁師','家政婦','配達員'] : ['工場労働者','配達員','清掃員','建設作業員','警備員'];
+  else if(c <= 3) pool = ['工場労働者','店員','運転手','事務員','料理人','配達員','警備員','介護士'];
+  else pool = ['家業の経営者','投資銀行家','弁護士','医者'];
+  S.job = pick(pool);
+  return S.job;
+}
+function yearTick(){
+  S.age++;
+  if(S.beast) return;
+  const c = C();
+  // 健康老化
+  if(S.age > 45) fx({hp:-(S.age>70?1:.4)});
+  else if(S.hp < 70) fx({hp:1.5});
+  if(S.flags.smoker) fx({hp:-.3});
+  if(S.flags.addict) fx({hp:-2,wealth:-2});
+  // 搵錢同使錢（US$）：人工跟居住國收入水平，儲蓄率跟出身
+  const inc = income();
+  S.money += inc - spending(inc);
+  if(!isCitizen()) S.yearsHere++;
+  if(S.flags.studying) S.studyLeft--;
+  syncWealth();
+  if(S.jail){ fx({hap:-2}); S.jail--; if(S.jail===0) logE('刑期を終えて出所した。外の世界はずいぶん変わっていた。'); }
+  if(S.age===65 && S.job && !S.career && S.job!=='退職者'){ S.job = '退職者'; logE(C().t>=4 ? '引退して、年金を受け取り始めた。' : '引退した。年金はほとんどなく、貯金と子供が頼りだ。'); }
+  S.hap = clamp(S.hap + (50 - S.hap)*.04, 0, 100);
+  if(S.age===20 && S.flags.uniPending){ delete S.flags.uniPending; }
+  // 出嚟做嘢
+  if(!S.job && !S.career && !S.jail && !S.flags.studying && ((S.age===14 && S.cls<=1 && c.t<=2 && !S.flags.school) || (S.age>=18 && !S.flags.uniPending && !S.flags.uni) || (S.age>=22 && S.flags.uni))){
+    const j = assignJob();
+    logE(S.age<16 ? `わずか${S.age}歳で働きに出ることになった。仕事は${j}。` : `${j}として働き始めた。`);
+  }
+  if(R() < hazard()) die(deathCause());
+}
+function stepYears(){
+  if(S.beast) return 1;
+  if(S.age < 1) return 1;
+  if(S.age < 12) return ri(2,3);
+  if(S.age < 18) return ri(1,2);
+  if(S.age < 65) return ri(2,3);
+  return ri(2,4);
+}
+
+/* ============ 事件 ============ */
+// a:[最細,最大歲數]  if:條件  w:權重  once:false 可重複  text  choices 或 go（被動事件）
+const EVENTS = [
+// ---------- 童年 ----------
+{id:'sick_child',a:[1,10],if:()=>C().t<=2,w:2,text:()=>`高熱が出た。${C().t===1?'村には医者がおらず、':''}家族は神仏に祈るばかりだ。`,
+ go(){ const p = (C().t===1?.12:.06)*(S.cls<=1?1.3:.6);
+   if(R()<p){ die(pick(['マラリア','はしか','コレラ','肺炎'])); return '熱は下がらなかった。'; }
+   fx({hp:-15}); return '持ちこたえたが、体は弱くなった。'; }},
+{id:'dream',a:[3,10],if:()=>S.flags.mem,w:6,text:()=>`同じ夢を何度も見る。あなたの名は${SOUL.mem.name}、${SOUL.mem.country}に住み、最後は${SOUL.mem.cause}で死ぬ。`,
+ choices:[
+  {t:'家族に話す',go(){ fx({hap:-5}); S.flags.weird=1; return '母親は医者に連れて行き、それからお祓いにも連れて行った。皆、あなたを少し変な子だと思っている。'; }},
+  {t:'胸にしまい、前世の教訓を忘れない',go(){ fx({int:5}); S.flags.careful=1; return `今世こそ${SOUL.mem.cause}では死なないと、ひそかに誓った。`; }},
+ ]},
+{id:'school_poor',a:[6,9],if:()=>S.cls<=1&&C().t<=2,w:5,text:()=>'家の手伝いをしろと言われる。父は言う。「勉強じゃ飯は食えん。」',
+ choices:[
+  {t:'こっそり学校へ行く',go(){ fx({int:10,hap:-5}); S.flags.school=1; return '毎日一時間歩いて学校へ行き、帰ってからも家の仕事をする。'; }},
+  {t:'父の言う通り、家に残って手伝う',go(){ fx({int:-5,wealth:3}); return 'それきり学校には戻らなかった。何年たっても自分の名前もうまく書けない。'; }},
+ ]},
+{id:'bully',a:[6,15],w:3,text:()=>'放課後、大柄な子たちが痩せた同級生を囲み、鞄を奪って突き倒しているのを見た。',
+ choices:[
+  {t:'飛び込んで止める',go(){ good(6,'義を見てせざるは勇無きなり'); if(R()<.5){ fx({hp:-8,hap:-3}); return '鼻血が出るまで殴られたが、同級生は助かった。彼はのちに一番の親友になった。'; } fx({hap:6,jiang:3}); return '叫びながら飛び込むと、大柄な子たちは本当に逃げていった。'; }},
+  {t:'一緒に笑う',go(){ bad(4,'弱い者いじめ'); fx({jiang:4}); return '皆が笑うので、あなたも笑った。その子は一度だけあなたを見た。その目を何年も忘れられなかった。'; }},
+  {t:'見なかったことにして立ち去る',go(){ return 'うつむいて通り過ぎた。たいていの人はそうする。'; }},
+ ]},
+{id:'wallet',a:[6,16],w:2,text:()=>'道で財布を拾った。かなりのお金と身分証が入っている。',
+ choices:[
+  {t:'交番に届ける',go(){ good(4,'拾得物を届けた'); return '落とし主はおばあさんで、あなたの両手を握り、泣きながらお礼を言った。'; }},
+  {t:'お金を抜いて財布は捨てる',go(){ bad(4,'拾得物の着服'); fx({wealth:3,hap:3}); return 'お菓子をたくさん買った。誰も知らない。'; }},
+ ]},
+{id:'music',a:[5,12],w:2,text:()=>S.flags.music?'楽器に触れた瞬間、指がひとりでに動き出す。':'初めて誰かの演奏を聴いて、すっかり心を奪われた。',
+ choices:[
+  {t:'習わせてほしいと家族に頼む',go(){ S.flags.music=1; fx({hap:6,wealth:-2}); return S.cls<=1?'家には楽器を買う余裕がない。壊れたギターを拾ってきて独学した。':'習い始めて、毎日一時間練習する。'; }},
+  {t:'興味ない',go(){ return 'すぐに忘れてしまった。'; }},
+ ]},
+{id:'study',a:[8,14],w:2,text:()=>'試験が近いのに、友達が遊びに誘ってきた。',
+ choices:[
+  {t:'家で勉強する',go(){ fx({int:8,hap:-4}); return 'いい成績が取れた。'; }},
+  {t:'遊びに行く',go(){ fx({hap:7,int:-2}); return 'とても楽しかったが、成績はまあまあだった。'; }},
+ ]},
+{id:'errand',a:[9,15],if:()=>S.cls<=2,w:2,text:()=>'街角のお兄さんが、包みを裏路地まで運べば百元やると言う。',
+ choices:[
+  {t:'運んでやる',go(){ fx({jiang:12,wealth:3}); bad(4,'麻薬の運び屋'); S.flags.street=1; return 'お兄さんはあなたの頭をなでた。「いい子だ。また頼むよ。」'; }},
+  {t:'首を振って立ち去る',go(){ return 'あなたは立ち去った。背後で弱虫と笑われた。'; }},
+ ]},
+{id:'cat',a:[5,12],w:2,text:()=>'子供たちが野良猫を囲んで石を投げている。',
+ choices:[
+  {t:'追い払って猫を抱き上げる',go(){ good(4,'生き物を救った'); fx({hap:4}); return 'それからというもの、猫はいつも家の前であなたを待っている。'; }},
+  {t:'一緒になってやる',go(){ bad(4,'動物虐待'); return '猫は動かなくなった。皆ちりぢりに逃げた。'; }},
+ ]},
+{id:'temple',a:[5,14],w:1.5,text:()=>{ const f=F(templeFaith()); return `${f.place}の前を通りかかると、${f.elder}があなたを見て言った。「坊や、お前には慧根がある。」`; },
+ choices:()=>{ const k=templeFaith(), f=F(k); return [
+  {t:f.learn,go(){ S.flags.zen=1; fx({int:3,hap:3}); if(S.faith===k) return f.learnTxt;
+    const pre = S.faith==='none' ? `家は無宗教だが、あなたは${f.n}を信じ始めた。` : `家の信仰は${F().n}だが、あなたはひそかに${f.n}を信じるようになった。`;
+    S.faith = k; S.flags.converted = 1; return pre + f.learnTxt; }},
+  {t:'変な人だと思う',go(){ return 'あなたは立ち去った。'; }}]; }},
+{id:'war_child',a:[1,17],if:()=>C().war,w:3,text:()=>'砲声が近づき、一家は夜のうちに逃げなければならない。',
+ go(){ if(R()<.07){ die('戦火'); return '砲弾がすぐ近くに落ちた。'; } fx({hp:-10,hap:-15,wealth:-5}); return '長い間、難民キャンプで暮らした。'; }},
+{id:'rich_kid',a:[6,15],if:()=>S.cls>=4,w:2,text:()=>'ピアノと乗馬を習い、夏休みは海外研修。世界中がこうだと思っている。',
+ choices:[
+  {t:'家族とスラムでボランティアをする',go(){ good(3,'善行'); fx({int:3}); return '同い年の子が裸足でゴミを拾っているのを初めて見た。'; }},
+  {t:'このまま楽しむ',go(){ fx({hap:5}); return 'とても楽しく過ごした。'; }},
+ ]},
+{id:'parents_fight',a:[3,14],w:1,text:()=>'両親が一晩中けんかして、物を壊した。',go(){ fx({hap:-8}); return '布団にもぐって朝を待った。'; }},
+{id:'child_fill',a:[1,12],once:false,w:1,text:()=>pick([
+  S.cls<=1?'家は貧しくいつもお腹をすかせているが、近所の子と駆け回るのは楽しい。':'来る日も来る日も、近所の子と駆け回る。',
+  '泳げるようになった。','ひよこを飼ったが、翌月に死んでしまい、長いこと泣いた。','字が読めるようになってきた。']),go(){ fx({hap:2}); return ''; }},
+
+// ---------- 少年 ----------
+{id:'cig',a:[12,18],w:4,text:()=>'友達がタバコを差し出す。「吸ってみろよ、平気だって。」',
+ choices:[
+  {t:'受け取って吸う',go(){ S.flags.smoker=1; fx({hap:3,jiang:3}); return '涙が出るほどむせた。それから何年も吸い続けた。'; }},
+  {t:'吸わない',go(){ return 'いい子ぶってると言われたが、気にしなかった。'; }},
+ ]},
+{id:'exam',a:[15,18],if:()=>C().t>=2||S.flags.school||S.cls>=2,w:5,text:()=>'大学に行けるかどうかを決める統一試験が近い。',
+ choices:[
+  {t:'死に物狂いで勉強する',go(){ fx({int:8,hap:-6,hp:-3}); return examResult(0); }},
+  {t:'替え玉を雇う／カンニングする',go(){ bad(5,'試験の不正'); if(R()<.3){ fx({hap:-10}); S.flags.cheat=1; return '見つかって、成績は取り消された。'; } return examResult(.25); }},
+  {t:'あきらめて早く働きに出る',go(){ fx({hap:4}); return '試験は受けなかった。'; }},
+ ]},
+{id:'love',a:[14,20],w:3,text:()=>'クラスの誰かにずっと片思いしている。',
+ choices:[
+  {t:'勇気を出して告白する',go(){ if(R()<.45){ fx({hap:12}); S.flags.firstlove=1; return '相手は顔を赤らめてうなずいた。あの夏、あなたはとても幸せだった。'; } fx({hap:-8}); return '相手は言った。「あなたっていい人だよね。」'; }},
+  {t:'胸にしまっておく',go(){ return '何年もたって人探しサイトでその名前を見つけたが、結局クリックしなかった。'; }},
+ ]},
+{id:'dropout',a:[13,16],if:()=>S.cls<=1&&!S.job,w:4,text:()=>'家に借金がある。母は学校をやめて働けないかと聞いてきた。',
+ choices:[
+  {t:'学校をやめて働く',go(){ fx({int:-4,wealth:6}); good(2,'親孝行'); const j=assignJob(); return `${j}として働きに出た。`; }},
+  {t:'勉強を続ける',go(){ fx({int:6,hap:-6,wealth:-3}); S.flags.school=1; return '毎晩アルバイトをして、昼は学校へ通う。'; }},
+ ]},
+{id:'protest',a:[15,28],w:2,text:()=>harsh()>0?'同級生がひそかに抗議を計画していて、来るかと聞いてきた。ここでは投獄されかねない。':'街で大規模なデモがあり、友達が一緒に行くかと聞く。',
+ choices:[
+  {t:'街に出る',go(){ S.flags.activist=1; fx({fame:3}); good(3,'正義のために声を上げた'); if(R()<.35*harsh()){ jail(ri(2,5), 1); return '逮捕された。裁判はたった十分で終わった。'; } return '群衆の中で叫び、初めて本当に生きていると感じた。'; }},
+  {t:'家にいる',go(){ return 'テレビで見ていた。'; }},
+ ]},
+{id:'gang_recruit',a:[13,22],if:()=>!S.career&&(S.jiang>=10||S.flags.street||(S.cls<=1&&R()<.4)),w:3,text:()=>'街の親分に目をつけられた。「俺についてこい、たんまり稼げるぞ。」',
+ choices:[
+  {t:'盃を交わして親分に仕える',go(){ return startCareer('gang','正式に組に入った。'); }},
+  {t:'丁重に断る',go(){ fx({jiang:-3}); return '親分は鼻で笑った。「構わんさ。いずれお前の方から来る。」'; }},
+ ]},
+{id:'mem_skill',a:[12,22],if:()=>S.flags.mem&&SOUL.mem.career&&!S.career,w:6,text:()=>`前世の記憶が一気によみがえった。かつて${SOUL.mem.career}だったことを思い出し、その腕は少しも衰えていない気がする。`,
+ choices:[
+  {t:'前世と同じ道を歩む',special:1,go(){ const p=SOUL.mem.path; let pre=''; if(p==='monk' && S.faith!==SOUL.mem.faith && SOUL.mem.faith && SOUL.mem.faith!=='none'){ S.faith=SOUL.mem.faith; pre=`前世で${F().n}を信じていたことを思い出し、今世でも再び信じることにした。`; } const r=startCareer(p,pre+'前世の経験のおかげで、一歩先からスタートできた。'); S.career.rank=1; S.job=CAREERS[p].ranks[1]; S.peak={path:p,rank:1,faith:S.career.faith,pt:S.career.pt}; return r; }},
+  {t:'今世は別の人生を生きる',go(){ fx({int:4,hap:3}); return '同じ過ちは繰り返さないと決めた。'; }},
+ ]},
+{id:'band',a:[14,24],if:()=>S.flags.music&&!S.career,w:4,text:()=>'友達がバンドを組もうとしていて、あなたを誘ってきた。',
+ choices:[
+  {t:'やる！',go(){ return startCareer('music','工業ビルに練習部屋を借りて、毎晩真夜中まで演奏した。'); }},
+  {t:'勉強／仕事が大事',go(){ return 'ギターをベッドの下にしまった。'; }},
+ ]},
+{id:'teen_fill',a:[13,17],once:false,w:1,text:()=>pick(['友達と徹夜でゲームをした。','将来何をしたいか考え始めた。','家族と喧嘩して、ドアを叩きつけて出ていった。','初めて夜行バスに乗って遠くへ行った。']),go(){ return ''; }},
+
+// ---------- 成年 ----------
+{id:'uni',a:[18,19],if:()=>S.flags.uniPending,w:20,text:()=>'大学に合格した。ただ学費は安くない。',
+ choices:[
+  {t:'学生ローンを組んででも行く',go(){ S.flags.uni=1; delete S.flags.uniPending; fx({int:10}); if(S.cls<=2) S.flags.debt=1; return S.cls<=2?'一族で初めての大学生になったが、借金も背負った。':'大学に入った。'; }},
+  {t:'やめて働きに出る',go(){ delete S.flags.uniPending; const j=assignJob(); return `${j}として働きに出た。`; }},
+ ]},
+{id:'marry',a:[21,40],w:3,text:()=>'数年付き合った相手が言う。「結婚しない？」',
+ choices:[
+  {t:'結婚する',go(){ S.married=1; fx({hap:10,wealth:-5}); return '質素な式だったが、みんな幸せそうだった。'; }},
+  {t:'まだ心の準備ができていない',go(){ fx({hap:-5}); return '相手は去っていった。'; }},
+ ]},
+{id:'kids',a:[23,42],if:()=>S.married,w:4,text:()=>'パートナーが子供を欲しがっている。',
+ choices:[
+  {t:'産む',go(){ S.kids=ri(1,3); fx({hap:8,wealth:-8}); return `子供が${S.kids}人生まれた。家は騒がしいが、にぎやかだ。`; }},
+  {t:'産まない',go(){ return '二人で生きていくことにした。'; }},
+ ]},
+{id:'loan',a:[18,55],if:()=>S.wealth<30&&!S.flags.debt,w:2,text:()=>'お金に困っている。消費者金融から電話が来た。「収入証明不要、即日審査。」',
+ choices:[
+  {t:'借りる',go(){ fx({wealth:25,hap:5}); S.flags.loan=1; return 'その日のうちにお金が届き、ほっとした。'; }},
+  {t:'借りない',go(){ fx({hap:-3}); return 'もう少し踏ん張ることにした。'; }},
+ ]},
+{id:'loan_collect',a:[19,70],if:()=>S.flags.loan,w:8,text:()=>'入れ墨の男たちがドアに赤ペンキをぶちまけた。「金を返せ！」',
+ choices:[
+  {t:'家財を売って返済する',go(){ fx({wealth:-35,hap:-10}); delete S.flags.loan; return 'ようやく完済した。'; }},
+  {t:'夜逃げする',go(){ delete S.flags.loan; if(R()<.4){ fx({hp:-30}); return '駅で捕まり、肋骨を二本折られた。'; } fx({jiang:5,hap:-5}); return '一晩で別の街へ引っ越した。'; }},
+  {t:'借金のかたに彼らの仕事を手伝う',go(){ delete S.flags.loan; bad(6,'悪事の片棒を担いだ'); fx({jiang:12}); return '彼らの取り立てを手伝うようになった。'; }},
+ ]},
+{id:'gamble',a:[18,75],once:false,w:1,text:()=>'友達にカジノへ連れて行かれた。',
+ choices:[
+  {t:'全財産を賭ける',go(){ const bet = Math.max(S.money, 0); if(R()<.12){ pay(-bet*2); fx({hap:15}); return `${fmt$(bet*2)}勝った！カジノ中の視線があなたに集まる。`; } pay(bet); fx({hap:-12}); S.flags.gambler=1; return `${fmt$(bet)}、すべて失った。次こそ取り返すと言っている。`; }},
+  {t:'少しだけ遊ぶ',go(){ fx({wealth:-2,hap:2}); return '勝ったり負けたり。'; }},
+  {t:'行かない',go(){ return ''; }},
+ ]},
+{id:'scam',a:[18,50],w:2,text:()=>'東南アジアで「カスタマーサービス」の仕事、月給一万超え、食事・住まい付きと誘われた。実は電話詐欺だとわかっている。',
+ choices:[
+  {t:'行く',go(){ bad(12,'高齢者の貯金を騙し取った'); fx({wealth:15,jiang:6}); if(R()<.3){ jail(ri(3,7)); return '一網打尽にされた。'; } return '毎日何百本も電話をかけ、人の年金を騙し取る。'; }},
+  {t:'警察に通報する',go(){ good(5,'犯罪を通報した'); return '警察は調べると言ったが、それきりだった。'; }},
+  {t:'聞かなかったことにする',go(){ return ''; }},
+ ]},
+{id:'layoff',a:[25,60],if:()=>S.job&&!S.career,w:1.5,text:()=>`会社が人員削減をして、あなたの${S.job}の職はなくなった。`,go(){ fx({wealth:-10,hap:-10}); return '三か月探して、似たような仕事を見つけた。'; }},
+{id:'illness',a:[30,85],once:false,w:1,text:()=>'大病を患った。',
+ go(){ if(S.wealth>=50){ fx({hp:-10,wealth:-10}); return '私立病院にかかり、すぐに回復した。'; } fx({hp:-20,wealth:-6}); return '公立病院の順番待ちに半年かかり、その間ずっと耐えた。'; }},
+{id:'parent_die',a:[35,60],w:2,text:()=>'母が亡くなった。',go(){ fx({hap:-15}); return '葬儀のあと、母の箪笥からあなたの子供の頃の通知表が出てきた。ずっと取っておいたのだ。'; }},
+{id:'affair',a:[28,55],if:()=>S.married,w:2,text:()=>'同僚があなたに好意を寄せていて、それとなく誘ってくる。',
+ choices:[
+  {t:'浮気する',go(){ bad(5,'パートナーへの裏切り'); fx({hap:5}); if(R()<.4){ S.married=0; fx({hap:-20,wealth:-15}); return 'パートナーにばれて、離婚した。'; } return '誰にもばれていない。今のところは。'; }},
+  {t:'断る',go(){ good(2,'パートナーに誠実'); return '家に帰って、パートナーを抱きしめた。'; }},
+ ]},
+{id:'beggar',a:[16,90],once:false,w:1,text:()=>'街角で片足の物乞いが手を差し出してきた。',
+ choices:[
+  {t:'お金をあげる',go(){ good(2,'施し'); fx({wealth:-1}); return '彼はあなたに会釈した。'; }},
+  {t:'通り過ぎる',go(){ return ''; }},
+ ]},
+{id:'drown',a:[16,60],w:1.5,text:()=>'子供が川に落ちてもがいている。',
+ choices:[
+  {t:'飛び込んで助ける',go(){ good(12,'身を捨てて人を救った'); if(R()<.06){ die('身を捨てて人を救った'); return '子供は助かったが、あなたは二度と岸に上がれなかった。'; } fx({fame:6,hap:8}); return '子供を助け出した。新聞にあなたの写真が載った。'; }},
+  {t:'助けを呼ぶ',go(){ good(2,'助けを呼んだ'); return '誰かが飛び込み、子供は助かった。'; }},
+  {t:'スマホを出して撮影する',go(){ bad(3,'見殺し'); fx({fame:2}); return '動画は大量に再生された。'; }},
+ ]},
+{id:'hitrun',a:[20,70],if:()=>S.wealth>=25,w:1.5,text:()=>'夜道を運転中、人をはねてしまった。周りには誰もいない。',
+ choices:[
+  {t:'車を降りて救護し、通報する',go(){ good(6,'責任を取った'); fx({wealth:-12,hap:-5}); return '被害者は命に別状なかった。多額の賠償金を払った。'; }},
+  {t:'アクセルを踏んで逃げる',go(){ bad(15,'ひき逃げ'); if(R()<.3){ jail(ri(2,5)); return '防犯カメラに映っていた。'; } fx({hap:-10}); return '翌日のニュースで、被害者が亡くなったと知った。'; }},
+ ]},
+{id:'witness',a:[20,60],w:1.5,text:()=>'上司（あるいは役人）がこっそり有毒廃棄物を川に流しているのを知った。',
+ choices:[
+  {t:'公に告発する',go(){ good(10,'不正を告発した'); fx({fame:8}); if(R()<.4*harsh()){ jail(ri(2,6), 1); return '「デマ拡散」の罪で逮捕された。'; } fx({wealth:-8}); return 'クビになったが、川は最終的にきれいになった。'; }},
+  {t:'金を受け取って黙る',go(){ bad(6,'同じ穴のむじな'); fx({wealth:12}); return '下流の村で多くの人ががんになった。'; }},
+ ]},
+{id:'strike',a:[20,55],if:()=>['工場労働者','縫製工場の工員','建設作業員','日雇い建設作業員','配達員'].includes(S.job),w:2,text:()=>'同僚たちが賃上げストを計画している。社長がこっそり言う。「スト破りをすれば現場監督にしてやる。」',
+ choices:[
+  {t:'仲間と共に立つ',go(){ good(4,'仲間との団結'); fx({hap:4,wealth:-3}); return '三日間のストの末、社長は少しだけ譲歩した。'; }},
+  {t:'スト破りになる',go(){ bad(6,'仲間を売った'); fx({wealth:8}); S.job='現場監督'; return '昇進したが、もう誰も一緒に昼食をとってくれない。'; }},
+ ]},
+{id:'disaster',a:[5,90],if:()=>C().t<=3,w:.8,text:()=>pick(['洪水が村ごと押し流した。','大地震。','台風で家が倒壊した。']),
+ go(){ if(R()<.04){ die('天災'); return '逃げ遅れた。'; } fx({hp:-8,wealth:-12,hap:-10}); return '瓦礫の中から再出発した。'; }},
+{id:'pandemic',a:[10,95],w:.8,text:()=>'パンデミックが世界を襲った。',
+ go(){ const p = S.age>70?.08:S.age>50?.02:.003; if(R()<p){ die('パンデミック'); return '隔離病棟で、家族に最期に会うことはできなかった。'; } fx({hap:-6,wealth:-4}); return '二年間、家に閉じこもった。'; }},
+{id:'addict_offer',a:[16,45],if:()=>S.career&&['music','gang'].includes(S.career.path)||S.jiang>=30,w:2,text:()=>'パーティーで誰かが白い粉を差し出した。「試してみな。飛べるぜ。」',
+ choices:[
+  {t:'試す',go(){ S.flags.addict=1; fx({hap:10,hp:-10}); return 'こんなに幸せだったことはない。そしてそれ以来、こんなに何かを欲したこともない。'; }},
+  {t:'断る',go(){ return ''; }},
+ ]},
+{id:'addict',a:[16,80],once:false,if:()=>S.flags.addict,w:4,text:()=>'禁断症状が出て、手が震え汗が噴き出す。',
+ choices:[
+  {t:'更生施設に入る',go(){ if(R()<.45){ delete S.flags.addict; fx({hap:5}); good(3,'更生した'); return '乗り越えた。'; } fx({hap:-5}); return '出所して三日目に、また手を出した。'; }},
+  {t:'また使う',go(){ fx({hp:-12,wealth:-6}); if(S.hp<15&&R()<.4){ die('薬物の過剰摂取'); return ''; } return ''; }},
+ ]},
+{id:'lung',a:[45,90],if:()=>S.flags.smoker,w:2,text:()=>'何か月も咳が続き、レントゲンで肺に影が見つかった。',
+ choices:[
+  {t:'すぐに禁煙して治療を受ける',go(){ delete S.flags.smoker; fx({hp:-15,wealth:-10}); return '早期発見だと医者は言った。'; }},
+  {t:'吸い続ける、人生は短い',go(){ fx({hp:-25,hap:3}); return ''; }},
+ ]},
+{id:'midlife',a:[38,50],w:3,text:()=>`鏡の中の自分に問いかける。このまま定年まで${S.job||'これを続ける'}のか？`,
+ choices:()=>crossChoices(true)},
+{id:'crossroad',a:[17,45],once:false,w:()=>2.2+(C().t>=3?1:0),text:()=>pick(['人生の分かれ道が目の前にある。','チャンスが目の前にある。','一晩中眠れず、人生について考えた。']),
+ choices:()=>crossChoices(false)},
+{id:'donate',a:[50,90],if:()=>S.wealth>=50,w:3,text:()=>'それなりの貯金ができた。',
+ choices:[
+  {t:'財産の大半を寄付する',go(){ const d = S.money*.7; pay(d); good(clamp(Math.round(10+5*Math.log10(1+d/G())*3),10,40),'私財をなげうって善行'); fx({hap:8,fame:6}); return `${fmt$(d)}を寄付し、学校をいくつも建てた。`; }},
+  {t:'子供に残す',go(){ fx({hap:4}); return ''; }},
+  {t:'思いきり散財する',go(){ fx({hap:10,wealth:-25}); return 'ヨット、高級時計、世界旅行。'; }},
+ ]},
+{id:'repent',a:[55,95],if:()=>S.sin>=20,w:3,text:()=>'夜、かつて傷つけた人たちの夢を見る。',
+ choices:[
+  {t:'会いに行って謝り、償う',go(){ good(Math.round(S.sin*.3),'懺悔と償い'); fx({wealth:-10,hap:6}); return '許してくれた人もいれば、顔に唾を吐いた人もいる。'; }},
+  {t:'自分は悪くない、世の中そういうものだ',go(){ return ''; }},
+ ]},
+{id:'grandkids',a:[55,85],if:()=>S.kids,w:3,text:()=>'あなたは祖父母になった。',go(){ fx({hap:12}); return '孫があなたの腕の中で眠った。'; }},
+{id:'lonely',a:[65,100],if:()=>!S.married&&!S.kids,w:2,text:()=>'祝日には、家にはあなた一人だけ。',go(){ fx({hap:-10}); return ''; }},
+{id:'adult_fill',a:[18,64],once:false,w:1.6,text:()=>pick([
+  `${S.job||'日雇い仕事'}を続ける。たいていの人と同じように、日々が過ぎていく。`,
+  `また一年。${S.job||'日雇い仕事'}の給料は少し上がったが、物価はもっと上がった。`,
+  '友達と飲みながら子供の頃の夢を語り、皆で笑った。',
+  '引っ越した。部屋は狭くなったが、職場に近い。',
+  '白髪が出てきた。']),go(){ return ''; }},
+{id:'old_fill',a:[65,130],once:false,w:2,text:()=>pick(['通院が増えてきた。','玄関先で日向ぼっこをしながら、通りの若者を眺める。','スマホで動画を見られるようになった。','古い友人が一人、また一人と亡くなっていく。']),go(){ return ''; }},
+
+// ---------- 新增：童年 ----------
+{id:'child_labor',a:[6,12],if:()=>S.cls<=1&&C().t<=2,w:3,text:()=>pick(['兄と一緒にレンガ窯でレンガを運ぶ。一日十時間。','鉱山で鉱石を拾い、爪がすっかりぼろぼろになった。','街角で靴磨きをする。一足一枚の硬貨。']),
+ go(){ fx({hp:-8,int:-3,wealth:2}); return '仕事から帰ると、ご飯も忘れて眠ってしまう。'; }},
+{id:'steal_food',a:[5,13],if:()=>S.cls<=1,w:2,text:()=>'二日間何も食べていない。市場の屋台にパンの袋が置きっぱなしだ。',
+ choices:[
+  {t:'一つ盗む',go(){ bad(1,'窃盗'); fx({hp:4}); if(R()<.3){ fx({hp:-6}); return '屋台の主人に捕まり、さんざん殴られた。'; } return '路地裏に隠れて、三口で平らげた。'; }},
+  {t:'我慢して立ち去る',go(){ fx({hp:-4}); good(1,'分を守った'); return '水をがぶ飲みして空腹をしのいだ。'; }},
+ ]},
+{id:'vaccine',a:[1,4],if:()=>C().t<=2,w:3,text:()=>'医療チームが村で予防接種をしに来た。山道を三時間歩かなければならない。',
+ choices:[
+  {t:'母がおぶって連れて行く',go(){ fx({hp:8}); return '注射を打たれ、村中に聞こえるほど泣いた。'; }},
+  {t:'注射を打つと病気になると家族は言う',go(){ fx({hp:-4}); S.flags.novax=1; return '打たなかった。'; }},
+ ]},
+{id:'grandma',a:[4,10],w:1.5,text:()=>'祖母は子供の頃に飢饉と戦乱を生き延びた話をいつも聞かせてくれる。',go(){ fx({hap:5,int:2}); return '今の暮らしもそう悪くないと思った。'; }},
+{id:'sport_talent',a:[7,13],w:2,text:()=>'運動会で学年の誰よりも速く走った。体育の先生に陸上をやらないかと誘われた。',
+ choices:[
+  {t:'やる！',go(){ S.flags.athlete=1; fx({hp:8,hap:3}); return '毎朝五時に起きて走るようになった。'; }},
+  {t:'興味ない',go(){ return ''; }},
+ ]},
+{id:'homework',a:[8,14],w:1.5,text:()=>'同級生が宿題を写させてほしいと言う。',
+ choices:[
+  {t:'写させる',go(){ fx({hap:2}); return 'ポテトチップスを一袋おごってくれた。'; }},
+  {t:'断って、自分でやれと言う',go(){ return '一週間口をきいてくれなかった。'; }},
+  {t:'やり方を教える',go(){ good(2,'人助け'); fx({int:2}); return 'やっと分かってくれた。'; }},
+ ]},
+{id:'lost',a:[3,7],w:1,text:()=>'人でごった返す市場で家族とはぐれてしまった。',
+ go(){ if(C().t<=2&&R()<.05){ S.flags.trafficked=1; fx({hap:-25,hp:-10}); return '見知らぬ人に手を引かれて連れて行かれた。何年も家族に会えなかった。'; } return '八百屋のおばあさんが一緒に待っていてくれて、母が泣きながら駆け戻ってきた。'; }},
+{id:'child_bride',a:[12,16],if:()=>!S.male&&S.cls<=1&&C().t<=2,w:4,text:()=>'父が結納金を受け取った。隣村の二十歳年上の男に嫁げというのだ。',
+ choices:[
+  {t:'その夜のうちに逃げる',go(){ fx({hap:-5,jiang:8}); S.flags.runaway=1; return 'わずかな小銭を持ってトラックに乗り、都会へ出た。'; }},
+  {t:'運命を受け入れる',go(){ S.married=1; fx({hap:-15,int:-5}); return '学校をやめた。十六歳で最初の子を産んだ。'; }},
+ ]},
+
+// ---------- 新增：少年 ----------
+{id:'cyberbully',a:[13,19],if:()=>C().t>=3,w:2,text:()=>'クラスのグループチャットで、皆がある同級生の過去を晒し、加工画像で笑いものにしている。',
+ choices:[
+  {t:'一緒に画像を加工する',go(){ bad(3,'ネットいじめ'); return 'あなたの画像が一番「いいね」を集めた。'; }},
+  {t:'グループで「もうやめなよ」と言う',go(){ good(3,'正論を言った'); fx({hap:-3}); return '誰も返事をしなかったが、その子が個別にお礼のメッセージをくれた。'; }},
+  {t:'こっそりグループを抜ける',go(){ return ''; }},
+ ]},
+{id:'shoplift',a:[12,17],w:2,text:()=>'友達がコンビニでお菓子をポケットに入れ、あなたにも取れと目配せした。',
+ choices:[
+  {t:'自分も取る',go(){ bad(2,'万引き'); if(R()<.25){ fx({hap:-8}); return '店員に捕まり、家族を呼ばれた。'; } fx({jiang:3}); return 'スリル満点だった。'; }},
+  {t:'取らない',go(){ return '友達に臆病者だと言われた。'; }},
+ ]},
+{id:'coding',a:[13,20],if:()=>C().t>=3&&S.int>=50,w:2,text:()=>'ネットでプログラミング講座を見つけた。面白そうだ。',
+ choices:[
+  {t:'夜中まで独学する',go(){ S.flags.coder=1; fx({int:6,hap:2,hp:-2}); return '初めてゲームを作った。遊ぶのは自分だけだけど。'; }},
+  {t:'動画を二本見てやめる',go(){ return ''; }},
+ ]},
+{id:'runaway',a:[13,17],if:()=>S.hap<35,w:3,text:()=>'家の空気が息苦しい。',
+ choices:[
+  {t:'家出する',go(){ fx({jiang:8,hap:4,hp:-5}); S.flags.street=1; return '高架下で二晩過ごし、路上の仲間ができた。'; }},
+  {t:'十八歳まで我慢する',go(){ fx({hap:-4,int:2}); return '日記にカウントダウンを書き込む。'; }},
+ ]},
+{id:'tryout',a:[15,22],if:()=>S.flags.athlete&&!S.career,w:6,text:()=>'プロチームのスカウトの目に留まり、入団テストに誘われた。',
+ choices:[
+  {t:'テストを受ける',go(){ if(S.hp+R()*40>75) return startCareer('sport','初めてのプロ契約を結んだ。'); fx({hap:-6}); return 'テストで足首をひねり、落選した。'; }},
+  {t:'勉強に専念する',go(){ return 'ランニングシューズをしまった。'; }},
+ ]},
+{id:'first_job_abuse',a:[15,20],if:()=>S.cls<=2,w:1.5,text:()=>'最初の職場で、社長に三か月分の給料を払ってもらえない。',
+ choices:[
+  {t:'労働局に申し立てる',go(){ if(C().t>=4||R()<.4){ fx({wealth:3}); return 'お金を取り戻した。'; } fx({hap:-6}); return '職員は言った。「契約書はありますか？ない？じゃあどうしようもないですね。」'; }},
+  {t:'夜に戻って店をめちゃくちゃにする',go(){ bad(3,'器物損壊'); fx({jiang:6}); if(R()<.3){ jail(1); return '逮捕された。'; } return 'すっきりした。'; }},
+  {t:'諦める',go(){ fx({hap:-4}); return ''; }},
+ ]},
+
+// ---------- 新增：成年 ----------
+{id:'tech_startup',a:[21,40],if:()=>S.flags.coder&&!S.career,w:4,text:()=>'友達二人とアプリを作ったら、投資家が興味を示した。',
+ choices:[
+  {t:'仕事を辞めて起業に全力を注ぐ',go(){ const r=startCareer('biz','狭いシェアルームで会社を立ち上げた。'); if(R()<.35){ S.career.rank=2; S.job=CAREERS.biz.ranks[2]; S.peak={path:'biz',rank:2}; fx({wealth:25}); return r+'一年後、資金調達に成功し、評価額は一億を超えた。'; } return r; }},
+  {t:'安定した仕事を続ける',go(){ return '後にそのアプリは大企業に買収された。あなたの取り分はない。'; }},
+ ]},
+{id:'crypto',a:[20,60],if:()=>C().t>=3,w:1.5,text:()=>'友達が、新しい仮想通貨は百倍になること間違いなしだと言う。',
+ choices:[
+  {t:'All in',go(){ if(R()<.15){ fx({wealth:40,hap:15}); return '本当に百倍になった！すぐに全部売った。'; } fx({wealth:-25,hap:-12}); return 'コインは無価値になり、運営は姿を消した。'; }},
+  {t:'少しだけ買ってみる',go(){ fx({wealth:R()<.4?3:-3}); return ''; }},
+  {t:'買わない',go(){ return ''; }},
+ ]},
+{id:'property',a:[27,50],if:()=>S.wealth>=40&&!S.flags.home,w:2,text:()=>'住宅価格がまた過去最高を更新。誰もが「今買わないと明日はもっと高い」と言う。',
+ choices:[
+  {t:'限度いっぱいのローンで買う',go(){ S.flags.home=1; fx({wealth:-20,hap:8}); return '持ち家になり、それから三十年、銀行のために働くことになった。'; }},
+  {t:'賃貸を続ける',go(){ return ''; }},
+ ]},
+{id:'neg_equity',a:[28,70],if:()=>S.flags.home,w:1.5,text:()=>'住宅市場が暴落し、家はローン残高割れになった。',go(){ fx({wealth:-15,hap:-10}); return '毎月、価値のない家のローンを払い続けている。'; }},
+{id:'friend_loan',a:[20,65],w:2,text:()=>'旧友が家で何かあったと、お金を貸してほしいと言ってきた。',
+ choices:[
+  {t:'借りる',go(){ good(3,'困った時の助け'); if(R()<.5){ fx({wealth:-10}); return 'それきり姿を見せなかった。'; } return '一年後にお金を返してくれて、食事もおごってくれた。'; }},
+  {t:'借りない',go(){ return 'それきり連絡を取らなくなった。'; }},
+ ]},
+{id:'draft',a:[18,40],if:()=>C().war&&!S.career,w:5,text:()=>'軍が村へ徴兵に来た。',
+ choices:[
+  {t:'入隊する',go(){ return startCareer('mil','前線に送られた。'); }},
+  {t:'脱走して山に隠れる',go(){ if(R()<.3){ jail(ri(2,5)); return '捕まった。'; } fx({hap:-8}); return '半年間、洞窟に隠れた。'; }},
+  {t:'金で買収する',go(){ if(S.wealth>=20){ fx({wealth:-20}); bad(2,'贈賄'); return '名簿からあなたの名前が消えた。'; } jail(ri(1,3)); return 'お金がないので、脱走兵扱いされた。'; }},
+ ]},
+{id:'refugee',a:[20,80],if:()=>C().t>=4,w:1.5,text:()=>'近所に難民シェルターができることになり、住民が反対署名を集めている。',
+ choices:[
+  {t:'シェルターを支持する',go(){ good(3,'他者を受け入れた'); fx({hap:-2}); return '近所の人にドアへ悪口の張り紙をされた。'; }},
+  {t:'反対署名する',go(){ bad(2,'弱者の排斥'); return ''; }},
+  {t:'自分には関係ない',go(){ return ''; }},
+ ]},
+{id:'lottery',a:[18,90],once:false,w:.5,text:()=>'宝くじを一枚買った。',
+ go(){ if(R()<.01){ fx({wealth:60,hap:20}); return '一等当選！テレビの前で叫びすぎて、隣人が警察を呼んだ。'; } fx({wealth:-1}); return '外れ。'; }},
+{id:'cult',a:[25,65],w:1.5,text:()=>'「自己啓発セミナー」が生まれ変われると勧誘してくる。受講料は安くない。',
+ choices:[
+  {t:'申し込む',go(){ fx({wealth:-20,hap:8}); S.flags.cult=1; return '講師は前世の業が深いので、「上のクラス」に進むにはさらにお金が必要だと言う。'; }},
+  {t:'丁重に断る',go(){ return ''; }},
+ ]},
+{id:'fire',a:[18,80],w:1.5,text:()=>'夜中に火事が起き、隣の家から子供の泣き声が聞こえる。',
+ choices:[
+  {t:'飛び込んで助ける',go(){ good(10,'火災現場での救助'); if(R()<.04){ die('火災現場での救助'); return '子供を抱えて飛び出したが、自分はもう起き上がれなかった。'; } fx({hp:-12,fame:5}); return '子供もあなたも助かった。'; }},
+  {t:'避難して消防に通報する',go(){ good(1,'警察に通報する'); return '消防は十分後に到着した。'; }},
+ ]},
+{id:'seat',a:[15,70],once:false,w:.8,text:()=>'車内は満員で、目の前に妊婦が立っている。',
+ choices:[
+  {t:'席を譲る',go(){ good(1,'席を譲る'); return ''; }},
+  {t:'寝たふりをする',go(){ return ''; }},
+ ]},
+{id:'bribe_cop',a:[18,70],if:()=>C().t<=3,w:1.5,text:()=>'交通警官に止められ、「ちょっとお茶代をくれれば見逃す」とほのめかされた。',
+ choices:[
+  {t:'払う',go(){ bad(1,'贈賄'); fx({wealth:-2}); return ''; }},
+  {t:'払わない',go(){ fx({wealth:-5,hap:-4}); return '三つの違反で告発され、罰金はもっと高くついた。'; }},
+ ]},
+{id:'care_parent',a:[35,62],w:2.5,text:()=>'父が脳卒中で倒れ、つきっきりの介護が必要になった。',
+ choices:[
+  {t:'仕事を辞めて自分で介護する',go(){ good(8,'親孝行'); fx({wealth:-15,hap:-8}); return '三年間付き添った。父は最期にあなたの名前を呼んだ。'; }},
+  {t:'老人ホームに入れる',go(){ fx({wealth:-8}); return '毎週面会に行ったが、やがて月に一度になった。'; }},
+  {t:'放っておく',go(){ bad(6,'親を顧みなかった'); return '父は家で転倒し、見つかったのは二日後だった。'; }},
+ ]},
+{id:'inherit',a:[25,65],if:()=>S.cls>=4,w:3,text:()=>'一族の長老が亡くなり、兄弟姉妹が遺産をめぐって争っている。',
+ choices:[
+  {t:'弁護士を雇って徹底的に争う',go(){ bad(4,'骨肉の争い'); fx({wealth:20,hap:-8}); return '裁判には勝ったが、親族をすべて失った。'; }},
+  {t:'均等に分けて円満に終える',go(){ good(4,'肉親の情を大切にした'); fx({hap:4}); return ''; }},
+ ]},
+{id:'ai_job',a:[25,60],if:()=>C().t>=4&&!S.career,w:2,text:()=>`会社がAIを導入し、あなたの${S.job}の仕事はAIに置き換えられた。`,
+ choices:[
+  {t:'夜間学校に通って転職する',go(){ fx({int:6,wealth:-6,hap:-3}); S.job=pick(['介護士','配管工','電気工','ソーシャルワーカー']); return `${S.job}に転職した。この仕事はまだAIに奪われていない。`; }},
+  {t:'失業手当を受ける',go(){ fx({wealth:-10,hap:-10}); return ''; }},
+ ]},
+{id:'kid_trouble',a:[40,65],if:()=>S.kids,w:2,text:()=>'子供が悪い仲間とつるみ、警察に補導された。',
+ choices:[
+  {t:'激しく叱りつける',go(){ fx({hap:-6}); return '子供はドアを叩きつけて出て行き、何日も帰ってこなかった。'; }},
+  {t:'座ってじっくり話す',go(){ good(2,'子を正しく導いた'); fx({hap:2}); return '子供は泣き出した。ずっと誰も話を聞いてくれなかったと。'; }},
+ ]},
+{id:'reunion',a:[35,70],if:()=>S.flags.firstlove,w:2,text:()=>'同窓会で初恋の人に再会した。',
+ choices:()=>S.married?[
+  {t:'連絡先を交換する',go(){ bad(2,'心が揺れた'); fx({hap:4}); return 'それからしょっちゅうメッセージをやり取りするようになった。'; }},
+  {t:'笑顔で挨拶するだけにする',go(){ return '家に帰って、パートナーを抱きしめて眠った。'; }},
+ ]:[
+  {t:'食事に誘う',go(){ if(R()<.5){ S.married=1; fx({hap:15}); return '紆余曲折の末、ついに二人は結ばれた。'; } return '相手にはもう家庭があった。友達に戻った。'; }},
+  {t:'それでおしまい',go(){ return ''; }},
+ ]},
+{id:'volunteer',a:[18,85],w:1.5,text:()=>'地域センターがホームレスへの配食を手伝う人を募集している。',
+ choices:[
+  {t:'ボランティアに申し込む',go(){ good(4,'ボランティア'); fx({hap:5}); return 'あるおじいさんは毎回、船乗りだった頃の話をしてくれる。'; }},
+  {t:'時間がない',go(){ return ''; }},
+ ]},
+{id:'organ',a:[18,45],if:()=>S.cls<=1&&C().t<=2,w:2,text:()=>'ブローカーが言う。腎臓を一つ売れば、家族が二年食べていける。',
+ choices:[
+  {t:'売る',go(){ fx({wealth:15,hp:-20}); if(R()<.05){ die('違法な腎臓摘出手術の合併症'); return '手術室はひどく不潔だった。'; } return '背中から腹まで傷跡が走っている。'; }},
+  {t:'売らない',go(){ return ''; }},
+ ]},
+{id:'depress',a:[20,70],if:()=>S.hap<25,w:3,text:()=>'毎朝起き上がれず、何をする気力もわかない。',
+ choices:[
+  {t:'誰かに話し、医者に診てもらう',go(){ fx({hap:15,wealth:-3}); return '医者は言った。「ここに来られただけでも、とても勇気がありますよ。」'; }},
+  {t:'一人で耐える',go(){ fx({hap:-5,hp:-5}); return ''; }},
+ ]},
+{id:'gang_war',a:[16,70],if:()=>S.career&&S.career.path==='gang',w:2,text:()=>'二つの組が縄張りをめぐって抗争を始めた。',
+ choices:[
+  {t:'先頭を切って突っ込む',go(){ bad(5,'集団乱闘'); fx({jiang:10}); if(R()<.08){ die('抗争で殺害'); return ''; } fx({hp:-15}); return '刀傷がいくつか増えた。'; }},
+  {t:'後ろで様子を見る',go(){ fx({jiang:-6}); return '親分はあなたが尻込みしたのに気づいた。'; }},
+ ]},
+{id:'fixing',a:[16,40],if:()=>S.career&&S.career.path==='sport',w:3,text:()=>'賭博組織が八百長を持ちかけてきた。報酬は年収一年分だ。',
+ choices:[
+  {t:'金を受け取る',go(){ bad(8,'八百長'); fx({wealth:15}); if(R()<.25){ S.career=null; S.job='永久追放'; fx({fame:-20}); return '発覚し、永久追放になった。'; } return ''; }},
+  {t:'通報する',go(){ good(6,'公正を守った'); fx({fame:5}); return ''; }},
+ ]},
+{id:'sport_retire',a:[33,40],if:()=>S.career&&S.career.path==='sport',w:8,text:()=>'体がついていかなくなってきた。',
+ choices:[
+  {t:'引退してコーチになる',go(){ S.career=null; S.job='コーチ'; fx({hap:3}); return '子供たちを教え始めた。'; }},
+  {t:'最後の試合まで戦う',go(){ fx({hp:-10,fame:3}); return ''; }},
+ ]},
+
+// ---------- 海外：留學、外勞、永居、入籍、退休、旅行 ----------
+{id:'study_abroad',a:[17,24],if:()=>!S.flags.noExit&&S.int>=55&&isCitizen()&&!S.flags.uni&&!S.career,w:3,text:()=>'成績がいいので、海外の大学に行ってはどうかと勧められた。',
+ choices:()=>{
+   const o = destChoices(STUDY_DEST, 3).map(ci => { const d = COUNTRIES[ci], cost = Math.round(d.g*.6*3);
+     const free = S.int >= 85, canPay = S.money >= cost, canLoan = S.cls >= 2;
+     if(!free && !canPay && !canLoan) return null;
+     return {t:`${d.n}に留学する（3年間の学費：${free?'全額奨学金':fmt$(cost)}${!free&&!canPay?'、学生ローンが必要':''}）`, go(){
+       if(!free) pay(cost);
+       moveTo(ci,'visa','study'); S.flags.uni=1; S.flags.studying=1; S.studyLeft=3; S.job='留学生'; fx({int:10,hap:6});
+       return `スーツケース二つを持って${d.n}へ飛んだ。最初の一週間でカップ麺を七個食べた。`; }}; }).filter(Boolean);
+   o.push({t:'地元に残る',go(){ return ''; }});
+   return o; }},
+{id:'graduate_abroad',a:[18,40],if:()=>S.flags.studying&&S.studyLeft<=0,w:50,text:()=>`${C().n}で卒業した。学生ビザがもうすぐ切れる。`,
+ choices:()=>[
+  {t:'残って仕事を探す',go(){ delete S.flags.studying; const p = .35 + S.int/200 + (S.flags.mem?.05:0);
+    if(R()<p){ S.visa='work'; S.job=null; const j=assignJob(); return `${j}の仕事が見つかり、就労ビザに切り替えた。`; }
+    const home = moveTo(S.home,'citizen'); S.job=null; const j=assignJob(); fx({hap:-6}); return `半年探しても、ビザを出してくれる会社はなかった。${C().n}に帰って${j}として働く。`; }},
+  {t:'帰国して海外帰りになる',go(){ delete S.flags.studying; moveTo(S.home,'citizen'); S.job=null; const j=assignJob(); fx({hap:4,fame:2}); return `${C().n}に戻り、履歴書に海外の学位を載せて${j}になった。親戚は会う人ごとにあなたが留学したと話す。`; }},
+ ]},
+{id:'guest_work',a:[20,45],if:()=>!S.flags.noExit&&isCitizen()&&C().t<=3&&!S.flags.uni&&!S.career&&!S.jail,w:2.5,text:()=>'仲介業者が言う。何年か海外で出稼ぎすれば、給料はこちらの何倍にもなる。',
+ choices:()=>{
+   const fee = Math.round(G()*.6);
+   const o = destChoices(GUEST_DEST, 3).map(ci => { const d = COUNTRIES[ci];
+     const job = (!S.male && ['HKG','SGP','TWN','MYS','SAU','ARE','KWT'].includes(d.iso)) ? '外国人家事労働者' : (['SAU','ARE','QAT','KWT','ISR'].includes(d.iso) ? '外国人建設作業員' : '外国人工場労働者');
+     const pay1 = d.g * JOB_PAY[job];
+     return {t:`${d.n}で${job}として働く（年収約 ${fmt$(pay1)}、仲介手数料 ${fmt$(fee)}）`, go(){
+       pay(fee); moveTo(ci,'visa','work'); S.job = job; if(NO_PR.includes(d.iso)) S.flags.noPR = 1;
+       if(R()<.15){ fx({hap:-15,hp:-5}); bad(0,''); return `${d.n}に着くと、雇い主にパスポートを取り上げられた。最初の一年の給料はすべて仲介手数料の返済に消えた。`; }
+       fx({hap:-4}); return `${d.n}の空港で、冷蔵庫ほど大きなエアコンを初めて見た。毎月家に仕送りしている。`; }}; });
+   o.push({t:'家にいる',go(){ return ''; }});
+   return o; }},
+{id:'skilled_work',a:[23,45],if:()=>!S.flags.noExit&&S.flags.uni&&!S.flags.studying&&!S.career&&!S.jail,w:2,text:()=>'ヘッドハンターから電話。海外の会社があなたを雇いたいそうだ。',
+ choices:()=>{
+   const o = destChoices(SKILLED_DEST, 3).map(ci => { const d = COUNTRIES[ci];
+     return {t:`${d.n}へ行く（現地の1人当たり所得 ${fmt$(d.g)}）`, go(){
+       const p = .4 + S.int/250 - (passportTier()<=2 ? .15 : 0);
+       if(R()>p){ fx({hap:-5}); return `面接は通ったが、ビザの抽選に外れた。`; }
+       moveTo(ci,'visa','work'); S.job=null; const j=assignJob(); fx({hap:5});
+       return `${d.n}に移り住み、${j}として働く。`; }}; });
+   o.push({t:'行かない',go(){ return ''; }});
+   return o; }},
+{id:'migrate',a:[18,40],if:()=>!S.flags.noExit&&isCitizen()&&C().t<=3&&!S.flags.migrated&&!S.jail,w:2,text:()=>'海外に行けば道が開けると人は言う。',
+ choices:()=>{
+   const o=[];
+   const dests = COUNTRIES.map((c,i)=>[c,i]).filter(([c,i]) => c.t>=4 && c.reg!==C().reg);
+   const [d, di] = wpick(dests, ([c]) => c.w);
+   const cost = Math.round(d.g*.3);
+   if(S.money >= cost) o.push({t:`家財をすべて売り、${d.n}の就労ビザを申請する（${fmt$(cost)}）`,go(){ pay(cost); return doMigrate(di, false); }});
+   o.push({t:`密航業者に金を払って${d.n}へ密入国する（${fmt$(Math.round(G()*1.5))}、借金も可）`,go(){ pay(Math.round(G()*1.5)); if(R()<.08){ die('密航中の遭難'); return '真夜中に船が転覆した。'; } return doMigrate(di, true); }});
+   o.push({t:'故郷に残る',go(){ return 'あなたは残った。ここが結局は家なのだ。'; }});
+   return o; }},
+{id:'ilr',a:[18,90],once:false,if:()=>S.status==='visa'&&S.visa==='work'&&!isCitizen()&&S.yearsHere>=5&&!S.flags.noPR,w:8,text:()=>`${C().n}に住んで五年。永住権（ILR／PR）を申請できる。`,
+ choices:()=>[
+  {t:`申請する（${fmt$(Math.round(G()*.08))}）`,go(){ pay(Math.round(G()*.08));
+    const p = .8 - (S.flags.crime?.45:0) - S.sin/250 - (S.jail?1:0);
+    if(R()<p){ S.status='pr'; S.visa=null; S.yearsHere=0; fx({hap:10}); return '許可された！もうビザの期限におびえなくていい。'; }
+    fx({hap:-8}); return '不許可。通知には「申請者は善良な素行を証明できなかった」とある。'; }},
+  {t:'また今度',go(){ return ''; }},
+ ]},
+{id:'nopr',a:[18,70],if:()=>S.flags.noPR&&!isCitizen()&&S.yearsHere>=5,w:6,text:()=>`${C().n}で五年働いた。永住権の申請方法を尋ねると、「あなたのビザでは何年働いても対象外です」と言われた。`,
+ choices:()=>[
+  {t:'契約を更新して働き続ける',go(){ S.yearsHere=1; fx({hap:-4}); return 'さらに二年契約した。'; }},
+  {t:'貯金を持って帰国する',go(){ moveTo(S.home,'citizen'); S.job=null; delete S.flags.noPR; const j=assignJob(); fx({hap:6}); return `${C().n}に戻り、貯金で家を建て、それから${j}として働いた。`; }},
+ ]},
+{id:'naturalise',a:[18,95],once:false,if:()=>S.status==='pr'&&!isCitizen()&&S.yearsHere>=2,w:6,text:()=>`${C().n}の市民権を申請できる。`,
+ choices:()=>[
+  {t:`帰化する（${fmt$(Math.round(G()*.03))}）`,go(){ pay(Math.round(G()*.03)); S.cit.push(S.ci); S.status='citizen'; ach('citizen'); fx({hap:6});
+    return `市民権授与式で宣誓を復唱した。これでパスポートは ${S.cit.length} 冊：${S.cit.map(i=>COUNTRIES[i].n).join('、')}。`; }},
+  {t:'永住権で十分だ',go(){ S.yearsHere=-20; return ''; }},
+ ]},
+{id:'raid',a:[16,80],once:false,if:()=>S.status==='illegal'&&!isCitizen(),w:4,text:()=>'入管が職場に抜き打ち捜査に来た。',
+ choices:()=>[
+  {t:'裏口から逃げる',go(){ if(R()<.6){ fx({hap:-5}); return '逃げおおせて、公園で一晩過ごした。'; } moveTo(S.home,'citizen'); S.job=null; fx({hap:-15}); return `逮捕され、${C().n}へ強制送還された。貯金の半分は没収された。`; }},
+  {t:'自首して庇護を申請する',go(){ if(R()<.3){ S.status='visa'; S.visa='work'; S.yearsHere=0; good(1,'正直に名乗り出た'); return '申請が認められ、合法的な在留資格を得た。'; } moveTo(S.home,'citizen'); S.job=null; return `${C().n}へ強制送還された。`; }},
+ ]},
+{id:'retire_home',a:[58,80],if:()=>S.ci!==S.home&&S.status!=='illegal'&&!(S.flags.exiled&&harsh(COUNTRIES[S.home])>0),w:5,text:()=>`${C().n}に住んで長い年月がたった。夜になると${COUNTRIES[S.home].n}の家をよく思い出す。`,
+ choices:()=>[
+  {t:'故郷に帰って引退する',go(){ const ratio = COUNTRIES[S.ci].g / COUNTRIES[S.home].g; moveTo(S.home,'citizen'); S.job='退職者'; S.career=null; ach('retirehome'); fx({hap:12});
+    return ratio>3 ? `${fmt$(S.money)}を持って帰郷した。${C().n}ではその額で通り一番の金持ちになり、親戚が急に増えた。` : `${C().n}に戻った。角の商店はまだあった。`; }},
+  {t:'残る。ここがもう家だ',go(){ fx({hap:3}); return ''; }},
+ ]},
+{id:'retire_cheap',a:[58,80],if:()=>C().t>=4&&S.money>=150000&&!S.flags.retiredAbroad,w:2,text:()=>'東南アジアで老後を過ごせば同じお金でずっと豊かに暮らせると友達は言う。',
+ choices:()=>{
+   const o = destChoices(RETIRE_DEST, 2).map(ci => { const d = COUNTRIES[ci];
+     return {t:`${d.n}に移住して引退する`, go(){ moveTo(ci,'visa','retire'); S.flags.retiredAbroad=1; S.job='退職者'; S.career=null; fx({hap:10});
+       return `${d.n}でオーシャンビューの家を借りた。家賃は以前の五分の一だ。`; }}; });
+   o.push({t:'このまま残る',go(){ return ''; }});
+   return o; }},
+{id:'travel',a:[18,85],once:false,if:()=>!S.flags.noExit&&!S.jail&&!S.flags.studying,w:1.5,text:()=>'旅行雑誌を眺めながら、世界を見に行きたくなった。',
+ choices:()=>{
+   const trips = [
+     {t:'近隣国をバックパック旅行する',cost:2500,n:[3,5],hap:8},
+     {t:'一年かけて世界一周する',cost:30000,n:[15,25],hap:18,world:1},
+     {t:'豪華客船で旅する',cost:80000,n:[8,12],hap:12,lux:1},
+   ];
+   const o = trips.filter(tr => S.money >= tr.cost).map(tr => ({t:`${tr.t}（${fmt$(tr.cost)}）`, go(){
+     if(tr.world && passportTier()<=2 && R()<.4){ pay(300); fx({hap:-6}); return `${COUNTRIES[S.cit[0]].n}のパスポートでは、ビザを四回も拒否された。申請料は戻らない。`; }
+     pay(tr.cost);
+     const n = ri(tr.n[0], tr.n[1]); const pool = shuffle(COUNTRIES.filter(c=>!c.war).map(c=>c.iso)).slice(0, n);
+     pool.forEach(k => S.visited[k] = 1);
+     const cnt = Object.keys(S.visited).length; if(cnt >= 30) ach('globetrotter');
+     fx({hap:tr.hap,int:4});
+     const twist = pick([
+       ()=>{ fx({hap:-4}); return '乗り継ぎで荷物をなくし、届いたのは最終日だった。'; },
+       ()=>{ pay(300); return '観光地で「手作り」のスカーフを買わされた。裏には Made in China と書いてある。'; },
+       ()=>{ fx({hp:-6}); return '屋台で食べて、三日間お腹を壊した。'; },
+       ()=>{ if(!S.married){ S.married=1; fx({hap:10}); return 'ユースホステルで出会った人と、一年後に結婚した。'; } return '海辺で夕日を眺め、生きていてよかったと思った。'; },
+       ()=>{ return '三千枚も写真を撮ったが、その後一枚も見返していない。'; },
+     ])();
+     return `${n}か国を訪れた（この人生で累計${cnt}か国）。${twist}`; }}));
+   o.push({t:S.money>=2500?'お金を節約する':'お金がないので家で旅番組を見る',go(){ return ''; }});
+   return o; }},
+
+// ---------- 共濟會 ----------
+{id:'mason_invite',a:[21,60],if:()=>!S.mason&&!S.flags.masonBan&&!S.flags.crime&&!S.jail&&S.merit>=S.sin,w:()=>(masonOK()?1:.3)+S.fame/50,
+ text:()=>masonOK() ? '深く尊敬する年長者が尋ねる。「フリーメイソンに入る気はないか？私が推薦人になろう。」'
+   : `深く尊敬する年長者が声をひそめて尋ねる。「フリーメイソンに入る気はないか？」${C().n}では、フリーメイソンは非合法組織だ。`,
+ choices:[
+  {t:'入会を申し込む',go(){
+    if(S.faith==='none' && !['FRA','BEL'].includes(C().iso)){ S.flags.masonBan=1; return '面接で至高の存在を信じるかと聞かれ、正直に信じないと答えた。主流のロッジは会員に信仰を求めるため、丁重に断られた。'; }
+    const fee = Math.round(G()*.05); pay(fee); S.mason = {r:0, since:S.age}; fx({hap:5});
+    if(!masonOK()) return `カーテンを閉め切った住宅の一室で集まる。入会金は ${fmt$(fee)}。エプロンもロッジもなく、互いに信頼する数人がいるだけ。彼らはあなたを兄弟と呼んだ。`;
+    return `目隠しをされてロッジに導かれた。入会金は ${fmt$(fee)}。${S.male?'':'あなたが入ったのは女性ロッジだ。'}目隠しを外すと、街ですれ違っても気に留めないような人々がいた。医者、バスの運転手、食堂の店主。彼らはあなたを兄弟と呼んだ${S.male?'':'（女性ロッジでは姉妹）'}。`+
+      (S.faith==='chr' && R()<.4 ? 'それを知った神父はあまりいい顔をしなかった。' : ''); }},
+  {t:'フリーメイソン？イルミナティのこと？',go(){ fx({hap:1}); return '年長者はため息をついた。「その質問は四十年聞いてきたよ。」'; }},
+ ]},
+{id:'mason_degree',a:[21,95],once:false,if:()=>S.mason&&S.mason.r<2&&S.age-S.mason.since>=2&&!S.jail,w:4,
+ text:()=>S.mason.r===0?'徒弟の問答を暗記し、職人へ昇進できる。':'第三位階マスター・メイソンに昇進できる。',
+ go(){ masonBump(); fx({int:3,hap:4}); return S.mason.r===1 ? '儀式の後、兄弟が直角定規とコンパスを生き方にたとえて教えてくれた。行いは正しく、欲望には限度を。' : '第三位階の儀式を終え、マスター・メイソンになった。儀式が語るのは死と誠実さであって、世界支配ではないと理解した。'; }},
+{id:'mason_master',a:[30,95],if:()=>S.mason&&S.mason.r===2&&S.age-S.mason.since>=5&&S.merit-S.sin>=10&&!S.jail,w:3,text:()=>'ロッジの兄弟たちが、今期のマスターとして一年間ロッジを率いるよう推薦した。',
+ choices:[
+  {t:'引き受ける',go(){ masonBump(); fx({fame:5,hap:6}); if(masonWatched()){ S.mason.vig=1; return '兄弟たちはあなたを選んだ。だがここでは、司法省が承認するまで効力がない。'; } return '東の座に就き、会合と儀式を取り仕切る。一番難しいのは皆を時間通りに集めることだ。'; }},
+  {t:'まだその器ではない',go(){ return '兄弟は言った。「そう言える人は、たいてい器があるものだよ。」'; }},
+ ]},
+{id:'mason_grand',a:[50,95],if:()=>S.mason&&S.mason.r===3&&S.merit-S.sin>=40&&S.fame>=25&&!S.jail,w:3,text:()=>'グランドロッジがあなたをグランド・マスターに推薦したいと言っている。',
+ choices:[
+  {t:'引き受ける',go(){ masonBump(); fx({fame:10,hap:8}); if(masonWatched()){ S.mason.vig=1; return '総会はあなたをグランド・マスターに選んだ。だがここでは、司法省が承認するまで効力がない。'; } return 'あなたはグランド・マスターになった。最初の決定は、今年の募金をすべて小児病院に回すことだった。'; }},
+  {t:'若い人に譲る',go(){ good(2,'賢者に譲った'); return '後輩を推薦した。'; }},
+ ]},
+{id:'mason_vigencia',a:[21,99],if:()=>S.mason&&S.mason.vig&&!S.jail,w:20,text:()=>'司法省はあなたの選出をなかなか承認しない。承認がなければ、ロッジは銀行口座すら使えない。',
+ choices:[
+  {t:'嘆願書を書いて待つ',go(){ delete S.mason.vig; if(R()<.5){ fx({hap:4}); return `半年待って、司法省はようやくあなたを${masonRank()}と認めた。`; }
+    S.mason.r--; fx({hap:-8}); return '司法省は選挙が「不適正」だったとして、別の人物を承認した。'; }},
+  {t:'会員を率いて本部前で集会を開く',go(){ delete S.mason.vig; good(3,'ロッジの自治を守った'); fx({fame:5});
+    if(R()<.4){ S.flags.noExit=1; fx({hap:-8}); return '国家保安局に数時間拘束された。釈放の際に言われた。出国禁止、毎週出頭せよ。司法省はその後もあなたを承認しなかった。'; }
+    return `何百人もの兄弟が門前に立った。司法省は折れて、あなたを${masonRank()}と認めた。`; }},
+  {t:'役人と取引し、ロッジが「協力する」と約束する',go(){ delete S.mason.vig; bad(4,'ロッジの自治を売り渡した'); return 'すぐに承認された。それ以来、口をきいてくれない兄弟もいる。'; }},
+ ]},
+{id:'mason_coffee',a:[21,95],once:false,if:()=>S.mason&&S.mason.r>=1&&masonWatched()&&!S.jail,w:1.5,text:()=>'国家保安局に「コーヒー」に誘われ、ロッジの誰が政府の悪口を言ったか聞かれた。',
+ choices:[
+  {t:'何人か名前を挙げる',go(){ bad(8,'兄弟を売った'); ach('informer'); return '彼らは礼を言い、勘定まで払ってくれた。'; }},
+  {t:'はぐらかして天気の話をする',go(){ fx({hap:-3}); return '彼らは笑いながら、手帳に何か書き込んだ。'; }},
+  {t:'答えを拒む',go(){ good(3,'兄弟を守った'); if(R()<.3){ S.flags.noExit=1; fx({hap:-6}); return '一週間後、空港で止められた。出国禁止になっていた。'; } return 'その後は接触してこない。今のところは。'; }},
+ ]},
+{id:'mason_charity',a:[21,95],once:false,if:()=>S.mason&&!S.jail,w:2,text:()=>pick(['ロッジが病院の透析装置購入のために募金をしている。','ロッジが被災地の学校再建のために募金をしている。','ロッジが労働者家庭の学生のための大学奨学金を設けた。','ロッジが老人ホームを慰問するので、手伝いが必要だ。']),
+ choices:()=>{ const amt = Math.round(G()*.08); return [
+  ...(S.money>=amt ? [{t:`${fmt$(amt)}寄付する`,go(){ pay(amt); good(5,'慈善寄付'); fx({hap:4}); return '領収書にあなたの名前はない。それでいいと思った。'; }}] : []),
+  {t:'ボランティアに行く',go(){ good(3,'奉仕活動'); fx({hap:5,hp:-2}); return '一日中荷物を運んだ。腰は痛いが、心は晴れやかだ。'; }},
+  {t:'今回は参加しない',go(){ return ''; }}]; }},
+{id:'mason_self',a:[21,95],once:false,if:()=>S.mason&&!S.jail,w:1.2,text:()=>'ロッジの指導役が言う。毎晩振り返りなさい。今日は過ちを犯さなかったか？誰かに優しくできたか？',
+ choices:[
+  {t:'真剣に取り組む',go(){ good(1,'内省と修養'); fx({int:2,hap:3}); if(S.sin>S.merit && R()<.4){ good(4,'償い'); return 'かつて傷つけた人を思い出し、会いに行って謝った。'; } return '気が短くなくなったことに気づいた。'; }},
+  {t:'二晩でやめる',go(){ return ''; }},
+ ]},
+{id:'mason_rumor',a:[21,95],once:false,if:()=>S.mason&&!S.jail,w:1.5,text:()=>pick([
+   '親戚の食事会で聞かれた。「で、あんたたちが世界を支配してるの？」',
+   'ネットで誰かがロッジの集合写真のあなたに丸をつけ、「イルミナティのメンバー判明」という見出しを付けた。',
+   '面接でうっかり口を滑らせたら、面接官にすぐロスチャイルド家と知り合いかと聞かれた。',
+   'パートナーが箪笥でエプロンと白い手袋を見つけ、浮気を疑った。',
+   'ある政治家が、ある疑惑の「背後にフリーメイソンがいる」と言い、一週間ずっと友達に質問攻めにされた。']),
+ choices:[
+  {t:'丁寧に説明する：慈善と修養の団体です',go(){ fx({hap:-2,fame:1}); return '相手は半信半疑だ。「そう言うしかないよね。」'; }},
+  {t:'「そうそう、トカゲ人間も飼ってるよ。」',go(){ fx({hap:3,fame:-1}); return '相手は笑った。あとで、本人が認めたと言いふらしていた。'; }},
+  {t:'会員であることを誇りに、指輪を堂々と着ける',go(){ fx({hap:4,fame:3}); return '直角定規とコンパスの指輪を着けて出勤した。それに気づいた客が、特別な握り方で握手してきた。'; }},
+ ]},
+{id:'mason_favor',a:[25,85],if:()=>S.mason&&S.mason.r>=1&&!S.jail,w:1.2,text:()=>pick([
+   '政府調達を担当する兄弟が、あなたの会社に契約を回せるとほのめかした。',
+   '訴えられたあなたに、裁判官も兄弟だから法廷で合図を送れと言う人がいる。',
+   '大企業の人事にいる兄弟が、あなたの子供を裏口入社させられると言う。']),
+ choices:[
+  {t:'コネを使う',go(){ bad(8,'兄弟の絆の悪用'); fx({wealth:10});
+    if(R()<.3){ S.mason=null; S.flags.masonBan=1; S.flags.masonExpelled=1; fx({hap:-10,fame:-5}); return 'ロッジに知られた。誓いを破ったため除名され、二度と入会できない。'; }
+    return '事は運んだ。ロッジでその兄弟に会っても、彼はあなたを見ようとしない。'; }},
+  {t:'断る：誓いに反する',go(){ good(3,'正しさを貫いた'); return 'あなたは言った。「入会したのは良い人間になるためで、近道をするためじゃない。」'; }},
+ ]},
+{id:'mason_raid',a:[21,95],once:false,if:()=>S.mason&&!masonOK()&&!S.jail,w:2.5,text:()=>pick([
+   '国家安全当局が家に来て、「外国の秘密組織」との関係を問いただした。',
+   '官製新聞がフリーメイソンを「国家転覆を図る外国勢力」と書き、何人かの名前を載せた。',
+   '集会場所の部屋の下に、ナンバープレートのない車が停まっている。']),
+ choices:()=>{ const sev = Math.max(.4, harsh()); return [
+  {t:'退会し、フリーメイソンと絶縁する声明に署名する',go(){ S.mason=null; fx({hap:-8}); return '署名した。その後、街でかつての兄弟とすれ違っても、互いに知らないふりをする。'; }},
+  {t:'否定して、秘密の集会を続ける',go(){ if(R()<.35*sev){ S.flags.masonPol=1; jail(ri(2,8), 1); return '集会中に一網打尽にされた。罪状は「非合法組織への参加」。'; } fx({hap:-3}); return '毎回違う場所で集まるようにした。'; }},
+  {t:'公に名乗る：私たちは慈善団体だ',go(){ good(3,'良心を貫いた'); fx({fame:6}); if(R()<.6*sev){ S.flags.masonPol=1; jail(ri(3,10), 1); return 'インタビューが掲載された一週間後、逮捕された。'; } return '海外メディアが報じた。当局は今のところ手を出してこない。'; }}]; }},
+{id:'mason_interrogate',a:[0,130],jail:1,if:()=>S.mason&&S.flags.masonPol,w:8,text:()=>'取調官が白紙を差し出した。「会員全員の名前を書けば減刑してやる。」',
+ choices:[
+  {t:'書く',go(){ bad(10,'兄弟を売った'); S.jail=Math.max(1,S.jail-3); S.mason=null; delete S.flags.masonPol; fx({hap:-10}); return '数日後、刑務所の廊下で兄弟の一人が連行されてくるのを見た。'; }},
+  {t:'白紙のまま返す',go(){ good(5,'兄弟を守った'); S.jail+=2; delete S.flags.masonPol; fx({hp:-5}); return '刑期が延びた。あなたは爪で壁に直角定規とコンパスを刻んだ。'; }},
+ ]},
+{id:'mason_expelled',a:[0,130],jail:1,if:()=>S.flags.masonExpelled&&!S.flags.masonExpelNote,w:20,text:()=>'ロッジから刑務所に手紙が届いた。',
+ go(){ S.flags.masonExpelNote=1; fx({hap:-6}); return '法を犯し、入会時の誓いを破ったため、永久除名となった。手紙の最後にはこうあった。「それでも、より良い人間であろうと努めてほしい。」'; }},
+
+// ---------- 信仰 ----------
+{id:'mem_reveal',a:[3,8],if:()=>S.flags.mem,w:8,text:()=>`大人たちに前世の話をし始めた。昔は${SOUL.mem.name}という名前で、${SOUL.mem.country}に住んでいたと。`,
+ choices:[
+  {t:'信じてもらえるまで話す',go:()=>memReaction()},
+  {t:'大人の顔色を見て口をつぐむ',go(){ fx({int:2}); return '言わない方がいいこともあると学んだ。'; }},
+ ]},
+{id:'convert',a:[16,75],if:()=>!(S.career&&S.career.path==='monk'&&S.career.rank>=2),w:.7,text:()=>{
+   const m = mainFaith(C());
+   const k = m!==S.faith && relOf(C(),m) >= 30 ? m : pick(['chr','mus','bud','hin','oth'].filter(x => x!==S.faith));
+   S.flags.ct = k;
+   if(k===m && S.ci!==S.home) return `${C().n}に住んでしばらくたつ。友達の多くは${F(k).n}を信じていて、一緒に${F(k).place}へ行こうと誘ってくれる。`;
+   if(k==='chr' && R()<.5) return '白いシャツにネクタイの若者が二人、ドアをノックした。「イエス様に興味はありませんか？」';
+   return `ある友達は${F(k).n}がいかに人生を変えたかをいつも話し、一緒に${F(k).place}へ行こうと誘う。`; },
+ choices:()=>[
+  {t:`${F(S.flags.ct).n}に改宗する`,go(){ fx({hap:4}); return convertTo(S.flags.ct); }},
+  {t:'ありがとう、でも結構です',go(){ return S.faith==='none' ? 'これからも何も信じない。' : `これからも${F().n}を信じる。`; }}]},
+{id:'interfaith',a:[21,50],if:()=>S.married&&!S.flags.ifm&&!(S.career&&S.career.path==='monk'),w:1.2,text:()=>{
+   const k = wpick(REL_KEYS.filter(x => x!=='none' && x!==S.faith), x => relOf(C(),x) + 3);
+   S.flags.ifm = k; return `パートナーの家族は${F(k).n}を信じている。改宗しなければ家族とは認めないと言う。`; },
+ choices:()=>[
+  {t:`${F(S.flags.ifm).n}に改宗する`,go(){ fx({hap:5}); return convertTo(S.flags.ifm) + '祝日にもう隅っこに座らなくてよくなった。'; }},
+  {t:'改宗しない',go(){ fx({hap:-6}); return '祝日には、相変わらず隅っこに座っている。'; }}]},
+{id:'doubt',a:[18,80],if:()=>S.faith!=='none'&&!(S.career&&S.career.path==='monk'&&S.career.rank>=3),w:.4,
+ text:()=>pick(['親友が病死した。葬儀であなたは問う。「本当に神がいるなら、なぜこんなことが？」','宇宙の起源についての本を読み、眠れなくなった。']),
+ choices:[
+  {t:'信仰を手放す',go(){ return convertTo('none'); }},
+  {t:'信じ続ける',go(){ fx({hap:3}); return '信じ続けることにした。信じても信じなくても、日々は続く。'; }},
+ ]},
+{id:'persecute',a:[16,80],if:()=>S.faith!=='none'&&harsh()>=.5&&relOf(C(),S.faith)<10,w:2,text:()=>`当局はあなたたち${F().n}の集会を「違法」と宣言し、逮捕を始めた。`,
+ choices:[
+  {t:'地下に潜って秘密の集会を続ける',go(){ if(R()<.3){ jail(ri(2,8), 1); return '一網打尽にされた。'; } fx({hap:-3}); return '毎回場所を変え、暗号で時間を決める。'; }},
+  {t:'転向書に署名し、表向きは棄教する',go(){ fx({hap:-8}); return '署名した。夜になると、今もこっそり祈っている。'; }},
+  {t:'公然と信仰を守り、海外記者の取材を受ける',go(){ good(3,'良心を貫いた'); fx({fame:8}); if(R()<.5){ jail(ri(3,10), 1); return 'インタビューが放送された三日後、連行された。'; } return 'インタビューは世界中に広まった。当局は今のところ手を出せない。'; }},
+ ]},
+{id:'pilgrim',a:[25,80],if:()=>S.faith!=='none'&&!S.jail&&S.money>=pilgrimCost(),w:1.2,text:()=>`お金が貯まったので、${PILGRIM[S.faith][1]}ことができる。`,
+ choices:()=>[
+  {t:`行く（${fmt$(pilgrimCost())}）`,go(){ const P = PILGRIM[S.faith]; pay(pilgrimCost()); S.visited[P[0]] = 1; ach('pilgrim'); fx({hap:10});
+    return {mus:'二百万人以上が一緒に歩き、石投げの儀式で押し潰されそうになった。帰国すると、皆があなたを「ハッジ」と呼ぶ。',
+      hin:R()<.4?'川の水をひと口飲んでしまった。それから三日間、トイレで修行することになった。':'川辺で火葬の煙が立ちのぼるのを眺め、生も死もそれほど大ごとではないと急に思えた。',
+      chr:'聖墳墓教会で、一本のはしごをめぐって二百年以上争っている教派をいくつも見た。',
+      jew:'一番の願いを書いた紙片を、壁の割れ目に差し込んだ。',
+      bud:'一日中座っていたら、菩提樹の葉が頭に落ちてきた。悟りは開けなかったが、首がひどく凝った。',
+      oth:'足にまめができるまで歩き、沿道の人たちからタピオカミルクティーを四十杯もらった。'}[S.faith]; }},
+  {t:'お金は家族に残す',go(){ return '神様ならわかってくれるだろうと思った。'; }}]},
+{id:'pascal',a:[25,80],if:()=>S.faith==='none',w:.8,text:()=>'ある人がパスカルの賭けを説く。「神を信じなさい。いなければ損はないし、いれば大儲けだ。」',
+ choices:[
+  {t:'計算上は正しい。とりあえず信じる',go(){ const k = mainFaith(C()); return convertTo(k) + '「で、どの神を信じればいいの？」と聞くと、彼は答えられなかった。'; }},
+  {t:'じゃあ神がたくさんいて、間違った神を信じたら？',go(){ fx({int:3}); return '彼は長いこと考え込んで、去っていった。'; }},
+ ]},
+{id:'doomsday',a:[20,70],w:.25,text:()=>'新興宗教「宇宙光明大愛教」が勧誘してきた。教祖いわく世界の終わりは近く、全財産を寄付すればUFOに乗れるという。',
+ choices:[
+  {t:'全財産を寄付する',go(){ pay(Math.max(0, S.money)); fx({hap:-10}); return '終末の夜、皆で山頂で一晩中待った。UFOは来なかった。教祖も来なかった。'; }},
+  {t:'入信して手口を盗む',if:()=>!S.career&&S.age>=25,go(){ bad(3,'カルトの手口を盗んだ'); return startCareer('fortune','教祖のやり口を覚え、自分で祭壇を開いた。'); }},
+  {t:'警察に通報する',go(){ good(3,'カルトを告発した'); return '教祖は逮捕された。パトカーの中からあなたを「悪魔」と呼んでいた。'; }},
+ ]},
+{id:'c_coverup',a:[25,80],if:()=>S.career&&S.career.path==='monk'&&S.career.rank>=1,w:1.2,text:()=>`${F(S.career.faith).place}の同僚が子供に性的虐待をしていたことを知った。上の者は「評判を守るため」黙っていろと言う。`,
+ choices:[
+  {t:'公に告発する',go(){ good(15,'性的虐待を告発した'); fx({fame:6,hap:-6}); if(R()<.5){ S.career.rank = Math.max(0, S.career.rank-1); S.job = CAREERS.monk.ranks[S.career.rank]; return '被害者は正義を得た。あなたは最も辺鄙な場所へ飛ばされた。'; } return '被害者は正義を得た。'; }},
+  {t:'黙っている',go(){ bad(15,'性的虐待の隠蔽'); return '事件はもみ消された。彼はその後も何度も繰り返した。'; }},
+ ]},
+
+// ---------- 搞笑事件 ----------
+{id:'ttt',a:[18,65],w:.6,text:()=>'道を渡っていると、トラックが突っ込んできた。',
+ choices:()=>{ const doom = ri(0,2); return ['左に跳ぶ','右に跳ぶ','じっと立つ'].map((t,i)=>({t,go(){
+   if(i===doom && R()<.5){ die('トラックにはねられた'); return '目の前が真っ暗になった。かすかに声が聞こえる。「おめでとうございます。転生の資格を獲得しました。」'; }
+   fx({hap:-3}); return 'トラックはかすめて通り過ぎた。運転手が降りてきてあなたを見つめる。「兄ちゃん、本当なら転生するはずだったんだぞ。」'; }})); }},
+{id:'pineapple',a:[10,80],w:1.2,text:()=>'友達がパイナップル入りのハワイアンピザを頼んだ。',
+ choices:[
+  {t:'食べる。おいしい',go(){ fx({hap:4}); return '遠くでイタリア人がため息をついた。'; }},
+  {t:'パイナップルを窓から投げ捨てる',go(){ bad(1,'食べ物を粗末にした'); return '下から悲鳴が聞こえた。'; }},
+ ]},
+{id:'quiz',a:[20,70],w:1,text:()=>'テレビのクイズ番組で最終問題まで来た。「鳳梨と菠蘿は同じものか？」',
+ choices:[
+  {t:'同じ',go(){ fx({wealth:10,fame:4,hap:6}); return '正解！台湾と香港の視聴者がネットで三日間言い争った。'; }},
+  {t:'違う',go(){ fx({fame:6}); return '不正解。あなたの表情はミームになり、二十年出回った。'; }},
+ ]},
+{id:'ymca',a:[16,70],w:1,text:()=>'友人の結婚披露宴で、DJが「YMCA」をかけた。',
+ choices:[
+  {t:'飛び出して全力で踊る',go(){ fx({hap:8,fame:2}); return '新婦のインスタのストーリーの主役はあなただった。'; }},
+  {t:'座ったまま子豚の丸焼きを食べる',go(){ fx({hap:2}); return '皮がとてもパリパリだ。'; }},
+ ]},
+{id:'cat_boss',a:[18,80],w:1,text:()=>'野良猫が毎晩ご飯を食べに来て、食べ終わるとあなたのベッドで寝る。',
+ choices:[
+  {t:'観念して猫の下僕になる',go(){ fx({hap:8,wealth:-3}); S.flags.catslave=1; return '今では毎月の猫のエサ代が自分の食費より多い。'; }},
+  {t:'追い払う',go(){ fx({hap:-2}); return '次の夜、友達を三匹連れて戻ってきた。'; }},
+ ]},
+{id:'ufo',a:[16,90],w:.4,text:()=>'真夜中、白い光に吸い上げられた。',
+ choices:[
+  {t:'宇宙人の研究に協力する',go(){ fx({int:8}); ach('ufo'); return '彼らが一番知りたかったのは、なぜ地球人はパン一つのために三時間も並ぶのかということだった。'; }},
+  {t:'「責任者を出せ！」と叫ぶ',go(){ fx({fame:3}); ach('ufo'); return 'うるさいと思われて、十分で送り返された。'; }},
+ ]},
+{id:'capsule',a:[30,50],w:1.2,text:()=>'小学校で埋めたタイムカプセルを開けた。中には「大きくなったら宇宙飛行士になる！」と書いてあった。',
+ go(){ const now = S.career ? CAREERS[S.career.path].ranks[S.career.rank] : (S.job || '無職'); fx({hap:now==='宇宙飛行士'?20:-2}); return `今のあなたは${now}。`; }},
+{id:'karaoke',a:[16,75],once:false,w:.8,text:()=>'同僚たちとカラオケに行く。',
+ choices:[
+  {t:'二時間マイクを独占する',go(){ bad(1,'マイク独占'); fx({hap:6}); return 'イーソン・チャンの七曲目に入ったころ、同僚はスマホをいじり始めた。'; }},
+  {t:'マイクを譲って手拍子係に回る',go(){ good(1,'マイクを譲った'); return ''; }},
+ ]},
+{id:'mahjong',a:[25,95],once:false,w:.9,text:()=>'麻雀で国士無双をテンパイした。',
+ choices:[
+  {t:'ツモ！',go(){ if(R()<.3){ fx({wealth:8,hap:12}); return '国士無双ツモ！卓の全員があなたを見つめる。'; } fx({wealth:-3}); return '下家が先に和了った。最安の手で。'; }},
+  {t:'緊張で手が震え、牌を打ち間違える',go(){ fx({wealth:-4,hap:-3}); return '雀荘中の笑いものになった。'; }},
+ ]},
+{id:'blind_date',a:[25,40],if:()=>!S.married,w:1.5,text:()=>'正月に、叔母がお見合いをセッティングした。',
+ choices:[
+  {t:'行く',go(){ if(R()<.3){ S.married=1; fx({hap:10}); return '相手も無理やり来させられていた。二人で一晩中叔母の悪口を言い合い、のちに結婚した。'; } return '相手はずっとスマホを見ていた。'; }},
+  {t:'偽の恋人をレンタルして連れて帰る',go(){ fx({wealth:-3,hap:3}); return '叔母は大喜びで、式はいつかと聞いてきた。'; }},
+ ]},
+{id:'reply_all',a:[22,60],if:()=>S.job&&!S.career,w:1.2,text:()=>'上司の悪口メールを親友だけに送るつもりが、「全員に返信」を押してしまった。',
+ choices:[
+  {t:'認める',go(){ if(R()<.5){ fx({hap:-8,wealth:-6}); return 'クビになった。だが社員全員がこっそり一か月ランチをおごってくれた。'; } fx({fame:5}); return '上司は言った。「ご意見ありがとう。」その後二度と絡んでこなかった。'; }},
+  {t:'メールが乗っ取られたと言う',go(){ bad(1,'嘘'); return 'IT部門は調査すると言った。彼らは知っている。あなたも彼らが知っていると知っている。'; }},
+ ]},
+{id:'gym',a:[25,65],w:1,text:()=>'新年の目標：今年こそ筋トレする！',
+ choices:[
+  {t:'ジムの二年会員になる',go(){ fx({wealth:-5,hp:1}); return '行ったのは全部で二回。うち一回は退会手続きだった。'; }},
+  {t:'家で動画を見ながらやる',go(){ fx({hp:4}); return '三日目には、動画が勝手に広告を流し始めた。'; }},
+ ]},
+{id:'queue',a:[15,80],if:()=>C().t>=3,w:1,text:()=>'話題のスイーツ店がオープンし、行列が通りの角まで伸びている。',
+ choices:[
+  {t:'並ぶ！',go(){ fx({hap:2}); return '三時間並んだ。ごく普通の味だった。写真を十枚撮った。'; }},
+  {t:'並ばない',go(){ return '三か月後、その店は閉店した。'; }},
+ ]},
+{id:'ghost',a:[8,90],w:1,text:()=>'夜中、トイレから物音がする。',
+ choices:[
+  {t:'見に行く',go(){ if(R()<.5) return '隣の家の猫だった。どうやって入ったのかは謎だ。'; fx({int:3}); return `便器に幽霊が座っていた。奈何橋で列に割り込んで追い返されたそうで、ついでに忠告された。「閻魔様の帳簿は厳しいぞ。今のお前は徳 ${S.merit}、業 ${S.sin}。よく考えな。」`; }},
+  {t:'布団をかぶって寝る',go(){ return '翌朝、トイレットペーパーが半巻き減っていた。'; }},
+ ]},
+{id:'regress',a:[25,70],w:1.2,text:()=>'催眠術師が前世退行をしてあげると言う。料金は五百。',
+ choices:[
+  {t:'試してみる',go(){ fx({wealth:-1}); const h = SOUL.hist[SOUL.hist.length-1];
+    if(!h) return '催眠術師は「あなたは人間として初めての人生です」と言い、五百取っていった。';
+    return `催眠の中で見えた。前世のあなたは${h.country}の${h.name}で、${h.title&&h.title!=='—'?h.title+'にまでなり、':''}${h.cause}で亡くなった。催眠術師まで驚いている。「これは当たってる！」`; }},
+  {t:'詐欺だ',go(){ return ''; }},
+ ]},
+{id:'deja_vu',a:[5,80],if:()=>SOUL.hist.some(h=>h.country==='畜生道'),w:2,text:()=>{ const h=[...SOUL.hist].reverse().find(h=>h.country==='畜生道'); return `道で${h.name}を見かけた。その目つきに、妙に見覚えがある。`; },
+ choices:[
+  {t:'しゃがんで話しかける',go(){ good(2,'生き物に優しくした'); fx({hap:5}); return 'ぺろりとなめられた。急に泣きたくなった。'; }},
+  {t:'立ち去る',go(){ return '自分はどうかしていると思った。'; }},
+ ]},
+{id:'pigeon',a:[5,90],w:.8,text:()=>'鳩にフンを落とされた。おばあさんが言う。「縁起がいい！早く宝くじを買いな！」',
+ choices:[
+  {t:'すぐ買いに行く',go(){ if(R()<.15){ fx({wealth:12,hap:10}); return '三等当選！空に向かってお辞儀した。'; } fx({wealth:-1}); return '外れた。髪もまだ洗っていない。'; }},
+  {t:'帰ってシャワーを浴びる',go(){ return ''; }},
+ ]},
+{id:'group_chat',a:[60,100],w:2,text:()=>'家族のグループチャットを使えるようになった。',
+ go(){ fx({hap:6}); return '毎朝欠かさず、蓮の花と朝日とキラキラ文字の「おはよう」画像を送る。孫にミュートされた。'; }},
+{id:'longevity',a:[95,130],w:6,text:()=>'記者が長寿の秘訣を取材しに来た。',
+ choices:[
+  {t:'「毎日一杯の酒、他人は気にしない」',go(){ fx({fame:8,hap:5}); return 'その映像がトレンド入りした。'; }},
+  {t:'「心がけが良ければ長生きする」',go(){ good(2,'人に善を勧めた'); fx({fame:5}); return '記者は退屈に思い、放送されなかった。'; }},
+  {t:'聞こえないふりをする',go(){ fx({hap:4}); return '本当は聞こえている。'; }},
+ ]},
+{id:'viral_teen',a:[13,25],if:()=>C().t>=2&&!S.career,w:1.5,text:()=>'何気なく撮った動画に、踊っていた父が噴水に落ちる瞬間が映っていた。',
+ choices:[
+  {t:'ネットに上げる',go(){ fx({fame:8,hap:5}); S.flags.viral=1; return '一晩で二百万回再生。父は一週間口をきいてくれなかった。'; }},
+  {t:'削除する',go(){ good(1,'親孝行'); return '父はあなたが救ってくれたことを一生知らない。'; }},
+ ]},
+{id:'scam_call_fun',a:[20,70],w:1,text:()=>'詐欺師から電話。「警察です。あなたにマネーロンダリングの疑いがあります。」',
+ choices:[
+  {t:'一時間たっぷり相手をする',go(){ good(2,'詐欺師の時間を潰した'); fx({hap:6}); return '耳の遠い老人のふりをしていたら、最後には詐欺師が煮込みスープの作り方を教えてくれた。'; }},
+  {t:'電話を切る',go(){ return ''; }},
+ ]},
+
+// ---------- 新增：晚年 ----------
+{id:'old_scam',a:[65,95],w:2,text:()=>'電話が来た。「孫だよ。大変なことになって、今すぐお金が要るんだ。」',
+ choices:[
+  {t:'すぐに振り込む',go(){ fx({wealth:-20,hap:-10}); return '翌日、孫からご飯食べたかと電話が来た。'; }},
+  {t:'電話を切って孫にかけ直す',go(){ fx({hap:2}); return ''; }},
+ ]},
+{id:'will',a:[70,100],w:2,text:()=>'弁護士に遺言をどうするか聞かれた。',
+ choices:()=>S.kids?[
+  {t:'子供たちに均等に分ける',go(){ return ''; }},
+  {t:'すべて寄付する',go(){ good(Math.max(3,Math.round(S.wealth/5)),'遺産の寄付'); return '子供たちは葬儀で泣かなかった。'; }},
+ ]:[
+  {t:'慈善団体への寄付',go(){ good(Math.max(3,Math.round(S.wealth/5)),'遺産の寄付'); return ''; }},
+  {t:'猫に残す',go(){ fx({hap:5}); return 'ニュースになった。'; }},
+ ]},
+{id:'memoir',a:[65,100],w:1.5,text:()=>'回想録を書き始めた。',
+ choices:[
+  {t:'過ちも含めてありのまま書く',go(){ if(S.sin>0) good(3,'過ちを認めた'); fx({hap:5}); return ''; }},
+  {t:'輝かしいことだけ書く',go(){ fx({hap:3}); return ''; }},
+ ]},
+
+// ---------- 職涯專屬 ----------
+{id:'promo',a:[14,80],once:false,if:()=>S.career&&S.career.rank<(S.career.path==='pol'?polCap():4)&&!(S.career.path==='sport'&&S.age>36),w:5,text:()=>CAREERS[S.career.path].promo,
+ choices:()=>{ const K=CAREERS[S.career.path]; return [
+   {t:K.clean,go:()=>tryPromo(false)},
+   {t:K.dirty,go:()=>tryPromo(true)},
+   {t:'無理せず現状維持',go:()=>'安全策をとった。チャンスは一瞬で消えた。'}]; }},
+{id:'g_collect',a:[14,70],once:false,if:()=>S.career&&S.career.path==='gang',w:2,text:()=>'親分に取り立てを命じられた。借り手はベッドしかない老人だ。',
+ choices:[
+  {t:'容赦なく痛めつける',go(){ bad(8,'暴力的な取り立て'); fx({jiang:8,wealth:3}); return '老人は土下座して懇願した。'; }},
+  {t:'自腹で立て替えて見逃す',go(){ good(5,'惻隠の情'); fx({wealth:-5,jiang:-6}); return '親分はお前は甘い、大物にはなれないと言った。'; }},
+ ]},
+{id:'g_rat',a:[18,70],if:()=>S.career&&S.career.path==='gang',w:2,text:()=>'刑事が近づいてきた。「情報屋になれ。お前の前科は何とかしてやる。」',
+ choices:[
+  {t:'密告者になる',go(){ bad(5,'兄弟を売った'); S.flags.rat=1; return '毎週、喫茶店で彼と会う。'; }},
+  {t:'断る',go(){ if(R()<.35){ jail(ri(3,8)); return '一か月後、昔の事件で警察に逮捕された。'; } return '今のところは無事だ。'; }},
+ ]},
+{id:'g_quit',a:[30,70],if:()=>S.career&&S.career.path==='gang'&&S.career.rank>=1,w:2,text:()=>'斬られた兄弟分を病院に見舞ったあと、考えた。そろそろ足を洗う時か？',
+ choices:[
+  {t:'足を洗う',go(){ good(6,'足を洗う'); S.career=null; S.job='食堂の店主'; fx({jiang:-15,hap:5}); return '食堂を開いた。たまに昔の兄弟分が食べに来る。'; }},
+  {t:'一度入ったら抜けられない',go(){ fx({jiang:4}); return ''; }},
+ ]},
+{id:'m_charity',a:[16,80],if:()=>S.career&&S.career.path==='music'&&S.career.rank>=2,w:2,text:()=>'被災者のためのチャリティーコンサートに無償で出演してほしいと頼まれた。',
+ choices:[
+  {t:'無償で歌う',go(){ good(7,'被災地支援のチャリティー公演'); fx({fame:5,hap:5}); return '会場全体が大合唱になった。'; }},
+  {t:'断る',go(){ return 'マネージャーは賢明だと言った。'; }},
+ ]},
+{id:'b_sweat',a:[18,80],if:()=>S.career&&S.career.path==='biz'&&S.career.rank>=1,w:2,text:()=>'コンサルタントが言う。労働法のない国に工場を移せば、コストは半分だ。',
+ choices:[
+  {t:'移転する。利益最優先',go(){ bad(10,'労働者の搾取'); fx({wealth:12}); return '新工場の労働者は一日十四時間働いている。'; }},
+  {t:'まともな給料を払う',go(){ good(5,'従業員を大切にした'); fx({wealth:-4}); return '誕生日に従業員からカードをもらった。'; }},
+ ]},
+{id:'b_crash',a:[20,80],if:()=>S.career&&S.career.path==='biz'&&S.career.rank>=2,w:1.5,text:()=>'金融危機。',
+ go(){ fx({wealth:-25,hap:-10}); if(R()<.4){ S.career.rank--; S.job=CAREERS.biz.ranks[S.career.rank]; return '会社は縮小し、何年もの努力が一夜で消えた。'; } return '乗り切って、安くなった資産をたくさん買い集めた。'; }},
+{id:'p_bribe',a:[20,80],if:()=>S.career&&S.career.path==='pol'&&S.career.rank>=1,w:2,text:()=>'不動産開発業者から封筒が届いた。「ほんの気持ちです。」',
+ choices:[
+  {t:'受け取る',go(){ bad(10,'収賄'); fx({wealth:15}); S.flags.bribed=1; if(R()<.2){ jail(ri(2,6)); S.career=null; return '汚職捜査機関が訪ねてきた。'; } return ''; }},
+  {t:'突き返す',go(){ good(4,'清廉潔白'); return ''; }},
+ ]},
+{id:'p_crack',a:[25,90],if:()=>S.career&&S.career.path==='pol'&&S.career.rank>=3,w:3,text:()=>'全国的な大規模デモ。軍が尋ねる。「発砲しますか？」',
+ choices:[
+  {t:'鎮圧を命じる',go(){ bad(30,'デモ隊の虐殺を命じた'); fx({hap:-10}); return '広場は一掃された。歴史書にその日のことは載らないが、あなたは覚えている。'; }},
+  {t:'拒否して、人々と対話する',go(){ good(20,'鎮圧を拒否した'); if(harsh()>=.5){ S.career=null; jail(ri(5,15), 1); return '軟禁され、のちに「国家分裂」の罪で投獄された。'; } S.career.rank=Math.max(1,S.career.rank-1); return '辞任に追い込まれたが、血は流れなかった。'; }},
+ ]},
+{id:'p_order',a:[22,85],once:false,if:()=>S.career&&S.career.path==='pol'&&S.career.rank>=1&&polOf()!=='dem',w:2,text:()=>({
+   elec:'党は、司法手続きで野党候補の立候補資格を剥奪するよう求めてきた。',
+   party:'上から指示が来た。管轄内の村を強制撤去して工業団地を造れ。村人は立ち退きを拒んでいる。',
+   mon:'王室は、ネットで皇太子を批判したブロガーを処理するよう求めている。',
+   junta:'将軍が戒厳令への署名を求めている。',
+   theo:'風紀警察は取り締まりを強化し、スカーフをしていない少女を全員逮捕せよと言う。',
+   sar:'市民の大半が反対する法案に、議会で賛成票を投じるよう求められた。',
+   strong:'権力者は選挙前に野党を「片付けろ」と言う。'})[polOf()],
+ choices:[
+  {t:'従う',go(){ bad(10,'悪事に加担した'); fx({fame:3}); return '上層部は満足した。あなたはそれから何晩も眠れなかった。'; }},
+  {t:'表向きは従い、なるべく何もしない',go(){ bad(3,'形だけの対応'); if(R()<.3){ S.career.rank=Math.max(0,S.career.rank-1); S.job=CAREERS.pol.ranks[S.career.rank]; return '誰かに密告され、降格された。'; } return '見栄えのいい報告書を出し、実際にはほとんど何もしなかった。'; }},
+  {t:'断る',go(){ good(10,'不正な命令を拒否した'); S.career=null; S.job='';
+    if(R()<.4*harsh()){ jail(ri(2,8), 1); return '解任されて取り調べを受け、のちに投獄された。'; } fx({hap:-6}); return '解任された。かつての同僚は街で会っても知らないふりをする。'; }},
+ ]},
+{id:'p_purge',a:[28,85],if:()=>S.career&&S.career.path==='pol'&&S.career.rank>=2&&!['dem','sar'].includes(polOf()),w:2,
+ text:()=>polOf()==='party'?'反腐敗運動が始まり、後ろ盾が失脚した。':'粛清が始まり、後ろ盾が失脚した。',
+ choices:[
+  {t:'すぐに後ろ盾を告発して一線を画す',go(){ bad(6,'落ちた者に石を投げた'); fx({fame:-2}); return '会議で真っ先に彼を批判した。地位は守られた。'; }},
+  {t:'黙って嵐が過ぎるのを待つ',go(){
+    if(S.flags.bribed && R()<.6){ S.career=null; jail(ri(8,20)); return '調査チームがあなたの受け取った封筒を見つけ出した。投獄された。'; }
+    if(R()<.3){ S.career.rank--; S.job=CAREERS.pol.ranks[S.career.rank]; return '彼の一派とみなされ、降格された。'; }
+    return '嵐は過ぎた。今のところ無事だ。'; }},
+ ]},
+{id:'p_royal',a:[25,85],if:()=>S.career&&S.career.path==='pol'&&S.career.rank>=2&&polOf()==='mon',w:2,text:()=>'王子が外国で飲酒運転をして人を死なせた。王室は「処理しろ」と言う。',
+ choices:[
+  {t:'もみ消す',go(){ bad(10,'権力者をかばった'); fx({fame:2}); return '遺族は金を受け取り、守秘義務契約に署名した。'; }},
+  {t:'裁判所に委ねる',go(){ good(8,'法に従った'); S.career=null; S.job=''; fx({hap:-5}); return '寵愛を失い、領事として海外に追いやられた。それきり誰からも連絡はない。'; }},
+ ]},
+{id:'p_scandal',a:[25,85],if:()=>S.career&&S.career.path==='pol'&&S.career.rank>=1&&polOf()==='dem',w:2,text:()=>'記者があなたの事務所の公金流用の証拠をつかんだ。実はあなたも知っていた。',
+ choices:[
+  {t:'非を認めて辞任する',go(){ good(4,'責任を取った'); S.career.rank=Math.max(0,S.career.rank-1); S.job=CAREERS.pol.ranks[S.career.rank]; fx({fame:-6}); return '記者会見で頭を下げた。数年後、有権者はあなたを許した。'; }},
+  {t:'部下のせいにする',go(){ bad(6,'部下に罪をなすりつけた'); if(R()<.3){ fx({fame:-15}); return '部下があなたのメールを記者に渡した。'; } return '部下はクビになった。あなたの支持率は下がらなかった。'; }},
+ ]},
+{id:'d_confess',a:[18,90],jail:1,if:()=>S.career&&S.career.path==='dis',w:4,text:()=>'取調官が言う。「テレビで罪を認めれば釈放してやる。」',
+ choices:[
+  {t:'罪を認める',go(){ S.jail=0; fx({fame:-10,hap:-12}); return 'カメラの前で原稿を読み上げた。外では弱いと言う人もいれば、仕方なかったと言う人もいる。'; }},
+  {t:'仲間を売って自由を得る',go(){ bad(12,'仲間への裏切り'); S.jail=0; S.career=null; S.job=''; fx({hap:-8}); return '何人かの名前を挙げた。あなたは出て、彼らが入った。'; }},
+  {t:'断る',go(){ good(5,'屈しなかった'); S.jail+=2; fx({hp:-6}); return '刑期が延びた。壁にさらに二本の線を刻んだ。'; }},
+ ]},
+{id:'d_exile',a:[22,75],if:()=>S.career&&S.career.path==='dis'&&S.ci===S.home&&!S.jail&&harsh()>0,w:2,text:()=>'友人が言う。「抜け道がある。今夜発て。」',
+ choices:()=>{
+   const [ci] = destChoices(['USA','GBR','DEU','CAN','TWN','FRA','NLD','AUS','JPN','SWE'], 1);
+   return [
+    {t:`${COUNTRIES[ci].n}に亡命する`,go(){ S.flags.exiled=1; moveTo(ci,'visa','work'); S.career.rank=Math.min(3,S.career.rank+1); S.job=CAREERS.dis.ranks[S.career.rank]; fx({hap:-8,fame:8});
+      return `${C().n}で政治亡命を申請し、海外から声を上げ続ける。もう二度と帰れないかもしれないと分かっている。`; }},
+    {t:'残って人々と共にいる',go(){ good(4,'留まった'); return 'あなたは残った。車はまだ建物の前に停まっている。'; }}]; }},
+{id:'d_nobel',a:[30,95],if:()=>S.career&&S.career.path==='dis'&&S.career.rank>=3,w:1.5,text:()=>'オスロから電話が来た。',
+ go(){ ach('peace'); fx({fame:25,hap:10}); return S.jail ? '獄中でノーベル平和賞を受賞した。授賞式の壇上には空の椅子が置かれた。' : 'ノーベル平和賞を受賞した。自国政府はこれを「内政への乱暴な干渉」と呼んだ。'; }},
+{id:'d_poison',a:[25,90],if:()=>S.career&&S.career.path==='dis'&&S.career.rank>=2&&!S.jail,w:1,text:()=>'お茶を一杯飲んだあと、ひどく気分が悪くなった。',
+ go(){ if(R()<.3){ die('毒殺'); return '医者は聞いたこともない毒物を検出した。'; } fx({hp:-30}); return '三か月入院して、一命をとりとめた。'; }},
+{id:'informer',a:[20,75],if:()=>harsh()>=.8&&!(S.career&&S.career.path==='dis'),w:1.2,text:()=>'「お茶でも」と呼び出され、隣人や同僚の言動を定期的に報告するよう頼まれた。',
+ choices:[
+  {t:'密告者になる',go(){ bad(8,'隣人を監視した'); ach('informer'); pay(-Math.round(G()*.3)); return '毎月報告を提出する。「お茶代」はかなりのものだ。'; }},
+  {t:'知り合いはいないと言い逃れる',go(){ if(R()<.25){ fx({hap:-10}); return '子供の大学受験の年、政治審査に落とされた。'; } return 'その後は接触してこなかった。'; }},
+ ]},
+{id:'vote_buy',a:[18,80],if:()=>polType()==='elec',w:1,text:()=>'選挙前、誰かが家々を回って与党に投票するよう金を配っている。',
+ choices:[
+  {t:'金を受け取る',go(){ bad(2,'票を売った'); pay(-Math.round(G()*.02)); return '封筒ひとつで、一週間分の食費になる。'; }},
+  {t:'受け取らない',go(){ good(1,'票を売らなかった'); return '彼はあなたの部屋番号をメモした。'; }},
+ ]},
+{id:'mo_donate',a:[18,95],if:()=>S.career&&S.career.path==='monk'&&S.career.rank>=1,w:2,text:()=>`大口の施主が${F(S.career.faith).place}に巨額の寄付をした。`,
+ choices:[
+  {t:'災害救援と炊き出しに使う',go(){ good(10,'財で世を救った'); fx({fame:4}); return `${F(S.career.faith).place}の前に長い列ができた。`; }},
+  {t:'金ぴかの殿堂を建て、少し懐に入れる',go(){ bad(12,'私腹を肥やした'); fx({wealth:15}); return '金ぴかの殿堂は見事だ。'; }},
+ ]},
+{id:'mo_teach',a:[25,95],once:false,if:()=>S.career&&S.career.path==='monk'&&S.career.rank>=2,w:1.5,text:()=>'迷える若者が人生の意味を尋ねに来た。',
+ go(){ good(4,'衆生を導いた'); fx({hap:3}); return '帰るころには、その目は澄んでいた。'; }},
+{id:'s_vaccine',a:[25,85],if:()=>S.career&&S.career.path==='sci'&&S.career.rank>=2,w:2,text:()=>'何百万人も救える新薬を開発した。',
+ choices:[
+  {t:'特許を放棄し、製法を公開する',go(){ good(20,'命を救う薬を公開した'); fx({fame:12}); return '貧しい国の製薬会社がすぐに生産を始めた。'; }},
+  {t:'特許を取って高値で売る',go(){ fx({wealth:30}); bad(5,'命を救う薬の独占'); return '億万長者になった。'; }},
+ ]},
+{id:'mi_massacre',a:[18,70],if:()=>S.career&&S.career.path==='mil',w:2,text:()=>'上官の命令。「あの村に反乱分子がいる。村ごと掃討せよ。」',
+ choices:[
+  {t:'命令を実行する',go(){ bad(25,'村の虐殺'); fx({hap:-15}); return 'それから毎晩、あの声が聞こえる。'; }},
+  {t:'命令を拒む',go(){ good(15,'命令に背いて村人を救った'); if(R()<.4){ die('抗命による処刑'); return '軍法会議で死刑を言い渡された。'; } S.career=null; jail(ri(2,6), 1); return '除隊処分となり、軍刑務所に送られた。'; }},
+ ]},
+{id:'mi_coup',a:[30,75],if:()=>S.career&&S.career.path==='mil'&&S.career.rank===3,w:3,text:()=>'数人の将軍が密かに接触してきた。「政府は腐敗している。我々が掌握する。」',
+ choices:[
+  {t:'クーデターを起こす',go(){ bad(10,'クーデターを起こす'); if(R()<.55){ S.career.rank=4; S.job='軍事政権の首班'; ach('leader'); fx({fame:30,wealth:30}); return '戦車が首都に入った。あなたはテレビで宣言する。「本日より、国家は私が守る。」'; } if(R()<.5){ die('クーデター失敗による処刑'); return ''; } S.career=null; jail(ri(10,20)); return 'クーデターは失敗した。'; }},
+  {t:'密告する',go(){ fx({fame:6}); bad(3,'戦友への裏切り'); return '数人の将軍が逮捕され、あなたは昇進と昇給を手にした。'; }},
+  {t:'関わらない',go(){ return ''; }},
+ ]},
+
+// ---------- 監獄 ----------
+{id:'j_life',a:[0,130],jail:1,once:false,w:3,text:()=>'独房の中、日々は長い。',
+ choices:[
+  {t:'勉強して心を入れ替える',go(){ good(4,'獄中での改心'); fx({int:5}); return '獄中で卒業資格を取った。'; }},
+  {t:'刑務所の顔役の子分になる',go(){ fx({jiang:12}); bad(2,'獄中で徒党を組んだ'); return '顔役は言った。「出たら俺のところに来い。」'; }},
+ ]},
+{id:'j_riot',a:[0,130],jail:1,w:1,text:()=>'刑務所で暴動が起きた。',go(){ fx({hp:-12}); if(R()<.04){ die('獄中暴動'); return ''; } return '隅でうずくまり、やり過ごした。'; }},
+{id:'j_fill',a:[0,130],jail:1,once:false,w:2,text:()=>'獄中でまた一年が過ぎた。',go(){ return ''; }},
+
+// ---------- 畜生道 ----------
+{id:'b_dog1',beast:'dog',w:3,text:()=>'子供が獰猛な犬に追いかけられ、声がかれるほど泣き叫んでいる。',
+ choices:[
+  {t:'飛び出して犬を追い払う',go(){ good(8,'主を守る忠義'); fx({hp:-20}); return '子供は助かった。あなたは足を引きずるようになった。'; }},
+  {t:'尻尾を巻いて逃げる',go(){ return ''; }},
+ ]},
+{id:'b_dog2',beast:'dog',w:2,text:()=>'市場のおばさんが毎日ご飯を残しておいてくれる。',go(){ fx({hap:10}); return '毎日、店じまいまで屋台で待ち、家まで送っていく。'; }},
+{id:'b_chicken',beast:'chicken',w:3,text:()=>'A4用紙ほどのケージで育った。隣のケージの鶏がずっとつついてくる。',
+ choices:[
+  {t:'つつき返す',go(){ bad(1,'共食い'); return ''; }},
+  {t:'隅で縮こまる',go(){ return ''; }},
+  {t:'灯りに向かって鳴く',go(){ good(1,'忍辱'); return '誰にも届かない。'; }},
+ ]},
+{id:'b_cow',beast:'cow',once:false,w:3,text:()=>'毎日犂を引き、背中に鞭が振り下ろされる。',go(){ good(3,'苦役で業を返した'); fx({hp:-10}); return '飼い主はあなたのおかげで三人の子供を育て上げた。'; }},
+{id:'b_cat',beast:'cat',w:3,text:()=>'一人暮らしの老人が、毎日階段にキャットフードを置いてくれる。',
+ choices:[
+  {t:'寄り添う',go(){ good(8,'孤独な老人に寄り添った'); return '老人が亡くなった夜、あなたは枕元にいた。'; }},
+  {t:'食べたら去る',go(){ return ''; }},
+ ]},
+{id:'b_rat',beast:'rat',w:3,text:()=>'米倉には米がたくさんある。',
+ choices:[
+  {t:'浮気する',go(){ bad(1,'窃盗'); return ''; }},
+  {t:'電線をかじる',go(){ bad(4,'火事を起こした'); return '倉庫が焼け落ちた。'; }},
+ ]},
+{id:'b_roach',beast:'roach',w:3,text:()=>'誰かが悲鳴を上げ、スリッパを手に取った。',
+ choices:[
+  {t:'羽を広げて顔めがけて飛ぶ',go(){ bad(1,'人間を恐怖に陥れた'); return '相手は気絶した。あなたはゴキブリ界の伝説になった。'; }},
+  {t:'死んだふりをする',go(){ return 'ティッシュでつままれ、トイレに流された。あなたは泳いで逃げた。'; }},
+ ]},
+{id:'b_panda',beast:'panda',w:3,text:()=>'大勢の観光客がガラス越しにあなたを撮影している。',
+ choices:[
+  {t:'雪の上でごろごろ転がる',go(){ good(2,'人々に喜びを与えた'); fx({hap:8}); return '国際ニュースに取り上げられた。'; }},
+  {t:'背を向けて寝る',go(){ fx({hap:5}); return 'それでも撮影され、かわいいと言われた。'; }},
+ ]},
+{id:'b_panda2',beast:'panda',w:2,text:()=>'飼育員がメスのパンダを連れてきた。国中があなたたちの赤ちゃんを待っている。',go(){ fx({hap:-3}); return '三日間竹を食べ続け、興味を示さなかった。ニュース番組が一時間かけて原因を分析した。'; }},
+{id:'b_corgi',beast:'corgi',w:3,text:()=>'飼い主があなたのインスタを開設した。フォロワーは十万人。',go(){ fx({hap:8}); return 'あなたの収入はたいていの人間より多い。'; }},
+{id:'b_corgi2',beast:'corgi',w:3,text:()=>'テーブルの上に和牛が置きっぱなしだ。',
+ choices:[
+  {t:'浮気する',go(){ bad(1,'浮気する'); fx({hp:-5,hap:6}); return 'うまい。'; }},
+  {t:'座って飼い主がくれるのを待つ',go(){ good(1,'忍耐'); return 'いい子だねと褒められ、半分もらえた。'; }},
+ ]},
+{id:'b_fish',beast:'goldfish',once:false,w:3,text:()=>'水槽を一周泳いだ。なんて新鮮！',go(){ fx({hap:3}); return 'もう一周泳いだ。なんて新鮮！'; }},
+{id:'b_fish2',beast:'goldfish',w:2,text:()=>'家の猫が水槽のふちに寝そべって、あなたを見ている。',
+ choices:[
+  {t:'泡を吹いて挑発する',go(){ return '猫が前足を差し入れた。あなたは底まで潜った。猫はあきらめた。'; }},
+  {t:'水草の陰に隠れる',go(){ return '三秒後、なぜ隠れていたのか忘れた。'; }},
+ ]},
+{id:'i_status',beast:'isekai',w:5,text:()=>'試しに言ってみた。「ステータス。」',go(){ fx({hap:5}); const h=SOUL.hist[SOUL.hist.length-1]; return `空中に青いウィンドウが現れた。「レベル1　知力3　スキル：捕食　備考：前世は${h?h.name:'普通の人'}、トラックにはねられて死亡。」`; }},
+{id:'i_goblin',beast:'isekai',w:4,text:()=>'ゴブリンが森で迷子になって泣いている。',
+ choices:[
+  {t:'捕食してスキルを得る',go(){ bad(3,'弱者を捕食した'); fx({hp:15}); return 'ゴブリン語が話せるようになった。ほとんど悪態だ。'; }},
+  {t:'村まで送ってやる',go(){ good(6,'異世界での善行'); fx({hap:8}); return 'ゴブリンの村じゅうがあなたを神と崇めた。'; }},
+ ]},
+{id:'i_demon',beast:'isekai',w:4,text:()=>'魔王軍の使者がやって来た。「魔王様はあなたを高く買っておられる。四天王の一人にならぬか？」',
+ choices:[
+  {t:'魔王軍に入る',go(){ bad(8,'魔王に寝返った'); fx({hap:6}); return 'あなたの肩書きは「四天王の中で最弱」だ。'; }},
+  {t:'断る。私は善いスライムになる',go(){ good(5,'正道を守った'); return '使者は言った。「後悔するぞ。」'; }},
+ ]},
+{id:'i_hero',beast:'isekai',w:3,text:()=>'勇者一行が通りかかった。勇者はあなたを見て言った。「経験値だ。」',
+ choices:[
+  {t:'前世の知識で説得する',go(){ good(3,'理で人を説いた'); return '地球の住宅価格の話を聞いた勇者は、泣きながら去っていった。'; }},
+  {t:'跳ねて逃げる',go(){ fx({hp:-20}); return '遠くまで跳ねていった。'; }},
+ ]},
+{id:'b_fill',beast:'any',once:false,w:1,text:()=>'食べ物を探して、また一日が過ぎた。',go(){ return ''; }},
+];
+
+function examResult(bonus){
+  const p = S.int/120 + bonus + (S.cls>=3?.1:0);
+  if(R() < p){ S.flags.uniPending = 1; fx({hap:5}); return '合格発表。大学に入れる点数が取れた。'; }
+  return '合格発表。大学に入るには点数が足りない。';
+}
+function doMigrate(di, illegal){
+  const d = COUNTRIES[di];
+  const from = moveTo(di, illegal ? 'illegal' : 'visa', illegal ? null : 'work');
+  if(illegal){ S.job = pick(['皿洗い','不法就労者','農場の臨時雇い','日雇い建設作業員']); fx({hap:-5}); return `${from}から${d.n}へ密入国した。在留資格がないので、${S.job}の仕事しかできない。`; }
+  S.job = pick(['ウェイター','スーパーの品出し','タクシー運転手','介護士']);
+  return `${d.n}に移住した。以前の学歴は認められず、${S.job}から始めることになった。`;
+}
+function startCareer(path, txt){
+  S.career = {path, rank:0};
+  if(path==='monk') S.career.faith = clergyFaith();
+  if(path==='pol') S.career.pt = polType();
+  S.job = CAREERS[path].ranks[0];
+  if(!S.peak || S.peak.rank < 0) S.peak = {path, rank:0, faith:S.career.faith, pt:S.career.pt};
+  if(path==='gang'){ fx({jiang:10}); bad(3,'裏社会に入った'); }
+  if(path==='monk'){ const f = F(S.career.faith); fx({wealth:f.ascetic?-30:-5,hap:5}); good(3,'発心して'+f.name); if(S.married && S.career.faith==='bud') bad(3,'妻子を捨てた'); }
+  if(path==='biz') fx({wealth:-10});
+  return txt;
+}
+function crossChoices(mid){
+  const o = [];
+  const cur = S.career && S.career.path;
+  if(cur!=='gang' && (S.jiang>=10||S.cls<=2)) o.push({t:'組に入って手っ取り早く稼ぐ',go:()=>startCareer('gang','親分に盃を差し出し、正式に組の一員になった。')});
+  if(cur!=='music' && (S.flags.music||tl('音感'))) o.push({t:'仕事を辞めて音楽一本で生きる',go:()=>startCareer('music','ギターを背負って路上で歌う。最初の夜は小銭が少し入った。')});
+  if(cur!=='biz' && (S.wealth>=15||tl('商才'))) o.push({t:'貯金をすべてつぎ込んで起業する',go:()=>startCareer('biz','小さな店を開いた。')});
+  if(cur!=='pol' && cur!=='dis' && S.age>=18 && isCitizen()){
+    const pt = polType();
+    if(pt==='dem') o.push({t:'社会運動・政治の道へ',go:()=>startCareer('pol','地元でビラ配りを始めた。')});
+    else {
+      o.push({t:{elec:'与党に入る',party:'入党を申請する',mon:'王室政府の採用試験を受ける',junta:'政府の文官になる',theo:'宗教政府の採用試験を受ける',sar:'親政府派の団体に入る',strong:'役人になる'}[pt],
+        go:()=>startCareer('pol', {party:'党旗の下で手を挙げて宣誓した。',mon:'長衣をまとい、初めて王宮に足を踏み入れた。',sar:'初めて団体の晩餐会に出席した。料理は十二品。'}[pt] || '体制の中に入った。')});
+      o.push({t:'人権を守る反体制派になる',special:S.flags.activist||tl('気骨'),go:()=>startCareer('dis','実名で初めてネットに記事を投稿した。それ以来、建物の前にいつも車が停まっている。')});
+    }
+  }
+  if(cur!=='monk' && S.faith!=='none') o.push({t:F().join,special:S.flags.zen||tl('霊性'),go:()=>startCareer('monk',F().joinTxt)});
+  if(cur!=='sci' && S.int>=60 && S.age<=40) o.push({t:'大学院に戻って研究する',go:()=>startCareer('sci','再び学生になった。')});
+  if(cur!=='kol' && S.age<=50 && (S.flags.viral||C().t>=2)) o.push({t:'専業インフルエンサーになる',go:()=>startCareer('kol', S.flags.viral?'前にバズった動画を覚えている人がまだいるので、チャンネルを開設した。':'自撮り棒を買ってチャンネルを開設した。')});
+  if(cur!=='fortune' && S.age>=25) o.push({t:'露店を出して占い師になる',go:()=>startCareer('fortune','廟街に折りたたみ机を出し、「百発百中」と書いた。')});
+  if(cur!=='sport' && S.flags.athlete && S.age<=26) o.push({t:'プロ選手に転向する',go:()=>startCareer('sport','再びフィールドに立った。')});
+  if(cur!=='mil' && S.age<=30) o.push({t:'入隊する',go:()=>startCareer('mil','軍服に袖を通した。')});
+  const out = shuffle(o).slice(0, 3);
+  out.push({t:mid?'やめておく。平凡な日々を続ける':'現状維持',go:()=>mid?'一晩考えたが、結局仕事に行った。たいていの人はそうだ。':'特に何も変わらなかった。'});
+  return out;
+}
+function tryPromo(dirty){
+  const k = S.career.path, K = CAREERS[k], r = S.career.rank;
+  let p = K.base + (S[K.stat]||0)/220 + tl(K.tal)*.1 - r*.04 + (dirty?.25:0);
+  if(k==='monk') p += Math.max(0, S.merit - S.sin)/200;
+  if(k==='music' && S.flags.music) p += .05;
+  if(dirty) bad(K.dirtySin, K.dirtyWhy);
+  else if(K.cleanMerit) good(K.cleanMerit, K.cleanWhy);
+  if(!dirty && K.risk && R() < K.risk){ die(K.riskCause); return K.riskText; }
+  if(R() < p){
+    S.career.rank++;
+    const nr = K.ranks[S.career.rank];
+    S.job = nr;
+    fx(K.upFx);
+    if(K.upSin) bad(K.upSin[0], K.upSin[1]);
+    if(!S.peak || S.career.rank >= S.peak.rank) S.peak = {path:k, rank:S.career.rank, faith:S.career.faith, pt:S.career.pt};
+    if(S.career.rank===4) ach(K.ach);
+    if(k==='monk' && S.career.rank>=3) SOUL.exit = S.career.faith;
+    if(k==='sci' && S.career.rank>=3 && S.faith==='none') SOUL.exit = 'none';
+    return `${K.win}あなたは「${nr}」になった。`;
+  }
+  fx(K.failFx);
+  if(dirty && K.dirtyJail && R()<K.dirtyJail){ jail(ri(2,6)); S.career=null; return '事が露見し、逮捕された。'; }
+  if(K.failJail && R()<K.failJail){ jail(ri(2,6)); return K.fail + 'しかも警察に捕まった。'; }
+  if(K.authJail && R() < K.authJail*harsh()){ jail(ri(3,10), 1); return '当局は「国家政権転覆」の罪であなたを逮捕した。'; }
+  if(k==='pol' && R() < .15*harsh()){ S.career=null; if(R()<.5){ jail(ri(5,15)); return K.fail + '権力闘争に敗れ、「重大な規律違反」で有罪となり投獄された。'; } return K.fail + '権力闘争に敗れ、「早期退職」を強いられた。'; }
+  return K.fail;
+}
+
+function eligible(e){
+  if(S.beast){ return e.beast===S.beast || e.beast==='any'; }
+  if(e.beast) return false;
+  if(!!S.jail !== !!e.jail) return false;
+  if(e.a && (S.age < e.a[0] || S.age > e.a[1])) return false;
+  if(e.once!==false && S.seen[e.id]) return false;
+  if(e.once===false && S.last[e.id]!=null && S.age - S.last[e.id] < (e.jail||S.beast?0:3) && !e.id.endsWith('fill')) return false;
+  if(e.if && !e.if()) return false;
+  return true;
+}
+function pickEvent(){
+  const pool = EVENTS.filter(eligible);
+  return wpick(pool, e => typeof e.w==='function' ? e.w() : (e.w||1));
+}
+const EV = Object.fromEntries(EVENTS.map(e => [e.id, e]));
+
+/* ============ 回合 ============ */
+function logE(text, kind){ if(text) S.log.push({y:S.beast?'':S.age, t:text, k:kind||'', d:S.lastK||0}); S.lastK = 0; }
+function advance(){
+  if(S.alive){
+    const yrs = stepYears();
+    if(S.age===0 && !S.beast){
+      // 第一年：嬰兒死亡率
+      const c = C(); const mod = [1.6,1.25,1,.6,.35,.25][S.cls] * (SOUL.K<0 ? 1 + (-SOUL.K)/200 : 1);
+      S.age = 1;
+      if(R() < c.u5/1000*.7*mod){ die(deathCause()); ach('infant'); }
+    } else {
+      for(let i=0;i<yrs;i++){ yearTick(); if(!S.alive) break; }
+    }
+    if(S.beast){ S.bturns++; if(S.bturns > S.blife){ die(BEASTS[S.beast].cause); } }
+  }
+  if(!S.alive){ logE(deathLine(), 'death'); S.pending=null; save(); render(); return; }
+  const e = pickEvent();
+  S.seen[e.id] = 1; S.last[e.id] = S.age;
+  const head = e.text();
+  if(e.go){ const out = e.go(); logE(head + (out?' '+out:'')); S.pending = null;
+    if(!S.alive){ logE(deathLine(), 'death'); }
+  } else { S.pending = {id:e.id, text:head}; CH = null; }
+  save(); render();
+}
+function deathLine(){
+  if(S.beast) return `あなたは${S.cause}。`;
+  const when = S.age<=1 ? '一歳を待たずに' : `${S.age}歳で`;
+  return S.cause==='老衰' ? `${when}大往生を遂げた。` : `${when}亡くなった。死因：${S.cause}。`;
+}
+// 選項快取放喺 S 外面：入面有 function，唔可以 JSON 化
+let CH = null, CH_KEY = '';
+function currentChoices(){
+  const e = EV[S.pending.id], key = S.pending.id + '@' + S.age;
+  if(!CH || CH_KEY !== key){
+    CH = typeof e.choices==='function' ? e.choices() : e.choices.filter(c => !c.if || c.if());
+    CH_KEY = key;
+  }
+  return CH;
+}
+function choose(i){
+  const ch = currentChoices()[i];
+  logE(S.pending.text);
+  const out = ch.go();
+  S.log.push({y:'', t:'›  ' + ch.t, k:'choice', d:S.lastK||0}); S.lastK = 0;
+  if(out) logE(out);
+  S.pending = null; CH = null;
+  if(!S.alive) logE(deathLine(), 'death');
+  save(); render();
+}
+
+/* ============ 審判 ============ */
+function judge(){
+  if(UI.judge){ UI.screen = 'judge'; render(); return; }
+  const net = S.merit - S.sin;
+  if(!S.beast){
+    if(S.age>=100) ach('centenarian');
+    if(S.merit>=60) ach('saint');
+    if(S.sin>=60) ach('villain');
+  }
+  const prevK = SOUL.K;
+  const newK = Math.round(prevK*.6 + net);
+  const peakTitle = S.peak ? rankName(S.peak.path, S.peak.rank, S.peak) : (S.job || (S.beast?S.name:'—'));
+  // 今世可得天賦
+  const gain = [];
+  if(!S.beast){
+    if(S.int>=75) gain.push('慧根');
+    if(S.age>=90) gain.push('体格');
+    if(S.merit>=40) gain.push('仁の心');
+    if(S.peak && S.peak.rank>=2){ const t = CAREERS[S.peak.path].tal; if(!gain.includes(t)) gain.push(t); }
+    if(S.flags.music && !gain.includes('音感')) gain.push('音感');
+    if(S.jiang>=50 && !gain.includes('任侠')) gain.push('任侠');
+  }
+  // 唔信輪迴嘅人，死後見到閻羅王
+  const surprise = S.beast ? '' : {
+    chr:'天国の門と聖ペテロを待っていたのに、出迎えたのは赤ら顔の裁判官だった。閻魔大王：「きょろきょろするな。ここは東方支部だ。お前たちの本部は満員で、うちに外注されたのだ。」',
+    mus:'墓の三つの問いをしに来る二人の天使を待っていた。ずいぶん待って現れたのは、牛頭と馬頭だった。',
+    jew:'ここでメシアを待つものと思っていた。閻魔大王は帳簿を開いた。「お前たちのカバラにも転生（ギルグル）の話はあるだろう。知らないふりはするな。」',
+    none:'死んだらただの暗闇だと思っていた。閻魔大王があなたを見つめる。あなた：「……前言撤回します。」',
+    hin:'見覚えがある。ヤマだ。中国風の衣装に着替えただけだ。',
+  }[S.faith] || '';
+  if(!S.beast && !F().reinc) ach('wrongafterlife');
+  UI.judge = {net, prevK, newK, peakTitle, surprise, gain:gain.slice(0,3)};
+  SOUL.isekai = S.cause === 'トラックにはねられた';
+  SOUL.hist.push({n:SOUL.life, name:S.name, country:S.beast?(BEASTS[S.beast].realm||'畜生道'):COUNTRIES[S.home].n, faith:S.beast?'—':F().n, money:S.beast?null:Math.round(S.peakMoney||0), cls:S.beast?'—':CLASSES[S.cls], age:S.beast?'—':S.age, cause:S.cause, net, title:peakTitle});
+  SOUL.K = newK;
+  UI.screen = 'judge';
+  save(); render();
+}
+function canNirvana(){ return !!SOUL.exit && SOUL.K >= 150; }
+function drinkSoup(drink){
+  const J = UI.judge;
+  if(drink){
+    SOUL.talents = {}; SOUL.mem = null; SOUL.K += 10;
+  } else {
+    SOUL.K -= 15; ach('memory');
+    for(const t of J.gain) SOUL.talents[t] = Math.min(3, (SOUL.talents[t]||0) + 1);
+    SOUL.mem = S.beast ? null : {name:S.name, country:C().n, cause:S.cause, faith:S.faith,
+      career: S.peak ? rankName(S.peak.path, Math.max(1,S.peak.rank), S.peak) : null, path: S.peak ? S.peak.path : null};
+    if(SOUL.mem && (!S.peak || S.peak.rank < 1)) SOUL.mem.career = null;
+  }
+  SOUL.life++;
+  if(SOUL.life >= 10) ach('ten');
+  if(SOUL.K <= -200){ ach('hell'); UI.hell = true; SOUL.K += 100; } else UI.hell = false;
+  S = null; UI.judge = null; UI.screen = 'birth';
+  save(); render();
+}
+function nirvana(){ ach2(F(SOUL.exit).exit); UI.screen = 'nirvana'; save(); render(); }
+function ach2(id){ if(!SOUL.ach[id]) SOUL.ach[id] = SOUL.life; }
+
+/* ============ 畫面 ============ */
+function soulbar(){
+  const t = Object.entries(SOUL.talents);
+  $('#soulbar').innerHTML = UI.screen==='title' ? '' : `
+    <span>第 <b>${SOUL.life}</b> 世</span>
+    <span>業力 <b>${SOUL.K}</b>（${karmaWord(SOUL.K)}）</span>
+    ${t.length?`<span>天賦 <b>${t.map(([k,v])=>k+'×'+v).join('、')}</b></span>`:''}
+    <button class="linkbtn" id="codexBtn">輪廻録</button>`;
+  const b = $('#codexBtn'); if(b) b.onclick = () => { UI.prev = UI.screen; UI.screen = 'codex'; render(); };
+}
+function render(){
+  soulbar();
+  const st = $('#stage');
+  const scr = UI.screen;
+  if(scr==='title') st.innerHTML = viewTitle();
+  else if(scr==='birth') st.innerHTML = viewBirth();
+  else if(scr==='life') st.innerHTML = viewLife();
+  else if(scr==='judge') st.innerHTML = viewJudge();
+  else if(scr==='codex') st.innerHTML = viewCodex();
+  else if(scr==='nirvana') st.innerHTML = viewNirvana();
+  bind();
+  if(scr==='life'){ const l = $('#log'); if(l) l.scrollTop = l.scrollHeight; }
+}
+function viewTitle(){
+  const has = !!(SOUL.hist.length || S);
+  return `<section class="hero">
+    <h2>輪<span>廻</span></h2>
+    <p>世界の実際の出生統計に従って転生する。ほとんどの人は貧しく生まれ、ほとんどの人生は平凡だ。だが今回は、前世で積んだ徳と業が来世までついてくる。</p>
+    <div class="rules">
+      <div class="rule"><b>転生</b>最初の人生は完全な運任せ。業力が高いほど、次の人生で選べる生まれが増える。業が深すぎると、人間に生まれられないかもしれない。</div>
+      <div class="rule"><b>人生</b>生まれてから死ぬまで、あらゆる選択が閻魔帳に記される。組長にもスーパースターにも将軍にも高僧にもなれるし、平凡に生きることもできる。</div>
+      <div class="rule"><b>孟婆湯</b>死後に飲めばすべてを忘れ、業が少し洗われる。飲まなければ才能と記憶を持って転生できるが、代償を払う。</div>
+      <div class="rule"><b>信仰</b>生まれた土地の実際の宗教比率で決まる。輪廻を信じない人も同じように輪廻し、死後とても驚く。どの信仰も極めれば、輪廻から抜け出す独自の門がある。</div>
+    </div>
+    <div class="row">
+      ${has?`<button class="btn" data-a="continue">第 ${SOUL.life} 世を続ける</button><button class="btn ghost" data-a="codex">輪廻録</button><button class="btn ghost" data-a="askreset">最初からやり直す</button>`
+           :`<button class="btn" data-a="begin">転生を始める</button>`}
+    </div>
+    <p class="source">データ：${DATA_SOURCE}政体の細分類とイベントの確率はゲーム上の設定。</p>
+    ${UI.askReset?`<div class="confirm">前世の記録・業力・才能をすべて消去しますか？元に戻せません。<button class="btn red" data-a="reset">消去する</button><button class="btn ghost" data-a="cancelreset">キャンセル</button></div>`:''}
+  </section>`;
+}
+function viewBirth(){
+  const list = prepareBirths();
+  const K = SOUL.K, n = list.length;
+  let head = SOUL.life===1 ? '最初の人生。運命がくじを引く。'
+    : list[0].beast ? '業が深すぎる。今世は人間に生まれられない。'
+    : n>1 ? `前世で徳を積んだので、今世は ${n} 通りの生まれから選べる。` : '業力はほどほど。運命がくじを引く。';
+  const hell = UI.hell ? '<p class="sub">転生の前に、地獄で長い苦しみを受けた。業の一部が消えた。</p>' : '';
+  const mem = SOUL.mem ? `<p class="sub">孟婆湯を飲まなかった。${esc(SOUL.mem.country)}の${esc(SOUL.mem.name)}として生き、${esc(SOUL.mem.cause)}で死んだことを覚えている。</p>` : '';
+  return `<h2 class="sect-h">第 ${SOUL.life} 世・転生</h2>${hell}<p class="sub">${head}</p>${mem}
+  <div class="cards">${list.map((c,i)=>{
+    if(c.beast==='isekai') return `<article class="card"><span class="cls">異世界</span><h3>スライムに転生</h3>
+      <p class="odds">前世でトラックにはねられて死んだ。業界の慣例により、異世界に転生できる。</p><button class="btn" data-a="born" data-i="${i}">転生する</button></article>`;
+    if(c.beast){ const B=BEASTS[c.beast]; return `<article class="card beast"><span class="cls">畜生道</span><h3>${B.n}</h3>
+      <p class="odds">業力 ${K}。地球上の動物は人間よりはるかに多い。</p><button class="btn" data-a="born" data-i="${i}">受け入れる</button></article>`; }
+    const co = COUNTRIES[c.ci];
+    return `<article class="card"><span class="cls">${CLASSES[c.cls]}家庭</span><h3>${co.n}</h3>
+      <dl><dt>5歳未満死亡率</dt><dd>${co.u5}‰${co.est?'（推計）':''}</dd><dt>平均寿命</dt><dd>${co.le} 歳</dd>
+      <dt>1人当たり所得</dt><dd>${fmt$(co.g)}${co.gest?'（推計）':''}</dd>
+      <dt>政治体制</dt><dd>${polityLabel(co)}${co.war?'・戦乱':''}${co.rgest?'（推計）':''}</dd>
+      <dt>宗教</dt><dd>${relSummary(co)}${co.rest?'（近隣地域のデータ）':''}</dd></dl>
+      <p class="odds">転生の推計：およそ ${c.oneIn.toLocaleString()} 人に1人がこの生まれを引く</p>
+      <button class="btn" data-a="born" data-i="${i}">${n>1?'この生まれを選ぶ':'生まれる'}</button></article>`;
+  }).join('')}</div>${viewRemake()}`;
+}
+const TIER_LABEL = {5:'富裕',4:'高中所得',3:'中所得',2:'低中所得',1:'低所得'};
+function viewRemake(){
+  if(UI.birthPick == null) UI.birthPick = COUNTRIES.findIndex(c => c.reg==='hk');
+  const groups = [5,4,3,2,1].map(t => `<optgroup label="${TIER_LABEL[t]}">${
+    COUNTRIES.map((c,i)=>[c,i]).filter(([c])=>c.t===t).sort((a,b)=>b[0].w-a[0].w)
+      .map(([c,i])=>`<option value="${i}"${i===+UI.birthPick?' selected':''}>${c.n}・所得 ${fmt$(c.g)}・寿命 ${c.le}${c.war?'・戦乱':''}</option>`).join('')
+  }</optgroup>`).join('');
+  const cost = remakeCost(+UI.birthPick);
+  return `<section class="remake">
+    <h3>運命改変・生まれる場所を指定</h3>
+    <p>${SOUL.free?'フリーモード：どこを選んでもコストなし。':'業力と引き換えに国を指定する。豊かな国ほど高くつく。家の階層は引き続き業力で決まる。'}</p>
+    <div class="row">
+      <label class="sr" for="birthCountry">国</label>
+      <select id="birthCountry">${groups}</select>
+      <button class="btn ghost" data-a="remake">ここに生まれる${cost?`（業力 −${cost}）`:''}</button>
+    </div>
+    <label class="toggle"><input type="checkbox" id="freeMode"${SOUL.free?' checked':''}> フリーモード（業力のコストなし。いろいろな国を試したい人向け）</label>
+  </section>`;
+}
+function bar(cls, label, v){ return `<div class="stat ${cls}"><span>${label}</span><span class="bar"><i style="width:${Math.round(v)}%"></i></span><span>${Math.round(v)}</span></div>`; }
+function viewLife(){
+  const c = S.beast ? null : C();
+  const career = S.career ? `${CAREERS[S.career.path].name}・${CAREERS[S.career.path].ranks[S.career.rank]}` : (S.job || (S.age<14?'勉強／遊び':'まだなし'));
+  const flags = [];
+  if(S.married) flags.push('既婚'); if(S.kids) flags.push(`子供 ${S.kids} 人`); if(S.flags.uni) flags.push('大卒');
+  if(S.flags.smoker) flags.push('喫煙'); if(S.flags.addict) flags.push('薬物依存');
+  if(S.mason) flags.push(`フリーメイソン・${masonRank()}${S.mason.vig?'（司法省の承認待ち）':''}`); if(S.flags.noExit) flags.push('出国禁止'); else if(S.flags.masonExpelled) flags.push('フリーメイソン除名');
+  if(S.jail) flags.push(`服役中（残り ${S.jail} 年）`); if(S.flags.mem) flags.push('前世の記憶あり');
+  const panel = `<aside class="panel">
+    <div class="who">${esc(S.name)}<small>${S.beast?(BEASTS[S.beast].realm||'畜生道'):`${COUNTRIES[S.home].n}・${CLASSES[S.cls]}出身`}</small></div>
+    ${S.beast?'':`<div class="age"><b>${S.age}</b>歳</div>`}
+    <div class="stats">${bar('hp','健康',S.hp)}${S.beast?'':bar('int','知恵',S.int)}${bar('hap','幸福',S.hap)}${S.beast?'':bar('fame','名声',S.fame)+bar('jiang','任侠',S.jiang)}</div>
+    ${S.beast?'':`<div class="money"><div><small>貯金</small><b>${fmt$(S.money)}</b></div><div><small>年収</small><b>${fmt$(income())}</b></div></div>`}
+    <div class="karma"><div class="m"><b>${S.merit}</b><small>徳</small></div><div class="s"><b>${S.sin}</b><small>業</small></div></div>
+    ${S.beast?'':`<div class="meta"><span>身分 <b>${esc(career)}</b></span><span>信仰 <b>${F().n}</b></span><span>居住 <b>${c.n}</b>・${statusLabel()}${S.cit.length>1?`・パスポート ${S.cit.length} 冊`:''}</span>${Object.keys(S.visited).length>1?`<span>訪問国 <b>${Object.keys(S.visited).length}</b> か国</span>`:''}${flags.length?`<span>${flags.map(esc).join('・')}</span>`:''}</div>`}
+  </aside>`;
+  let act;
+  if(!S.alive) act = `<p class="prompt">一生が終わった。閻魔帳が閉じられる。</p><button class="btn" data-a="judge">閻魔の庁へ</button>`;
+  else if(S.pending) act = `<p class="prompt">${esc(S.pending.text)}</p><div class="choices">${currentChoices().map((ch,i)=>`<button class="choice${ch.special?' special':''}" data-a="choose" data-i="${i}">${esc(ch.t)}</button>`).join('')}</div>`;
+  else act = `<button class="btn" data-a="next">${S.beast?'続ける':'数年後 →'}</button>`;
+  const log = S.log.map(e => `<div class="entry ${e.k}"><span class="y">${e.y===''?'':e.y+'歳'}</span><span>${esc(e.t)}${e.d>0?`<span class="k plus">徳 +${e.d}</span>`:e.d<0?`<span class="k minus">業 +${-e.d}</span>`:''}</span></div>`).join('');
+  return `<div class="life">${panel}<section class="book"><h4>閻魔帳・第${SOUL.life}世</h4><div class="log" id="log">${log}</div><div class="act">${act}</div></section></div>`;
+}
+function viewJudge(){
+  const J = UI.judge;
+  const verdict = J.net>=60?'大善':J.net>=20?'善':J.net>-20?'凡庸':J.net>-60?'悪':'大悪';
+  const vColor = J.net>=20?'var(--jade)':J.net>-20?'var(--ink)':'var(--cinnabar)';
+  const lines = [...S.ledger].sort((a,b)=>Math.abs(b[1])-Math.abs(a[1])).slice(0,12);
+  const yen = J.net>=60?'閻魔大王は立ち上がって拱手した。「善きかな。」':J.net>=20?'閻魔大王はうなずいた。「悪くない。」':J.net>-20?'閻魔大王はあくびをした。「また平凡な奴か。次。」':J.net>-60?'閻魔大王は眉をひそめた。「自分でわかっているな。」':'閻魔大王は机を叩いた。「引っ立てい！」';
+  const ep = S.beast ? `${S.name}として生き、${S.cause}。` : `${esc(S.name)}、${COUNTRIES[S.home].n}の人、${CLASSES[S.cls]}出身、${S.faith==='none'?'無宗教':`${F().n}を信仰`}${S.ci!==S.home?`、晩年は${C().n}で過ごした`:''}。享年 ${S.age} 歳、死因は${esc(S.cause)}。生涯最高の地位：${esc(J.peakTitle)}${S.mason?`、フリーメイソン${masonRank()}`:S.flags.masonExpelled?'、フリーメイソン会員だったが除名された':''}。最高資産 ${fmt$(S.peakMoney||0)}、死亡時の残高 ${fmt$(S.money)}${S.cit.length>1?`、${S.cit.map(i=>COUNTRIES[i].n).join('・')}の国籍を持つ`:''}。`;
+  const newA = S.newAch.map(id => `<span class="chip">${ACH[id][0]}</span>`).join('');
+  const nextN = nChoices(SOUL.K+10), nextN2 = nChoices(SOUL.K-15);
+  return `<div class="court">
+    <section class="book">
+      <h4>閻魔の庁・判決</h4>
+      <div class="verdict" style="color:${vColor}">${verdict}</div>
+      <p class="epitaph">${ep}</p>
+      ${J.surprise?`<p class="epitaph">${J.surprise}</p>`:''}
+      <p class="epitaph">${yen}</p>
+      <p class="epitaph">今世の徳 <b>${S.merit}</b>　業 <b>${S.sin}</b>　差引 <b>${J.net>0?'+':''}${J.net}</b><br>魂の業力：${J.prevK} → <b>${J.newK}</b>（前世の業力の六割＋今世の差引）</p>
+      ${lines.length?`<ul class="ledger">${lines.map(l=>`<li><span>${esc(l[0])}</span><span class="v ${l[1]>0?'p':'n'}">${l[1]>0?'+':''}${l[1]}</span></li>`).join('')}</ul>`:'<p class="epitaph">閻魔帳には、記すべきことは何もない。</p>'}
+      ${newA?`<div class="newach">${newA}</div>`:''}
+    </section>
+    <section class="soup">
+      <h2 class="sect-h">奈何橋のたもと</h2>
+      <p class="sub">孟婆が湯を一杯差し出す。</p>
+      ${canNirvana()?`<div class="option nirvana"><h3>${F(SOUL.exit).exitH}</h3><p>あなたはかつて${SOUL.exit==='none'?'無宗教のまま':`${F(SOUL.exit).n}を信じ、`}${F(SOUL.exit).exitWho}にまでなり、業力は150に達した。もう転生せず、輪廻から抜け出すことができる。</p><button class="btn" data-a="nirvana">${F(SOUL.exit).exitBtn}</button></div>`:''}
+      <div class="option"><h3>孟婆湯を飲む</h3><p>前世のすべてを忘れ、才能はゼロに戻る。業力 +10。来世で選べる生まれ：${nextN} 通り。</p><button class="btn ghost" data-a="drink">飲み干す</button></div>
+      <div class="option"><h3>飲まずに奈何橋を渡る</h3><p>記憶と才能を持って転生する。ただし天の道に背くので業力 −15。来世で選べる生まれ：${nextN2} 通り。${J.gain.length?`今世で持ち帰れる才能：<b>${J.gain.join('、')}</b>。`:'今世では才能が育たなかった。'}</p><button class="btn red" data-a="refuse">湯を捨てる</button></div>
+    </section>
+  </div>`;
+}
+function viewCodex(){
+  const rows = SOUL.hist.slice().reverse().map(h => `<tr><td class="num">${h.n}</td><td>${esc(h.name)}</td><td>${esc(h.country)}</td><td>${esc(h.cls)}</td><td>${esc(h.faith||'—')}</td><td>${esc(h.title)}</td><td class="num">${h.money!=null?fmt$(h.money):'—'}</td><td class="num">${h.age}</td><td>${esc(h.cause)}</td><td class="num" style="color:${h.net>0?'#6cc3a5':h.net<0?'#e2675b':'inherit'}">${h.net>0?'+':''}${h.net}</td></tr>`).join('');
+  const achs = Object.entries(ACH).map(([id,[n,d]]) => `<div class="ach ${SOUL.ach[id]?'on':'off'}"><b>${n}</b>${d}${SOUL.ach[id]?`<br>第 ${SOUL.ach[id]} 世で達成`:''}</div>`).join('');
+  return `<h2 class="sect-h">輪廻録</h2><p class="sub">あなたの魂が経てきたすべての人生。</p>
+    ${rows?`<div class="tablewrap"><table><thead><tr><th>世</th><th>名前</th><th>出生地</th><th>出自</th><th>信仰</th><th>最高の地位</th><th>最高資産</th><th>享年</th><th>死因</th><th>差引の徳</th></tr></thead><tbody>${rows}</tbody></table></div>`:'<p class="sub">まだ前世はない。</p>'}
+    <h2 class="sect-h" style="margin-top:28px">実績</h2><div class="achgrid">${achs}</div>
+    <div class="row" style="margin-top:22px"><button class="btn ghost" data-a="back">戻る</button></div>`;
+}
+function viewNirvana(){
+  const X = F(SOUL.exit || 'bud');
+  return `<section class="end"><h2>${ACH[X.exit][0]}</h2>
+    <p class="sub">${X.exitTxt.replace('{n}', SOUL.life)}</p>
+    <p class="sub">この世にはまだ無数の衆生が輪廻の中にいて、自分の生まれを引いている。</p>
+    <div class="row"><button class="btn ghost" data-a="codex">輪廻録を見る</button><button class="btn" data-a="reset">新しい魂で始める</button></div></section>`;
+}
+function bind(){
+  const sel = $('#birthCountry');
+  if(sel) sel.onchange = () => { UI.birthPick = +sel.value; save(); render(); };
+  const fm = $('#freeMode');
+  if(fm) fm.onchange = () => { SOUL.free = fm.checked; save(); render(); };
+  document.querySelectorAll('[data-a]').forEach(b => b.onclick = () => {
+    const a = b.dataset.a, i = +b.dataset.i, before = UI.screen;
+    if(a==='begin'){ UI.screen='birth'; save(); render(); }
+    else if(a==='continue'){ UI.screen = UI.judge ? 'judge' : S ? 'life' : 'birth'; render(); }
+    else if(a==='codex'){ UI.prev = UI.screen; UI.screen='codex'; render(); }
+    else if(a==='back'){ UI.screen = UI.prev && UI.prev!=='codex' ? UI.prev : 'title'; render(); }
+    else if(a==='askreset'){ UI.askReset = true; render(); }
+    else if(a==='cancelreset'){ UI.askReset = false; render(); }
+    else if(a==='reset'){ SOUL = freshSoul(); S = null; UI = {screen:'title'}; save(); render(); }
+    else if(a==='born') startLife(SOUL.births[i]);
+    else if(a==='next') advance();
+    else if(a==='choose') choose(i);
+    else if(a==='judge') judge();
+    else if(a==='drink') drinkSoup(true);
+    else if(a==='refuse') drinkSoup(false);
+    else if(a==='nirvana') nirvana();
+    else if(a==='remake') remake();
+    if(UI.screen !== before) window.scrollTo({top:0});
+  });
+}
+
+load();
+if(UI.screen==='codex') UI.screen = 'title';
+if(UI.screen!=='title' && UI.screen!=='nirvana') UI.screen = 'title';
+render();
+</script>
+</body>
+</html>

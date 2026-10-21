@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5TN9NNFY4Z"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-5TN9NNFY4Z');
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>輪廻・人生図鑑</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* Layout: 同遊戲同一個幽冥世界；一生流程 → 十一條職涯梯級 → 政體 → 信仰 → 金錢 → 出國 → 平凡職業 */
+:root{
+  --night:#11151c; --night-2:#1a2130; --line:#2b3446;
+  --mist:#93a0b6; --glow:#e9e3d2;
+  --paper:#e9dcb6; --paper-2:#dccb9b; --ink:#251d13; --ink-soft:#5c4d36;
+  --gold:#c9a24c; --cinnabar:#b5352b; --jade:#3d8a72; --sin:#e2675b; --merit:#6cc3a5;
+  --font-brush:"LXGW WenKai TC","Kaiti TC","STKaiti","DFKai-SB","BiauKai",serif;
+  --font-ui:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--night);color:var(--glow);font-family:var(--font-ui);font-size:14px;line-height:1.6;
+  background-image:radial-gradient(1200px 600px at 50% -200px,#1f2a3d 0%,transparent 70%)}
+.wrap{max-width:1180px;margin:0 auto;padding-block:28px 56px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:44px}
+h1{font-family:var(--font-brush);font-size:clamp(34px,6vw,52px);margin:0;color:var(--paper);letter-spacing:.12em;line-height:1.1;text-wrap:balance}
+h1 span{color:var(--cinnabar)}
+.lede{margin:8px 0 0;color:var(--mist);max-width:62ch;font-size:15px}
+h2{font-family:var(--font-brush);font-size:28px;margin:0 0 4px;color:var(--paper);letter-spacing:.06em;text-wrap:balance}
+.sub{margin:0 0 18px;color:var(--mist);max-width:70ch}
+
+/* 一生流程 */
+.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:8px}
+.node{background:var(--paper);color:var(--ink);padding:10px 12px;border-radius:2px;min-width:0;flex:1 1 120px;display:grid;gap:2px;align-content:start}
+.node b{font-family:var(--font-brush);font-size:20px;line-height:1.2}
+.node small{font-size:12px;color:var(--ink-soft);line-height:1.45}
+.node.after{background:var(--night-2);color:var(--glow);border:1px solid var(--line)}
+.node.after small{color:var(--mist)}
+.arrow{align-self:center;color:var(--gold);font-size:18px;flex:0 0 auto}
+.outcomes{margin-top:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.out{border:1px solid var(--line);border-left:3px solid var(--mist);padding:10px 12px;border-radius:2px;display:grid;gap:2px}
+.out b{font-family:var(--font-brush);font-size:18px}
+.out small{color:var(--mist);font-size:12.5px}
+.out.good{border-left-color:var(--merit)}.out.bad{border-left-color:var(--sin)}.out.gold{border-left-color:var(--gold)}
+.out.good b{color:var(--merit)}.out.bad b{color:var(--sin)}.out.gold b{color:var(--gold)}
+
+/* 職涯梯級 */
+.ladders{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.lad{background:var(--night-2);border:1px solid var(--line);border-radius:4px;padding:16px;display:grid;gap:12px;align-content:start;min-width:0}
+.lad header{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.lad h3{margin:0;font-family:var(--font-brush);font-size:26px;color:var(--paper)}
+.tal{font-size:11.5px;color:var(--gold);border:1px solid var(--gold);border-radius:999px;padding:0 8px;white-space:nowrap}
+.ranks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column-reverse;gap:4px}
+.ranks li{display:grid;grid-template-columns:1.6em 1fr;gap:8px;align-items:center;padding:5px 9px;border-radius:2px;
+  background:var(--paper);color:var(--ink);font-family:var(--font-brush);font-size:16px}
+.ranks li i{font-style:normal;font-family:var(--font-ui);font-size:11px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.ranks li:nth-child(2){margin-right:7%}.ranks li:nth-child(3){margin-right:14%}.ranks li:nth-child(4){margin-right:21%}.ranks li:nth-child(5){margin-right:28%}
+.ranks li.top{background:var(--gold);color:#1a1408}
+.ranks li.top i{color:#4a3a14}
+.ranks li em{font-style:normal;font-family:var(--font-ui);font-size:11px;justify-self:end;grid-column:2;margin-top:-2px}
+dl.kv{margin:0;display:grid;grid-template-columns:3.6em 1fr;gap:5px 10px;font-size:13px}
+dl.kv dt{color:var(--mist)}
+dl.kv dd{margin:0;min-width:0}
+.clean{color:var(--merit)}.dirty{color:var(--sin)}
+
+/* 平凡職業 */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:4px}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:13.5px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--mist);font-weight:500;font-size:12px;letter-spacing:.06em;background:var(--night-2)}
+td:first-child{font-family:var(--font-brush);font-size:17px;color:var(--paper);white-space:nowrap}
+.jobs{display:flex;flex-wrap:wrap;gap:5px}
+.job{background:#202839;border:1px solid var(--line);border-radius:2px;padding:1px 8px;white-space:nowrap}
+.side{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:16px}
+.side div{border-top:1px solid var(--line);padding-top:8px;color:var(--mist);font-size:13px}
+.side b{display:block;color:var(--glow);font-family:var(--font-brush);font-size:17px}
+.job i{font-style:normal;color:var(--gold);font-size:11.5px;margin-left:5px;font-variant-numeric:tabular-nums}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td .rk{font-family:var(--font-brush);font-size:15px;color:var(--glow)}
+.formula{background:var(--paper);color:var(--ink);border-radius:2px;padding:14px 16px;display:grid;gap:6px;max-width:760px}
+.formula b{font-family:var(--font-brush);font-size:19px}
+.formula small{color:var(--ink-soft);font-size:12.5px}
+.langs{display:flex;gap:4px;font-size:12.5px;justify-content:flex-end;margin-bottom:8px}
+.langs a{color:var(--mist);text-decoration:none;padding:2px 8px;border:1px solid transparent;border-radius:999px}
+.langs a[aria-current]{color:var(--gold);border-color:var(--gold)}
+footer.foot{border-top:1px solid var(--line);padding-top:16px;display:grid;gap:8px;font-size:12px;color:var(--mist);max-width:80ch}
+footer.foot p{margin:0}
+footer.foot b{color:var(--glow);font-weight:500}
+footer.foot a{color:var(--mist)}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <nav class="langs" aria-label="言語"><a href="../paths.html">粵語</a><a href="../zh/paths.html">中文</a><a href="../en/paths.html">English</a><a href="paths.html" aria-current="page">日本語</a></nav>
+    <h1>輪廻<span>人生</span>図鑑</h1>
+    <p class="lede">ゲームで歩めるすべての道：誕生から奈何橋までの一生の流れ、十一の非凡な職業の昇進、フリーメイソンの副ルート、八種類の政治体制での政治の道、信仰と輪廻から抜け出す門、お金の稼ぎ方、海外留学・出稼ぎ・永住・帰化の方法、そしてほとんどの人が就く平凡な仕事。</p>
+  </header>
+
+  <section>
+    <h2>一生の流れ</h2>
+    <p class="sub">人生の各段階でイベントが起きる。死後、閻魔の庁が徳と業から業力を計算し、業力が来世を決める。</p>
+    <div class="flow">
+      <div class="node"><b>転生</b><small>国を引く（218か国。国連の出生数の平方根でゲーム的に重み付けし、小国にもチャンスあり）、次に階層と信仰（ピュー・リサーチ・センターのデータ）。業力が高いと2〜4つから選べ、業力で国を指定することもできる</small></div>
+      <span class="arrow">→</span>
+      <div class="node"><b>幼少期 1〜12</b><small>児童労働、予防接種、いじめ、才能の目覚め、前世の夢、前世の記憶を語る、宗教者との出会い</small></div>
+      <span class="arrow">→</span>
+      <div class="node"><b>思春期 13〜17</b><small>初めてのタバコ、統一試験、街の勧誘、入団テスト、退学</small></div>
+      <span class="arrow">→</span>
+      <div class="node"><b>成人期 18〜64</b><small>人生の分かれ道、留学、出稼ぎ、移住、永住、帰化、結婚、改宗、巡礼、世界一周、昇進</small></div>
+      <span class="arrow">→</span>
+      <div class="node"><b>老年期 65+</b><small>65歳で引退、故郷や物価の安い国での老後、詐欺、遺言、懺悔</small></div>
+      <span class="arrow">→</span>
+      <div class="node after"><b>閻魔の庁</b><small>新しい業力 = 前の業力 × 0.6 + 今世の徳 − 業。輪廻を信じなかった人はとても驚く</small></div>
+      <span class="arrow">→</span>
+      <div class="node after"><b>奈何橋</b><small>孟婆湯を飲む：業力 +10、すべて忘れる<br>飲まない：業力 −15、才能と記憶を持ち越す</small></div>
+    </div>
+    <div class="outcomes">
+      <div class="out good"><b>人間、選べる</b><small>業力20以上で2つ、50以上で3つ、100以上で4つから選べ、豊かな国を引きやすい</small></div>
+      <div class="out"><b>人間、運任せ</b><small>業力 −40〜20：世界の出生比率どおり</small></div>
+      <div class="out bad"><b>畜生道</b><small>業力 −40 未満で可能性あり：野良犬、ブロイラー、役牛、野良猫、ドブネズミ、ゴキブリ、ジャイアントパンダ、富豪のコーギー、金魚</small></div>
+      <div class="out gold"><b>異世界</b><small>トラックにはねられて死ぬと、次はスライムに転生してゴブリン、魔王軍、勇者と出会える</small></div>
+      <div class="out bad"><b>地獄</b><small>業力 −200 以下：まず苦しみを受け、業力 +100 してから転生</small></div>
+      <div class="out gold"><b>輪廻から抜ける</b><small>聖職で第4位（無宗教なら学術でアカデミー会員）に達し、業力150以上：信仰ごとの出口を選んでゲーム終了</small></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>十一の非凡な道</h2>
+    <p class="sub">下から上へ昇進する。昇進のたびに<span class="clean">正道</span>か<span class="dirty">邪道</span>を選べる。邪道は成功率が25%高いが、必ず業が増える。最上位で実績を獲得。</p>
+    <div class="ladders">
+
+      <article class="lad">
+        <header><h3>任侠</h3><span class="tal">才能 任侠</span></header>
+        <ol class="ranks"><li><i>1</i>下っ端</li><li><i>2</i>用心棒</li><li><i>3</i>幹部</li><li><i>4</i>若頭</li><li class="top"><i>5</i>組長<em>実績：大親分</em></li></ol>
+        <dl class="kv">
+          <dt>入門</dt><dd>13〜22歳で街の親分に勧誘される。分かれ道（任侠10以上か労働者階層以下）</dd>
+          <dt>昇進</dt><dd><span class="clean">正面から名を上げる</span>（死亡10%）／<span class="dirty">兄弟分を暗殺 業+15</span></dd>
+          <dt>イベント</dt><dd>取り立て、情報屋、抗争、ドラッグパーティー</dd>
+          <dt>出口</dt><dd>足を洗う → 食堂の店主</dd>
+        </dl>
+      </article>
+
+      <article class="lad">
+        <header><h3>音楽</h3><span class="tal">才能 音感</span></header>
+        <ol class="ranks"><li><i>1</i>ストリートミュージシャン</li><li><i>2</i>インディーズバンドのメンバー</li><li><i>3</i>契約歌手</li><li><i>4</i>売れっ子歌手</li><li class="top"><i>5</i>スーパースター<em>実績：スーパースター</em></li></ol>
+        <dl class="kv">
+          <dt>入門</dt><dd>幼少期に音楽の才能が目覚め、14〜24歳でバンドを組む。分かれ道</dd>
+          <dt>昇進</dt><dd><span class="clean">昼夜練習</span>／<span class="dirty">裏取引でランキングを買う 業+8</span></dd>
+          <dt>イベント</dt><dd>チャリティー公演、ドラッグパーティー</dd>
+        </dl>
+      </article>
+
+      <article class="lad">
+        <header><h3>商売</h3><span class="tal">才能 商才</span></header>
+        <ol class="ranks"><li><i>1</i>露店主</li><li><i>2</i>小さな店のオーナー</li><li><i>3</i>会社社長</li><li><i>4</i>上場企業の会長</li><li class="top"><i>5</i>国をも凌ぐ富豪<em>実績：国をも凌ぐ富豪</em></li></ol>
+        <dl class="kv">
+          <dt>入門</dt><dd>分かれ道（財力15以上）。プログラムが書ければIT起業もでき、35%で一気に会社社長に</dd>
+          <dt>昇進</dt><dd><span class="clean">着実に拡大</span>／<span class="dirty">役人に賄賂 業+10、15%で投獄</span></dd>
+          <dt>イベント</dt><dd>搾取工場、金融危機で降格</dd>
+        </dl>
+      </article>
+
+      <article class="lad">
+        <header><h3>政治</h3><span class="tal">才能 権謀</span></header>
+        <ol class="ranks"><li><i>1</i>社会運動家</li><li><i>2</i>地方議員</li><li><i>3</i>国会議員</li><li><i>4</i>大臣</li><li class="top"><i>5</i>国家指導者<em>実績：一国の主</em></li></ol>
+        <dl class="kv">
+          <dt>入門</dt><dd>分かれ道（18歳以上、市民のみ）</dd>
+          <dt>昇進</dt><dd>上は民主国家の場合。役職と昇進方法は政治体制によって変わる（下の「政治体制」参照）</dd>
+          <dt>イベント</dt><dd>開発業者の封筒、スキャンダル、上からの命令、反腐敗粛清。第4位ではデモを鎮圧するか決める（業+30／徳+20）</dd>
+          <dt>海外</dt><dd>別の国へ移ると一からやり直し</dd>
+        </dl>
+      </article>
+
+      <article class="lad">
+        <header><h3>反体制</h3><span class="tal">才能 気骨</span></header>
+        <ol class="ranks"><li><i>1</i>人権活動家</li><li><i>2</i>反体制派</li><li><i>3</i>著名な反体制派</li><li><i>4</i>亡命リーダー</li><li class="top"><i>5</i>民主の象徴<em>実績：良心の囚人</em></li></ol>
+        <dl class="kv">
+          <dt>入門</dt><dd>非民主国家での分かれ道。学生時代にデモに参加していると強調表示</dd>
+          <dt>昇進</dt><dd><span class="clean">実名で発言 徳+6</span>／<span class="dirty">運動内の異論を潰す 業+8</span>。毎回逮捕の危険あり</dd>
+          <dt>イベント</dt><dd>獄中での自白強要（自白、仲間を売る 業+12、拒否 徳+5）、亡命、毒殺、ノーベル平和賞</dd>
+          <dt>亡命</dt><dd>亡命すると故郷で引退できない</dd>
+        </dl>
+      </article>
+
+      <article class="lad">
+        <header><h3>聖職</h3><span class="tal">才能 霊性</span></header>
+        <ol class="ranks"><li><i>1</i>沙弥</li><li><i>2</i>比丘</li><li><i>3</i>住職</li><li><i>4</i>高僧</li><li class="top"><i>5</i>一代の宗師<em>実績：一代の宗師</em></li></ol>
+        <dl class="kv">
+          <dt>入門</dt><dd>分かれ道（信仰が必要）。幼少期に宗教者に学んでいると強調表示。転生活仏はいきなり住職から</dd>
+          <dt>昇進</dt><dd><span class="clean">清修 徳+6</span>／<span class="dirty">金儲けや権力者への迎合 業+10</span>。差引の徳が高いほど昇進しやすい</dd>
+          <dt>イベント</dt><dd>寄付を救済に使うか着服するか、迷える者を導く、同僚の性的虐待を告発するか隠蔽するか</dd>
+          <dt>特記</dt><dd>名称は信仰によって変わる（上は仏教。下の「信仰」参照）。第4位でその信仰の出口が開く</dd>
+        </dl>
+      </article>
+
+      <article class="lad">
+        <header><h3>学術</h3><span class="tal">才能 慧根</span></header>
+        <ol class="ranks"><li><i>1</i>大学院生</li><li><i>2</i>研究員</li><li><i>3</i>教授</li><li><i>4</i>アカデミー会員</li><li class="top"><i>5</i>ノーベル賞受賞者<em>実績：ノーベル賞</em></li></ol>
+        <dl class="kv">
+          <dt>入門</dt><dd>分かれ道（知恵60以上、40歳以下）</dd>
+          <dt>昇進</dt><dd><span class="clean">地道に実験</span>／<span class="dirty">データ捏造 業+10</span></dd>
+          <dt>イベント</dt><dd>命を救う新薬：製法を公開して徳+20、または特許で大儲け</dd>
+        </dl>
+      </article>
+
+      <article class="lad">
+        <header><h3>軍人</h3><span class="tal">才能 権謀</span></header>
+        <ol class="ranks"><li><i>1</i>兵士</li><li><i>2</i>下士官</li><li><i>3</i>将校</li><li><i>4</i>将軍</li><li class="top"><i>5</i>軍事政権の首班<em>実績：一国の主</em></li></ol>
+        <dl class="kv">
+          <dt>入門</dt><dd>分かれ道（30歳以下）。戦乱国では徴兵</dd>
+          <dt>昇進</dt><dd><span class="clean">前線で手柄</span>（戦死10%）／<span class="dirty">戦友を売る 業+12</span></dd>
+          <dt>イベント</dt><dd>村の虐殺命令。将軍はクーデターを起こせ、55%で政権掌握</dd>
+        </dl>
+      </article>
+
+      <article class="lad">
+        <header><h3>インフルエンサー</h3><span class="tal">才能 目立ちたがり</span></header>
+        <ol class="ranks"><li><i>1</i>一般人</li><li><i>2</i>駆け出し配信者</li><li><i>3</i>KOL</li><li><i>4</i>登録者100万人</li><li class="top"><i>5</i>トップ配信者<em>実績：トップ配信者</em></li></ol>
+        <dl class="kv">
+          <dt>入門</dt><dd>13〜25歳で動画がバズる。分かれ道（50歳以下）</dd>
+          <dt>昇進</dt><dd><span class="clean">中身で勝負</span>／<span class="dirty">やらせと煽り 業+6</span></dd>
+          <dt>失敗</dt><dd>再生数3回、うち2回はお母さん</dd>
+        </dl>
+      </article>
+
+      <article class="lad">
+        <header><h3>占い</h3><span class="tal">才能 目立ちたがり</span></header>
+        <ol class="ranks"><li><i>1</i>街の占い師</li><li><i>2</i>風水師</li><li><i>3</i>大先生</li><li><i>4</i>国師</li><li class="top"><i>5</i>教祖<em>実績：集団盲信</em></li></ol>
+        <dl class="kv">
+          <dt>入門</dt><dd>分かれ道（25歳以上）、廟街に折りたたみ机</dd>
+          <dt>昇進</dt><dd><span class="clean">善行を勧める 徳+3</span>／<span class="dirty">十万の水晶を売る 業+10</span></dd>
+          <dt>失敗</dt><dd>大地震を予言したが起きず、記者に追われる</dd>
+        </dl>
+      </article>
+
+      <article class="lad">
+        <header><h3>スポーツ</h3><span class="tal">才能 体格</span></header>
+        <ol class="ranks"><li><i>1</i>アマチュア選手</li><li><i>2</i>プロ選手</li><li><i>3</i>代表選手</li><li><i>4</i>世界王者</li><li class="top"><i>5</i>スポーツ界の伝説<em>実績：スポーツ界の伝説</em></li></ol>
+        <dl class="kv">
+          <dt>入門</dt><dd>7〜13歳で運動の才能が見つかり、15〜22歳で入団テスト。分かれ道（26歳以下）</dd>
+          <dt>昇進</dt><dd><span class="clean">毎日猛練習</span>／<span class="dirty">ドーピング 業+8</span>。36歳以降は昇進なし</dd>
+          <dt>イベント</dt><dd>八百長（永久追放の可能性）。33歳から引退してコーチに</dd>
+        </dl>
+      </article>
+
+    </div>
+    <div class="side">
+      <div><b>人生の分かれ道</b>17〜45歳にランダムに訪れ、条件を満たす道から3つが提示される。現状維持も可。38〜50歳には中年の危機も一度訪れる。</div>
+      <div><b>前世の記憶</b>孟婆湯を飲まず、前世で一度以上昇進していれば、12〜22歳で記憶がよみがえり、前世の道を第2位から再開できる。</div>
+      <div><b>才能</b>湯を飲まない場合のみ持ち越せ、最大3レベル。レベルごとに初期値か対応する職業の昇進率が上がる。</div>
+      <div><b>給料</b>各位の給料 = 居住国の1人当たり所得 × 倍率。下の「お金」参照。</div>
+    </div>
+  </section>
+
+
+  <section>
+    <h2>政治体制</h2>
+    <p class="sub">各国の政治体制は V-Dem「世界の政治体制分類」2025年のデータ：0 閉鎖的専制、1 選挙権威主義、2 選挙民主制、3 自由民主制。閉鎖的専制はさらに一党独裁・君主制・軍事政権・神権などに分けているが、これはゲーム上の設定。政治の道は住んでいる国の体制に従う。</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>政治体制</th><th class="num">V-Dem</th><th>政治の五段階</th><th>昇進の方法</th><th>邪道（業）</th><th>弾圧の強さ</th></tr></thead>
+        <tbody>
+          <tr><td>自由民主制／選挙民主制</td><td class="num">2–3</td><td><span class="rk">社会運動家 → 地方議員 → 国会議員 → 大臣 → 国家指導者</span></td><td>選挙</td><td><span class="dirty">票の操作、対立候補の中傷 +12</span></td><td>0</td></tr>
+          <tr><td>選挙権威主義</td><td class="num">1</td><td><span class="rk">与党党員 → 地方議員 → 国会議員 → 大臣 → 大統領</span></td><td>結果の決まった選挙</td><td><span class="dirty">票の水増し、野党弾圧 +12</span></td><td>半分</td></tr>
+          <tr><td>一党独裁</td><td class="num">0</td><td><span class="rk">党員 → 末端幹部 → 地方党書記 → 中央委員 → 最高指導者</span></td><td>党内考課</td><td><span class="dirty">派閥・贈り物・コネ +10</span></td><td>全面</td></tr>
+          <tr><td>君主専制</td><td class="num">0</td><td><span class="rk">公務員 → 王室顧問 → 大臣 → 首相 → 国王</span></td><td>王室の信任。国王になれるのは特権階級出身のみ</td><td><span class="dirty">へつらい・献上・同僚を陥れる +8</span></td><td>全面</td></tr>
+          <tr><td>軍事政権</td><td class="num">0</td><td><span class="rk">事務員 → 局長 → 大臣 → 傀儡首相</span></td><td>将軍の評価。本当の権力は軍人の道でクーデターを</td><td><span class="dirty">軍の弾圧を取り繕う +12</span></td><td>全面</td></tr>
+          <tr><td>神権政治</td><td class="num">0–1</td><td><span class="rk">神学生 → 地方官吏 → 州知事 → 監督者評議会メンバー → 最高指導者</span></td><td>聖職者の審査。ムスリムでなければ州知事まで</td><td><span class="dirty">「不信心者」の弾圧を率いる +12</span></td><td>全面</td></tr>
+          <tr><td>特別行政区</td><td class="num">0</td><td><span class="rk">地域団体の幹事 → 区議会議員 → 立法会議員 → 局長 → 行政長官</span></td><td>「愛国者」審査</td><td><span class="dirty">忠誠を誓い、あらゆる宴席に出る +6</span></td><td>八割</td></tr>
+          <tr><td>その他の閉鎖的専制</td><td class="num">0</td><td><span class="rk">下級官僚 → 局長 → 州知事 → 首相 → 最高権力者</span></td><td>権力者の寵愛</td><td><span class="dirty">媚びて同僚を売る +10</span></td><td>全面</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="side">
+      <div><b>業力は国籍でなく選択で決まる</b>どの国に生まれても業力は増減しない。徳と業は、その体制の中であなたが何を選ぶかだけで決まる。</div>
+      <div><b>上からの命令</b>非民主国家の役人は強制撤去、野党の資格剥奪、逮捕などの命令を受ける。従う 業+10、面従腹背 業+3（30%で降格）、拒否 徳+10 だが即座に職を失い、投獄されることも。</div>
+      <div><b>粛清</b>後ろ盾の失脚：告発すれば業+6で地位は守れる。黙っていれば封筒を受け取ったかどうか次第（受け取っていれば60%で投獄）。君主国では王子の飲酒運転死亡事故のもみ消しを求められる（業+10／徳+8だが失寵）。</div>
+      <div><b>民主国家</b>スキャンダル発覚：非を認めて辞任 徳+4、部下のせいにする 業+6。</div>
+      <div><b>市民</b>弾圧が強い国では密告者になるよう頼まれることがある（業+8）。選挙権威主義では票の買収がある（業+2、断れば徳+1）。デモや告発での逮捕率は弾圧の強さに比例する。</div>
+      <div><b>失脚</b>非民主国家で政治に関わると、昇進に失敗するたびに権力闘争で失脚する危険がある。弾圧が強いほど危険で、半数は投獄される。</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>フリーメイソン</h2>
+    <p class="sub">どの職業とも並行できる副ルート。フリーメイソンは慈善と修養を目的とし、会員はそれを誇りにしているが、外部からはよく誤解される。入会自体は業力に影響しない。徳と業は中での選択で決まる。</p>
+    <div class="ladders">
+      <article class="lad">
+        <header><h3>フリーメイソン</h3><span class="tal">副ルート</span></header>
+        <ol class="ranks"><li><i>1</i>徒弟</li><li><i>2</i>職人</li><li><i>3</i>マスター・メイソン<em>実績：マスター・メイソン</em></li><li><i>4</i>ロッジのマスター</li><li class="top"><i>5</i>グランド・マスター<em>実績：グランド・マスター</em></li></ol>
+        <dl class="kv">
+          <dt>入会</dt><dd>21〜60歳、年長者の推薦。前科がなく、徳が業以上で、至高の存在を信じること（フランス・ベルギーのロッジは例外）。女性は女性ロッジへ</dd>
+          <dt>昇級</dt><dd>徒弟・職人は各最低2年。ロッジのマスターはマスター・メイソン5年かつ差引の徳10以上。グランド・マスターは50歳以上、差引の徳40以上、名声25以上</dd>
+          <dt>除名</dt><dd>刑事事件で服役するか、兄弟の絆の悪用が発覚すると永久除名、今世では再入会不可。政治・信仰・会員であること自体による投獄は対象外</dd>
+        </dl>
+      </article>
+    </div>
+    <div class="tablewrap" style="margin-top:16px">
+      <table>
+        <thead><tr><th>イベント</th><th>選択と業力</th></tr></thead>
+        <tbody>
+          <tr><td>ロッジの募金</td><td>1人当たり所得の8%を寄付：<span class="clean">徳+5</span>、ボランティア：<span class="clean">徳+3</span>、不参加：0</td></tr>
+          <tr><td>毎晩の内省</td><td>真剣に取り組む：<span class="clean">徳+1</span>、業が徳を上回るときは誰かに謝罪する機会 <span class="clean">徳+4</span>。知恵と幸福が上がる</td></tr>
+          <tr><td>誤解される</td><td>親戚に世界を支配しているのかと聞かれ、ネットでイルミナティ扱いされ、パートナーにエプロンを浮気の証拠と思われる。丁寧に説明するか、冗談で返すか、指輪を堂々と着けるか。影響は幸福と名声のみ</td></tr>
+          <tr><td>兄弟の絆</td><td>兄弟を使って契約を取る、法廷で合図を送る、裏口入社：<span class="dirty">業+8</span>、30%で除名。断る：<span class="clean">徳+3</span></td></tr>
+          <tr><td>迫害</td><td>フリーメイソンが禁止された国で：声明に署名して退会、否定して秘密集会を続ける、または公に名乗る <span class="clean">徳+3</span>。逮捕率は弾圧の強さ次第</td></tr>
+          <tr><td>政府の監督下（キューバ）</td><td>合法だが、ロッジのマスターやグランド・マスターに選ばれると司法省の承認が必要：嘆願して待つ（半数は覆される）、会員と集会 <span class="clean">徳+3</span>（40%で拘束・出国禁止）、役人と取引 <span class="dirty">業+4</span>。国家保安局の「コーヒー」：名前を挙げる <span class="dirty">業+8</span>、回答拒否 <span class="clean">徳+3</span></td></tr>
+          <tr><td>獄中の取り調べ</td><td>会員名簿を書いて減刑：<span class="dirty">業+10</span>、白紙で返す：<span class="clean">徳+5</span>、刑期+2年</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="side">
+      <div><b>政府の監督下にある国</b>キューバ：フリーメイソンは合法だが、2024年以降、司法省がロッジの選挙や除名に介入し、指導者が国家保安局に拘束され出国を制限されている。</div>
+      <div><b>フリーメイソンが禁止されている国（ゲーム上の設定）</b>中国本土、北朝鮮、ベトナム、ラオス、イラン、アフガニスタン、サウジアラビア、パキスタン、イラク、シリア、リビア、イエメン、エジプト。秘密裏に入会はできるが、迫害を受ける。</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>信仰</h2>
+    <p class="sub">生まれた土地の実際の宗教人口比率（ピュー・リサーチ・センター、2020年）で決まる。このゲームでは信じても信じなくても誰もが輪廻する。どの信仰も極めれば、輪廻から抜け出す独自の門がある。</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>信仰</th><th>聖職の五段階</th><th>出口</th><th>輪廻を信じる？</th><th>聖職の給料</th><th>巡礼</th><th>前世の記憶を話すと</th></tr></thead>
+        <tbody>
+          <tr><td>仏教</td><td><span class="rk">沙弥 → 比丘 → 住職 → 高僧 → 一代の宗師</span></td><td>涅槃</td><td>信じる</td><td>なし</td><td>ブッダガヤで瞑想</td><td>転生活仏：前世が仏教の聖職者、または30%の確率</td></tr>
+          <tr><td>ヒンドゥー教</td><td><span class="rk">苦行者 → 祭司 → 霊的指導者 → グル → 聖者</span></td><td>梵我一如（解脱）</td><td>信じる</td><td>なし</td><td>ガンジス川で沐浴</td><td>家族が前世の家を探しに連れて行く</td></tr>
+          <tr><td>民間信仰</td><td><span class="rk">廟守 → 道士 → 法師 → 観主 → 天師</span></td><td>羽化登仙</td><td>信じる</td><td>あり</td><td>大甲媽祖の巡行</td><td>霊媒師を訪ねる</td></tr>
+          <tr><td>キリスト教</td><td><span class="rk">神学生 → 司祭 → 司教 → 大司教 → 枢機卿</span></td><td>天国へ</td><td>信じない</td><td>あり</td><td>エルサレムで悲しみの道を歩く</td><td>神父による悪魔祓い</td></tr>
+          <tr><td>イスラム教</td><td><span class="rk">神学生 → イマーム → 法学者 → 大ムフティー → 大ウラマー</span></td><td>楽園へ</td><td>信じない</td><td>あり</td><td>メッカ巡礼</td><td>イマームがジンを追い払う</td></tr>
+          <tr><td>ユダヤ教</td><td><span class="rk">神学生 → ラビ → シナゴーグの首席ラビ → ラビ法廷の裁判官 → 大ラビ</span></td><td>来世</td><td>信じない（カバラは例外）</td><td>あり</td><td>嘆きの壁で祈る</td><td>ラビがカバラを教えてくれる</td></tr>
+          <tr><td>無宗教</td><td><span class="rk">聖職なし。学術でアカデミー会員になれば可</span></td><td>ログアウト（もう遊ばない）</td><td>信じない</td><td>—</td><td>—</td><td>児童精神科に連れて行かれる</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="side">
+      <div><b>改宗</b>布教、移住先で周囲が別の宗教を信じている、異宗教間の結婚、パスカルの賭け、いずれも改宗のきっかけになる。信仰を失うこともある。</div>
+      <div><b>背教罪</b>背教罪のある10か国でイスラム教を捨てると、35%で投獄、それ以外は家族に縁を切られる。国のリストはゲーム上の設定。</div>
+      <div><b>迫害</b>権威主義国家では、信者が10%未満の宗教は弾圧される。地下で集まるか、転向書に署名するか、公然と信仰を守るか。</div>
+      <div><b>閻魔の庁</b>輪廻を信じなかった人は死後とても驚く。キリスト教徒はこう聞かされる。「ここは東方支部だ。お前たちの本部は満員で、うちに外注されたのだ。」</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>お金</h2>
+    <p class="sub">米ドルで計算。各国の1人当たり所得は世界銀行の実際の1人当たり国民所得（台湾と北朝鮮は推計）なので、同じ仕事でも国によって給料が数十倍違うことがある。</p>
+    <div class="formula">
+      <b>年収 = 居住国の1人当たり所得 × 職業の倍率</b>
+      <small>毎年の貯金 ≒ 収入 × 貯蓄率。ただし生活費は最低でも1人当たり所得の2割かかるので、収入が低すぎると貯金を取り崩す。出自別の貯蓄率：赤貧 0%、貧困 3%、労働者 8%、中流 12%、富裕 25%、特権 35%。大卒 +5%、結婚や子育てで減り、豊かな国の出稼ぎ労働者は仕送りのため25%多く貯める。</small>
+      <small>生まれたときの家の資産：赤貧 0、貧困 0.05、労働者 0.3、中流 1.5、富裕 8、特権 60 × 1人当たり所得。65歳で引退：豊かな国では年金あり（1人当たり所得の3割）、その他の国は5%のみ。</small>
+    </div>
+    <div class="tablewrap" style="margin-top:16px">
+      <table>
+        <thead><tr><th>非凡な道</th><th class="num">第1位</th><th class="num">第2位</th><th class="num">第3位</th><th class="num">第4位</th><th class="num">第5位</th></tr></thead>
+        <tbody>
+          <tr><td>反体制</td><td class="num">×0.05</td><td class="num">×0.1</td><td class="num">×0.3</td><td class="num">×0.8</td><td class="num">×1.5</td></tr>
+          <tr><td>任侠</td><td class="num">×0.8</td><td class="num">×1.5</td><td class="num">×3</td><td class="num">×6</td><td class="num">×15</td></tr>
+          <tr><td>音楽</td><td class="num">×0.3</td><td class="num">×0.8</td><td class="num">×3</td><td class="num">×10</td><td class="num">×40</td></tr>
+          <tr><td>商売</td><td class="num">×0.8</td><td class="num">×1.5</td><td class="num">×4</td><td class="num">×15</td><td class="num">×100</td></tr>
+          <tr><td>政治</td><td class="num">×0.5</td><td class="num">×1.5</td><td class="num">×2.5</td><td class="num">×4</td><td class="num">×6</td></tr>
+          <tr><td>聖職・有給</td><td class="num">×0.5</td><td class="num">×0.8</td><td class="num">×1.2</td><td class="num">×1.8</td><td class="num">×3</td></tr>
+          <tr><td>聖職・僧侶／苦行者</td><td class="num">×0.1</td><td class="num">×0.1</td><td class="num">×0.2</td><td class="num">×0.3</td><td class="num">×0.5</td></tr>
+          <tr><td>学術</td><td class="num">×0.5</td><td class="num">×1.3</td><td class="num">×2</td><td class="num">×3</td><td class="num">×5</td></tr>
+          <tr><td>軍人</td><td class="num">×0.6</td><td class="num">×0.9</td><td class="num">×1.5</td><td class="num">×3</td><td class="num">×8</td></tr>
+          <tr><td>スポーツ</td><td class="num">×0.3</td><td class="num">×1</td><td class="num">×4</td><td class="num">×15</td><td class="num">×40</td></tr>
+          <tr><td>インフルエンサー</td><td class="num">×0.05</td><td class="num">×0.5</td><td class="num">×2</td><td class="num">×8</td><td class="num">×30</td></tr>
+          <tr><td>占い</td><td class="num">×0.5</td><td class="num">×1.5</td><td class="num">×4</td><td class="num">×10</td><td class="num">×30</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="side">
+      <div><b>ミリオネア</b>貯金100万ドル超で実績。10億ドル超でビリオネア。</div>
+      <div><b>お金の使い道</b>旅行、留学、移住、永住・帰化の申請料、巡礼、「全財産」を賭ける、寄付、終末カルト。</div>
+      <div><b>借金</b>学費や密航業者への支払いのために借金でき、最大で1人当たり所得の5倍まで。</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>海外・永住・帰化</h2>
+    <p class="sub">簡略化した三段階：ビザ → 永住権 → 市民権。海外に出ると給料は新しい国の基準で計算される。</p>
+    <div class="flow">
+      <div class="node"><b>出国</b><small>留学、出稼ぎ、専門職、移住、密入国</small></div>
+      <span class="arrow">→</span>
+      <div class="node"><b>ビザ</b><small>学生・就労・リタイアメントビザ</small></div>
+      <span class="arrow">→</span>
+      <div class="node"><b>5年居住</b><small>就労ビザのみ算入。サウジ、UAE、カタール、クウェート、シンガポール、マレーシア、香港の出稼ぎビザは永遠に算入されない</small></div>
+      <span class="arrow">→</span>
+      <div class="node"><b>永住権 ILR／PR</b><small>申請料は1人当たり所得の8%。基本80%で許可、前科があると −45%、業が多いほど難しい</small></div>
+      <span class="arrow">→</span>
+      <div class="node"><b>さらに2年</b><small>永住者のままでいることも選べる</small></div>
+      <span class="arrow">→</span>
+      <div class="node"><b>帰化</b><small>申請料は1人当たり所得の3%。パスポートが一冊増え、実績：二重国籍</small></div>
+    </div>
+    <div class="outcomes">
+      <div class="out good"><b>留学</b><small>17〜24歳、知恵55以上。3年間の学費 = 現地の1人当たり所得 × 1.8、知恵85以上で全額奨学金、労働者階層以上は学生ローン可。卒業後は残って就職するか、帰国して海外帰りに</small></div>
+      <div class="out"><b>出稼ぎ</b><small>中所得以下の国から湾岸諸国、シンガポール、香港、台湾などへ家事労働・建設・工場労働に。仲介料は故郷の1人当たり所得の0.6倍、15%でパスポートを取り上げられる</small></div>
+      <div class="out good"><b>専門職</b><small>大卒、23〜45歳でヘッドハンティング。成功率40%＋知恵ボーナス、弱いパスポートは −15%</small></div>
+      <div class="out"><b>移住</b><small>18〜40歳、中所得以下の国から豊かな国へ就労ビザで。費用は移住先の1人当たり所得の0.3倍。学歴は認められず、ウェイターから始まる</small></div>
+      <div class="out bad"><b>密入国</b><small>密航業者に故郷の1人当たり所得の1.5倍を払う（借金可）。8%が途中で遭難。在留資格がないと摘発を受ける：60%で逃げ切り、自首して庇護申請すると30%で許可</small></div>
+      <div class="out gold"><b>引退</b><small>58〜80歳で海外在住なら故郷に帰って引退できる（実績：故郷に帰る）。豊かな国で15万ドルあればタイ、マレーシア、ポルトガルなどで老後を</small></div>
+    </div>
+    <div class="tablewrap" style="margin-top:16px">
+      <table>
+        <thead><tr><th>世界旅行</th><th class="num">費用</th><th class="num">訪問国数</th><th>注意</th></tr></thead>
+        <tbody>
+          <tr><td>バックパック旅行</td><td class="num">US$2,500</td><td class="num">3–5</td><td>18〜85歳、お金があれば選べる</td></tr>
+          <tr><td>一年かけて世界一周</td><td class="num">US$30,000</td><td class="num">15–25</td><td>弱いパスポートは40%でビザ拒否、申請料は戻らない</td></tr>
+          <tr><td>豪華客船</td><td class="num">US$80,000</td><td class="num">8–12</td><td>旅にはいつも何かある：荷物の紛失、詐欺、腹痛、ユースホステルで伴侶と出会うことも</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="side"><div><b>世界一周の実績</b>一生で30か国を訪れる。巡礼・留学・出稼ぎもカウントされる。</div></div>
+  </section>
+
+  <section>
+    <h2>平凡な人生</h2>
+    <p class="sub">非凡な道を歩まない人は、18歳（大卒なら22歳）で出自に応じた仕事に就く。金色の数字は給料の倍率：年収 = 居住国の1人当たり所得 × 倍率。ほとんどの人はこうして一生を送る。</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>出自</th><th>就ける可能性のある仕事</th><th>きっかけ</th></tr></thead>
+        <tbody>
+          <tr><td>貧しい国・赤貧／貧困</td><td><div class="jobs"><span class="job">小農<i>×0.35</i></span><span class="job">日雇い建設作業員<i>×0.45</i></span><span class="job">人力車夫<i>×0.4</i></span><span class="job">露天商<i>×0.5</i></span><span class="job">縫製工場の工員<i>×0.6</i></span><span class="job">漁師<i>×0.45</i></span><span class="job">家政婦<i>×0.4</i></span><span class="job">配達員<i>×0.6</i></span></div></td><td>学校に行けなければ14歳で働くことも</td></tr>
+          <tr><td>その他の国・赤貧／貧困</td><td><div class="jobs"><span class="job">工場労働者<i>×0.7</i></span><span class="job">配達員<i>×0.6</i></span><span class="job">清掃員<i>×0.5</i></span><span class="job">建設作業員<i>×0.8</i></span><span class="job">警備員<i>×0.6</i></span></div></td><td>18歳</td></tr>
+          <tr><td>労働者／中流</td><td><div class="jobs"><span class="job">工場労働者<i>×0.7</i></span><span class="job">店員<i>×0.65</i></span><span class="job">運転手<i>×0.8</i></span><span class="job">事務員<i>×0.9</i></span><span class="job">料理人<i>×0.8</i></span><span class="job">配達員<i>×0.6</i></span><span class="job">警備員<i>×0.6</i></span><span class="job">介護士<i>×0.75</i></span></div></td><td>18歳</td></tr>
+          <tr><td>富裕／特権</td><td><div class="jobs"><span class="job">家業の経営者<i>×4</i></span><span class="job">投資銀行家<i>×6</i></span><span class="job">弁護士<i>×3</i></span><span class="job">医者<i>×3.5</i></span></div></td><td>18歳</td></tr>
+          <tr><td>大卒</td><td><div class="jobs"><span class="job">エンジニア<i>×1.8</i></span><span class="job">公認会計士<i>×1.8</i></span><span class="job">弁護士<i>×3</i></span><span class="job">医者<i>×3.5</i></span><span class="job">プログラマー<i>×2</i></span><span class="job">教師<i>×1.2</i></span><span class="job">公務員<i>×1.3</i></span></div></td><td>統一試験に合格して大学へ。22歳から働く</td></tr>
+          <tr><td>合法移民</td><td><div class="jobs"><span class="job">ウェイター<i>×0.6</i></span><span class="job">スーパーの品出し<i>×0.55</i></span><span class="job">タクシー運転手<i>×0.7</i></span><span class="job">介護士<i>×0.75</i></span></div></td><td>18〜40歳、中所得以下の国から豊かな国へ</td></tr>
+          <tr><td>密入国</td><td><div class="jobs"><span class="job">皿洗い<i>×0.45</i></span><span class="job">不法就労者<i>×0.35</i></span><span class="job">農場の臨時雇い<i>×0.4</i></span><span class="job">日雇い建設作業員<i>×0.45</i></span></div></td><td>8%が途中で遭難。在留資格なし</td></tr>
+          <tr><td>出稼ぎ</td><td><div class="jobs"><span class="job">外国人家事労働者<i>×0.13</i></span><span class="job">外国人建設作業員<i>×0.2</i></span><span class="job">外国人工場労働者<i>×0.25</i></span></div></td><td>移住先の1人当たり所得で計算されるので、故郷の数倍</td></tr>
+          <tr><td>引退</td><td><div class="jobs"><span class="job">退職者<i>×0</i></span></div></td><td>65歳。豊かな国では年金あり</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="side">
+      <div><b>スト破り</b>ストライキで仲間を売って現場監督に昇進、業+6。</div>
+      <div><b>AIに置き換えられる</b>豊かな国の労働者は職を失うことがあり、夜間学校で学び直して介護士、配管工、電気工、ソーシャルワーカーになる。</div>
+      <div><b>足を洗う</b>裏社会の人間は30歳を過ぎれば抜けて食堂を開ける。</div>
+      <div><b>引退／追放</b>選手は引退してコーチになる。八百長が発覚すれば永久追放。</div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p><b>免責事項</b>：本ゲームは娯楽のためのフィクションです。「誰もが輪廻する」というのはゲーム上のルールにすぎず、作者のいかなる宗教・信仰・無信仰に対する立場を示すものではなく、いかなる宗教を侮辱・軽視・宣伝する意図もありません。宗教人口の比率はピュー・リサーチ・センターの統計に基づき、キャラクターの出自を決めるためだけに使っています。各宗教の聖職、聖地、死後の場面や台詞は簡略化・創作されたもので、いかなる教義や信者を代表するものでもありません。フリーメイソンの位階・儀式・イベントも簡略化されており、いかなるロッジや会員を代表するものでもありません。ゲーム内で外部の人々が語るフリーメイソンの陰謀論は、会員が直面する誤解を描いたもので、事実ではありません。各国の政治・法律・イベントの確率もゲーム上の設定であり、いかなる国・民族・集団への評価でもありません。不快に感じられる点がありましたらご容赦ください。ご意見は<a href="https://github.com/wanleung/secondlife/issues" target="_blank" rel="noopener">GitHub</a>までお寄せください。</p>
+    <p>データ：国連「世界人口推計」、国連児童死亡率推計グループ、世界銀行、ピュー・リサーチ・センター「国別宗教構成 2010–2020」、V-Dem「世界の政治体制分類」。世界銀行および Our World in Data 経由。</p>
+    <p>対応するゲームのバージョン <b>v1.8.0</b>（2026-10-21）・<a href="./">ゲームに戻る</a></p>
+  </footer>
+</div>
+</body>
+</html>
